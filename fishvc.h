@@ -2,20 +2,28 @@
 #define FISHVC_H
 
 #include <QMainWindow>
+#include <fishmodel.h>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class fishvc; }
+namespace Ui { class FishVC; }
 QT_END_NAMESPACE
 
-class fishvc : public QMainWindow
+class FishVC : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	fishvc(QWidget *parent = nullptr);
-	~fishvc();
+	FishVC(QWidget *parent = nullptr);
+	~FishVC();
 
 private:
-	Ui::fishvc *ui;
+	Ui::FishVC *ui;
+	FishModel tutorialModel;
+
+public slots:
+	void renderGameObjects(QPoint, double, QImage);
+
+signals:
+
 };
 #endif // FISHVC_H
