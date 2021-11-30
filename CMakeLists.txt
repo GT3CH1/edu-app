@@ -13,6 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
+add_subdirectory(box2d-src)
+
 
 set(PROJECT_SOURCES
         main.cpp
@@ -20,6 +22,7 @@ set(PROJECT_SOURCES
         fishvc.h
         fishvc.ui
 )
+
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(FishTutorial
@@ -44,13 +47,14 @@ else()
     endif()
 endif()
 
-target_link_libraries(FishTutorial PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(FishTutorial PRIVATE Qt${QT_VERSION_MAJOR}::Widgets tobanteGaming::Box2D)
 
 set_target_properties(FishTutorial PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
+
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(FishTutorial)
