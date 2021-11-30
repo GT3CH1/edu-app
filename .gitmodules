@@ -1,0 +1,3 @@
+[submodule "box2d-src"]
+	path = box2d-src
+	url = https://github.com/tobanteGaming/Box2D-cmake.git
