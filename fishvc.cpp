@@ -4,7 +4,6 @@
 #include <QImage>
 #include <QTransform>
 #include <QTimer>
-#include <iostream>
 
 FishVC::FishVC(QWidget *parent)
 	: QMainWindow(parent)
