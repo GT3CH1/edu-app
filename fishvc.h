@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <fishmodel.h>
+#include <vector>
+#include "objectrenderinformation.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class FishVC; }
@@ -19,11 +21,9 @@ public:
 private:
 	Ui::FishVC *ui;
 	FishModel tutorialModel;
-//	QPoint modelToVisual(QPoint modelPos);
-//	QPoint visualToModel(QPoint visualPos);
 
 public slots:
-	void renderGameObjects(QPoint, double, QImage);
+	void renderGameObjects(std::vector<ObjectRenderInformation> renderables);
 
 signals:
 

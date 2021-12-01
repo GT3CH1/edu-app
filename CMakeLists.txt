@@ -19,13 +19,15 @@ set(PROJECT_SOURCES
         fishvc.cpp
         fishvc.h
         fishvc.ui
-	fishmodel.h
-	fishmodel.cpp
-	renderarea.h
-	renderarea.cpp
-	gameobject.h
-	gameobject.cpp
-	sprites.qrc
+								fishmodel.h
+								fishmodel.cpp
+								renderarea.h
+								renderarea.cpp
+								gameobject.h
+								gameobject.cpp
+								sprites.qrc
+								objectrenderinformation.h
+								objectrenderinformation.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
