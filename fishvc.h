@@ -19,6 +19,8 @@ public:
 private:
 	Ui::FishVC *ui;
 	FishModel tutorialModel;
+//	QPoint modelToVisual(QPoint modelPos);
+//	QPoint visualToModel(QPoint visualPos);
 
 public slots:
 	void renderGameObjects(QPoint, double, QImage);

@@ -3,7 +3,7 @@
 
 FishModel::FishModel()
 {
-	QString monkeFile = "latest.png";
+	QString monkeFile = ":/stinkyMonkey.png";
 	QImage testMonke(monkeFile);
 	GameObject temp(QPoint(0, 0), 0, testMonke);
 	tester = temp;
@@ -11,4 +11,5 @@ FishModel::FishModel()
 
 void FishModel::updateGameObjects(){
 	tester.updateObject(0.1);
+	emit renderGameObjects(tester.getLocation(), tester.getRotation(),tester.getGraphic());
 }

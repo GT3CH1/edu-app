@@ -26,16 +26,23 @@ FishVC::~FishVC()
 
 void FishVC::renderGameObjects(QPoint position, double rotation, QImage graphic)
 {
-//	QTransform RT;
-//	RT.rotate(rotation); // in degrees
-//	RT.translate(position.x(), position.y());
-	QPixmap rotatedImage;
-	rotatedImage.convertFromImage(graphic);
-//	rotatedImage.transformed(RT);
+	QPixmap composite(512,512);
+	QPainter objectRenderer(&composite);
+	for (int i = 0; i < 1; i++)
+	{
+		QTransform RT;
+		RT.rotate(rotation); // in degrees
+		QPixmap rotatedImage = QPixmap::fromImage(graphic);
+		rotatedImage = rotatedImage.transformed(RT);
 
-	if (rotatedImage.isNull()){
-		std::cout << "stinky image no load";
+		QPoint invertedPosition(position.x(), -position.y());
+		QPoint center(composite.width()/2, composite.height()/2);
+		QPoint spriteCenter(-rotatedImage.width()/2, -rotatedImage.height()/2);
+		QPoint upperLeft = invertedPosition + center + spriteCenter;
+
+		objectRenderer.drawImage(upperLeft, rotatedImage.toImage(), QRect(0,0,rotatedImage.width(), rotatedImage.height()));
 	}
-	ui->label->setPixmap(rotatedImage);
+
+	ui->label_2->setPixmap(composite);
 }
 

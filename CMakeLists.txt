@@ -25,6 +25,7 @@ set(PROJECT_SOURCES
 	renderarea.cpp
 	gameobject.h
 	gameobject.cpp
+	sprites.qrc
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
