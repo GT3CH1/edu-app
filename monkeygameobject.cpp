@@ -4,7 +4,6 @@
  *  monkeyGameObject
  */
 #include "monkeygameobject.h"
-#include <QDebug>
 MonkeyGameObject::MonkeyGameObject():  world(b2Vec2(0.0f, -10.0f)) {
     // Define the ground body.
     b2BodyDef groundBodyDef;
@@ -57,9 +56,6 @@ void MonkeyGameObject::updateObject(float deltaTime) {
 	QTransform blank;
 	blank.translate(position.x * 20, position.y * 20);
 	offset = blank;
-
-    qDebug() << position.x;
-    qDebug() << position.y;
 	offset.rotate(angle);
 }
 
