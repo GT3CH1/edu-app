@@ -55,5 +55,7 @@ compile_commands.json
 
 
 **/.idea
+*build*/
 cmake-build-debug*/
 CmakeFiles/
+.vscode/
