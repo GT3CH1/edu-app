@@ -3,10 +3,9 @@
 
 FishModel::FishModel()
 {
+
 	QString monkeFile = ":/stinkyMonkey.png";
 	QImage testMonke(monkeFile);
-	GameObject temp(QPoint(0, 0), 0, testMonke);
-	tester = temp;
 }
 
 void FishModel::updateGameObjects(){
