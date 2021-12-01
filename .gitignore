@@ -57,5 +57,9 @@ compile_commands.json
 **/.idea
 *build*/
 cmake-build-debug*/
-CmakeFiles/
+CMakeFiles/
 .vscode/
+*autogen/
+CMakeCache.txt
+cmake_install.cmake
+./FishTutorial
