@@ -2,8 +2,9 @@
 #define FISHMODEL_H
 
 #include <QObject>
-#include "gameobject.h"
 #include <vector>
+#include <map>
+#include "gameobject.h"
 #include "objectrenderinformation.h"
 #include "monkeygameobject.h"
 
@@ -13,6 +14,7 @@ class FishModel : public QObject {
 
 private:
 	std::vector<GameObject*> gameObjects;
+	std::map<string, GameObject*> gameObjectMap;
 	float deltaTime;
 
 public:
