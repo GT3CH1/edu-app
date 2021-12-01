@@ -1,14 +1,13 @@
 #ifndef OBJECTRENDERINFORMATION_H
 #define OBJECTRENDERINFORMATION_H
 
-#include <QPoint>
+#include <QTransform>
 #include <QImage>
 
 struct ObjectRenderInformation
 {
 public:
-	const QPoint position;
-	const double rotation;
+	const QTransform offset;
 	const QImage toRender;
 };
 

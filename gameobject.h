@@ -3,20 +3,22 @@
 
 #include <QPoint>
 #include <QImage>
+#include <string>
 
 class GameObject
 {
 protected:
-	// TODO: Look into just storing a QTransform to store the offset (location) and rotation of QImage
-	QPoint location;
-	double rotation;
+	QTransform offset;
+	std::string name;
 	QImage graphic;
 public:
 	GameObject();
-	GameObject(QPoint, double, QImage);
+	GameObject(std::string name, QPoint, double, QImage);
+	GameObject(std::string, QTransform, QImage);
 	QPoint getLocation();
 	double getRotation();
 	QImage getGraphic();
+	QTransform getOffset();
 	virtual void updateObject(float);
 };
 

@@ -16,7 +16,7 @@ void FishModel::updateGameObjects(){
 	for(GameObject* gameObject : gameObjects)
 	{
 		gameObject->updateObject(deltaTime);
-		ObjectRenderInformation renderInfo {gameObject->getLocation(), gameObject->getRotation(), gameObject->getGraphic()};
+		ObjectRenderInformation renderInfo {gameObject->getOffset(), gameObject->getGraphic()};
 		renderables.push_back(renderInfo);
 	}
 

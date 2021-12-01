@@ -1,5 +1,4 @@
 #include "fishvc.h"
-#include "./ui_fishvc.h"
 #include <QPoint>
 #include <QImage>
 #include <QTransform>
@@ -31,12 +30,10 @@ void FishVC::renderGameObjects(std::vector<ObjectRenderInformation> renderables)
 
 	for (ObjectRenderInformation& renderable : renderables)
 	{
-		QTransform RT;
-		RT.rotate(renderable.rotation); // in degrees
 		QPixmap rotatedImage = QPixmap::fromImage(renderable.toRender);
-		rotatedImage = rotatedImage.transformed(RT);
+		rotatedImage = rotatedImage.transformed(renderable.offset);
 
-		QPoint invertedPosition(renderable.position.x(), -renderable.position.y());
+		QPoint invertedPosition(renderable.offset.dx(), -renderable.offset.dy());
 		QPoint center(composite.width()/2, composite.height()/2);
 		QPoint spriteCenter(-rotatedImage.width()/2, -rotatedImage.height()/2);
 		QPoint upperLeft = invertedPosition + center + spriteCenter;
