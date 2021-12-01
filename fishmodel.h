@@ -14,7 +14,7 @@ class FishModel : public QObject {
 
 private:
 	std::vector<GameObject*> gameObjects;
-	std::map<string, GameObject*> gameObjectMap;
+	std::map<std::string, GameObject*> gameObjectMap;
 	float deltaTime;
 
 public:

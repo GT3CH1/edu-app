@@ -9,7 +9,7 @@ MonkeyGameObject::MonkeyGameObject():  world(b2Vec2(0.0f, -10.0f)) {
     // Define the ground body.
     b2BodyDef groundBodyDef;
     groundBodyDef.position.Set(0.0f, -20.0f);
-    location = QPoint(0,10);
+	offset.translate(0, 10);
     // Call the body factory which allocates memory for the ground body
     // from a pool and creates the ground box shape (also from a pool).
     // The body is also added to the world.
@@ -54,10 +54,13 @@ void MonkeyGameObject::updateObject(float deltaTime) {
 	world.Step(deltaTime, 6, 2);
     b2Vec2 position = body->GetPosition();
     float angle = body->GetAngle();
-    location = QPoint((int) (position.x * 20), (int) (position.y * 20));
+	QTransform blank;
+	blank.translate(position.x * 20, position.y * 20);
+	offset = blank;
+
     qDebug() << position.x;
     qDebug() << position.y;
-    rotation = angle;
+	offset.rotate(angle);
 }
 
 MonkeyGameObject::~MonkeyGameObject() {
