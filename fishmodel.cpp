@@ -3,10 +3,7 @@
 
 FishModel::FishModel(float _deltaTime) : deltaTime(_deltaTime)
 {
-	QString monkeFile = ":/stinkyMonkey.png";
-
-	QImage monkeImage(monkeFile);
-	GameObject monkey(QPoint(0, 0), 0, monkeImage);
+	MonkeyGameObject* monkey = new MonkeyGameObject();
 	gameObjects.push_back(monkey);
 }
 
@@ -14,12 +11,18 @@ void FishModel::updateGameObjects(){
 
 	std::vector<ObjectRenderInformation> renderables;
 
-	for(GameObject& gameObject : gameObjects)
+	for(GameObject* gameObject : gameObjects)
 	{
-		gameObject.updateObject(deltaTime);
-		ObjectRenderInformation renderInfo {gameObject.getLocation(), gameObject.getRotation(), gameObject.getGraphic()};
+		gameObject->updateObject(deltaTime);
+		ObjectRenderInformation renderInfo {gameObject->getLocation(), gameObject->getRotation(), gameObject->getGraphic()};
 		renderables.push_back(renderInfo);
 	}
 
 	emit renderGameObjects(renderables);
+}
+
+FishModel::~FishModel()
+{
+	for(GameObject* gameObject : gameObjects)
+		delete gameObject;
 }
