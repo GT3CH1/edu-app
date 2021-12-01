@@ -3,23 +3,23 @@
 
 #include <QObject>
 #include "gameobject.h"
+#include "monkeygameobject.h"
 
-class FishModel : public QObject
-{
+class FishModel : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
-private:
-	GameObject tester;
+    private:
+        MonkeyGameObject tester;
 
-public:
-	FishModel();
+    public:
+        FishModel();
 
-public slots:
-	void updateGameObjects();
+    public slots:
+        void updateGameObjects();
 
-signals:
-	void renderGameObjects(QPoint, double, QImage);
+    signals:
+        void renderGameObjects(QPoint, double, QImage);
 };
 
 #endif // FISHMODEL_H
