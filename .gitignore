@@ -54,5 +54,12 @@ compile_commands.json
 *_qmlcache.qrc
 
 
-*.idea
-**/box2d-src/
+**/.idea
+*build*/
+cmake-build-debug*/
+CMakeFiles/
+.vscode/
+*autogen/
+CMakeCache.txt
+cmake_install.cmake
+./FishTutorial
