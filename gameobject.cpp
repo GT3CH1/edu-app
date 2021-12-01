@@ -14,6 +14,10 @@ QImage GameObject::getGraphic(){
 	return graphic;
 }
 
+QTransform GameObject::getOffset(){
+	return offset;
+}
+
 void GameObject::updateObject(float deltaTime){
 	offset.rotate(deltaTime*10);
 }

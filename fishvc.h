@@ -5,6 +5,7 @@
 #include <fishmodel.h>
 #include <vector>
 #include "objectrenderinformation.h"
+#include <ui_fishvc.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class FishVC; }
