@@ -19,16 +19,19 @@ set(PROJECT_SOURCES
         fishvc.cpp
         fishvc.h
         fishvc.ui
-								fishmodel.h
-								fishmodel.cpp
-								renderarea.h
-								renderarea.cpp
-								gameobject.h
-								gameobject.cpp
-								sprites.qrc
-								objectrenderinformation.h
-								objectrenderinformation.cpp
+        fishmodel.h
+        fishmodel.cpp
+        renderarea.h
+        renderarea.cpp
+        gameobject.h
+        gameobject.cpp
+        sprites.qrc
+        objectrenderinformation.h
+        objectrenderinformation.cpp
+        monkeygameobject.cpp
+        monkeygameobject.h
 )
+add_subdirectory(box2d-src)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(FishTutorial
@@ -53,7 +56,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(FishTutorial PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(FishTutorial PRIVATE Qt${QT_VERSION_MAJOR}::Widgets tobanteGaming::Box2D)
 
 set_target_properties(FishTutorial PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
