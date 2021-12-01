@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include "gameobject.h"
+#include <vector>
+#include "objectrenderinformation.h"
 
 class FishModel : public QObject
 {
@@ -10,16 +12,17 @@ class FishModel : public QObject
 	Q_OBJECT
 
 private:
-	GameObject tester;
+	std::vector<GameObject> gameObjects;
+	float deltaTime;
 
 public:
-	FishModel();
+	FishModel(float deltaTime);
 
 public slots:
 	void updateGameObjects();
 
 signals:
-	void renderGameObjects(QPoint, double, QImage);
+	void renderGameObjects(std::vector<ObjectRenderInformation> renderables);
 };
 
 #endif // FISHMODEL_H
