@@ -1,6 +1,6 @@
 #include "gameobject.h"
 
-GameObject::GameObject() : location(QPoint(0, 0)), rotation(75), graphic(QImage(QString("latest.png"))) {}
+GameObject::GameObject() : location(QPoint(0, 0)), rotation(75), graphic(QImage(QString(":/stinkyMonkey.png"))) {}
 GameObject::GameObject(QPoint location, double rotation, QImage graphic) : location(location), rotation(rotation), graphic(graphic) {}
 
 QPoint GameObject::getLocation(){
