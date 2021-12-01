@@ -13,16 +13,25 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
-add_subdirectory(box2d-src)
-
 
 set(PROJECT_SOURCES
         main.cpp
         fishvc.cpp
         fishvc.h
         fishvc.ui
+        fishmodel.h
+        fishmodel.cpp
+        renderarea.h
+        renderarea.cpp
+        gameobject.h
+        gameobject.cpp
+        sprites.qrc
+        objectrenderinformation.h
+        objectrenderinformation.cpp
+        monkeygameobject.cpp
+        monkeygameobject.h
 )
-
+add_subdirectory(box2d-src)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(FishTutorial
@@ -54,7 +63,6 @@ set_target_properties(FishTutorial PROPERTIES
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
-
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(FishTutorial)
