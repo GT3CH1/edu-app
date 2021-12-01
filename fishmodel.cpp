@@ -4,6 +4,8 @@
 FishModel::FishModel(float _deltaTime) : deltaTime(_deltaTime)
 {
 	MonkeyGameObject* monkey = new MonkeyGameObject();
+	GameObject* omnipotentMonkey = new GameObject();
+	gameObjects.push_back(omnipotentMonkey);
 	gameObjects.push_back(monkey);
 }
 

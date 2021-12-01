@@ -51,7 +51,7 @@ MonkeyGameObject::MonkeyGameObject():  world(b2Vec2(0.0f, -10.0f)) {
 
 void MonkeyGameObject::updateObject(float deltaTime) {
 //    rotation += deltaTime * 10;
-    world.Step(1.0 / 6.0, 6, 2);
+	world.Step(deltaTime, 6, 2);
     b2Vec2 position = body->GetPosition();
     float angle = body->GetAngle();
     location = QPoint((int) (position.x * 20), (int) (position.y * 20));
