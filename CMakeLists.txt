@@ -30,7 +30,8 @@ set(PROJECT_SOURCES
         objectrenderinformation.cpp
         monkeygameobject.cpp
         monkeygameobject.h
-)
+        dialogue.h
+        dialogue.cpp)
 add_subdirectory(box2d-src)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
