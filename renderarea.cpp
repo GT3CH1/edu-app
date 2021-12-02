@@ -1,12 +1,11 @@
 #include "renderarea.h"
 
 /**
- * Draws a single frame from the sprite
+ * Draws the various game objects
  * Jonathan Vielstich
- * Gavin Pease
- * 11/10/21
+ * 12/01/2021
  *
- * @brief Displays a clickable QPixMap and provides a simple
+ * @brief Displays a clickable QPixmap and provides a simple
  * method to update that image. To add a RenderArea to an
  * existing form, either add a QLabel to the form and promote
  * it to a RenderArea, or use the addWidget method to add a
@@ -15,119 +14,94 @@
 
 /**
  * @brief Constructs a new RenderArea widget
+ *
  * @param parent
  */
-RenderArea::RenderArea(QWidget *parent, [[maybe_unused]] Qt::WindowFlags f, int canvasSize) : QLabel(parent), canvasSize(canvasSize)
+RenderArea::RenderArea(QWidget *parent, [[maybe_unused]] Qt::WindowFlags f) : QLabel(parent)
 {
-	QPixmap blank(canvasSize, canvasSize);
+	QPixmap blank(this->width(), this->height());
 	blank.fill();
-	setImage(blank);
 }
 
 /**
- * @brief Gets the maximum number of columns and rows that we can draw on.
+ * Sets the image to display on the RenderArea
+ *
+ * @param toRender - image to display
  */
-int RenderArea::getNumColsAndRows()
+void RenderArea::setImage(QPixmap &toRender)
 {
-	return 512 / canvasSize;
-}
-
-/**
- * @brief Sets the image to be rendered
- * @param toRender - a pointer to the QImage to be displayed
- */
-void RenderArea::setImage(QPixmap newMapToRender)
-{
-	setImageScaled(newMapToRender, 512);
-}
-
-/**
- * @brief Sets the image to be rendered
- * @param toRender - a pointer to the QImage to be displayed
- * @param scale - The scale in which to show the image at.
- */
-void RenderArea::setImageScaled(QPixmap newMapToRender, int scale)
-{
-	QPixmap newMap(newMapToRender.scaled(scale, scale, Qt::KeepAspectRatioByExpanding));
-	gridRender = newMap;
-	QPainter paint(&gridRender);
-	paint.setPen(Qt::gray);
-	for (int loc = 1; loc < canvasSize + 2; loc++)
-	{
-		paint.drawLine(loc * (512 / canvasSize), 0, loc * (512 / canvasSize), 512);
-		paint.drawLine(0, loc * (512 / canvasSize), 512, loc * (512 / canvasSize));
-	}
-	paint.end();
-	if (gridShown)
-		setPixmap(gridRender);
-	else
-		setPixmap(newMap);
-	toRender = newMap;
+	setPixmap(toRender.scaled(this->width(), this->height(), Qt::KeepAspectRatioByExpanding));
 	update();
-	toRender = newMap.scaled(canvasSize, canvasSize, Qt::KeepAspectRatioByExpanding);
 }
 
 /**
- * @brief Emits a signal that the RenderArea was clicked on
- * @param event
+ * Triggered when the mouse moves, and emits the
+ * mouse location if the left mouse button is pressed.
+ * @param e
  */
-void RenderArea::mousePressEvent(QMouseEvent *evt)
+void RenderArea::mouseMoveEvent(QMouseEvent *e)
 {
-	int x = evt->pos().x();
-	unsigned int y = evt->pos().y();
-	if (x < 512 && y < 512)
-	{
-		emit clicked((float)x / 512.0, (float)y / 512.0);
-		emit pressed();
+	if (e->buttons() == Qt::LeftButton) {
+		emit mouseLocation(findMouseX(e), findMouseY(e));
 	}
 }
 
 /**
- * @brief Handles the mouse being moved across the RenderArea
- * @param evt
+ * Triggered when a mouse button is pressed, and emits
+ * the mouse location if the left button was pressed.
+ *
+ * @param e - mouse event
  */
-void RenderArea::mouseMoveEvent(QMouseEvent *evt)
+void RenderArea::mousePressEvent(QMouseEvent *e)
 {
-	if (evt->buttons() & Qt::LeftButton)
-	{
-		int x = evt->pos().x();
-		int y = evt->pos().y();
-		if ((x < 510 && x > 2) && (y < 510 && y > 2))
-		{
-			emit clicked((float)x / 512.0, (float)y / 512.0);
-			emit pressed();
-		}
+	if (e->button() == Qt::LeftButton) {
+		emit mousePressed(findMouseX(e), findMouseY(e));
 	}
 }
 
 /**
- * @brief Handles the mouse being released.
- * @param evt
+ * Triggered when a mouse button is released, and emits
+ * the mouse location if the left button was released.
+ *
+ * @param e - mouse event
  */
-void RenderArea::mouseReleaseEvent(QMouseEvent *evt)
+void RenderArea::mouseReleaseEvent(QMouseEvent *e)
 {
-	int x = evt->pos().x();
-	unsigned int y = evt->pos().y();
-	if (x < 512 && y < 512)
-		emit released((float)x / 512.0, (float)y / 512.0);
+	if (e->button() == Qt::LeftButton) {
+		emit mouseReleased(findMouseX(e), findMouseY(e));
+	}
 }
 
 /**
- * @brief Sets whether or not the grid is shown.
- * @param gridShown - When true, the grid will be shown. If false, the grid will not be showed.
+ * Triggered when a mouse button is double clicked.
+ *
+ * @param e - mouse event
  */
-void RenderArea::toggleGrid()
+void RenderArea::mouseDoubleClickEvent(QMouseEvent *e)
 {
-	this->gridShown = !gridShown;
-	setImage(toRender);
+	// do nothing
 }
 
 /**
- * @brief Updates the canvas size to match the given size.
- * @param size - The new canvas size.
+ * Calculates the x-position of the mouse based on a coordinate
+ * system with (0,0) at the center of the RenderArea.
+ *
+ * @param e - mouse event
+ * @return x-position of the mouse
  */
-void RenderArea::setCanvasSize(int size)
+float RenderArea::findMouseX(QMouseEvent *e)
 {
-	canvasSize = size;
-	setImage(toRender);
+	return e->pos().x() - (this->width() / 2.0);
+}
+
+/**
+ * Calculates the y-position of the mouse based on a coordinate
+ * system with (0,0) at the center of the RenderArea.
+ *
+ * @param e - mouse event
+ * @return y-position of the mouse
+ */
+float RenderArea::findMouseY(QMouseEvent *e)
+{
+	return (-1.0 * e->pos().y()) + (this->height() / 2.0);
 }

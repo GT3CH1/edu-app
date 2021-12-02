@@ -2,6 +2,7 @@
 #define FISHVC_H
 
 #include <QMainWindow>
+#include <QPainter>
 #include <fishmodel.h>
 #include <vector>
 #include "objectrenderinformation.h"

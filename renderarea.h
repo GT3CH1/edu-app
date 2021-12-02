@@ -3,36 +3,28 @@
 
 #include <QLabel>
 #include <QMouseEvent>
-#include <QPainter>
-#include <QDragMoveEvent>
-#include <QPoint>
 
 class RenderArea : public QLabel
 {
-	Q_OBJECT
+Q_OBJECT
+public:
+	RenderArea(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
+	void setImage(QPixmap &);
 
 private:
-	QPixmap toRender;
-	QPixmap gridRender;
-	int canvasSize = 0;
-	bool gridShown = false;
-	int getNumColsAndRows();
-	QPoint lastPosition;
+	float findMouseX(QMouseEvent *);
+	float findMouseY(QMouseEvent *);
+
 private slots:
-	void mousePressEvent(QMouseEvent *event);
-	void mouseMoveEvent(QMouseEvent *event);
-	void mouseReleaseEvent(QMouseEvent *event);
-public:
-	RenderArea(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags(), int canvasSize = 64);
-public slots:
-	void setImage(QPixmap mapToRender);
-	void setImageScaled(QPixmap mapToRender, int scale);
-	void toggleGrid();
-	void setCanvasSize(int size);
+	void mouseMoveEvent(QMouseEvent *);
+	void mousePressEvent(QMouseEvent *);
+	void mouseReleaseEvent(QMouseEvent *);
+	void mouseDoubleClickEvent(QMouseEvent *);
+
 signals:
-	void clicked(float x, float y);
-	void released(float x, float y);
-	void pressed();
+	void mouseReleased(float, float);
+	void mousePressed(float, float);
+	void mouseLocation(float, float);
 };
 
 #endif // RENDERAREA_H
