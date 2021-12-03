@@ -27,19 +27,16 @@ set(PROJECT_SOURCES
         gameobject.cpp
         sprites.qrc
         objectrenderinformation.h
-        objectrenderinformation.cpp
         monkeygameobject.cpp
         monkeygameobject.h
         callbackoptions.h
         callbackoptions.cpp
         dialogue.h
-        dialogue.cpp
-        quest.cpp
         quest.h
         )
 
 add_subdirectory(box2d-src)
-
+include_directories(./)
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(FishTutorial
             MANUAL_FINALIZATION
