@@ -4,21 +4,25 @@
 #include <QPoint>
 #include <QImage>
 #include <string>
+#include <Box2D/Box2D.h>
 
 class GameObject
 {
 protected:
-	QTransform offset;
+	b2Vec2 position;
+	b2Vec2 scale;
+	double rotation;
+
 	std::string name;
 	QImage graphic;
 public:
 	GameObject();
-	GameObject(std::string name, QPoint, double, QImage);
-	GameObject(std::string, QTransform, QImage);
-	QPoint getLocation();
+	GameObject(std::string name, QPointF, double, QPointF scale, QImage);
+	QPointF getLocation();
 	double getRotation();
+	QPointF getScale();
 	QImage getGraphic();
-	QTransform getOffset();
+	std::string getName();
 	virtual void updateObject(float);
 };
 

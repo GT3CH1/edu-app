@@ -1,23 +1,81 @@
+/**
+ * Authors - Alex Richins, William Erignac
+ * Last Modified - 12/3/2021
+ *
+ * A standard object in the game engine. A GameObject
+ * always has at least a transformation (loc,rot,scale)
+ * and an image to represent itself.
+ */
+
 #include "gameobject.h"
 
-GameObject::GameObject() : name("default"), offset(QTransform()), graphic(QImage(QString(":/stinkyMonkey.png"))) {}
-GameObject::GameObject(std::string name, QPoint location, double rotation, QImage graphic) : name(name)
-{
-	QTransform blank;
-	blank.translate(location.x(), location.y());
-	blank.rotate(rotation);
-	offset = blank;
-}
-GameObject::GameObject(std::string name, QTransform offset, QImage graphic) : name(name), offset(offset), graphic(graphic) {}
+/**
+ * @brief Constructs a default monkey GameObject.
+ */
+GameObject::GameObject() : name("default"), graphic(QImage(QString(":/stinkyMonkey.png"))), scale(1,1) {}
 
+/**
+ * @brief Constructs a GameObject with the given parameters.
+ * @param name The names of all GameObjects should be unique.
+ * @param _rotation The rotation of the object in degrees.
+ */
+GameObject::GameObject(std::string name, QPointF _position, double _rotation, QPointF _scale, QImage graphic) :
+	name(name),
+	position(_position.x(), _position.y()),
+	rotation(_rotation),
+	scale(_scale.x(), _scale.y()),
+	graphic(graphic)
+{ }
+
+/**
+ * @brief Returns the location of this GameObject
+ * in the active scene.
+ * NOTE: The origin of the scene is at (0,0) at the center of
+ * the screen. y+ is up and x+ is right.
+ */
+QPointF GameObject::getLocation()
+{
+	return QPointF(position.x, position.y);
+}
+
+/**
+ * @brief Returns the rotation of the object in degrees.
+ */
+double GameObject::getRotation()
+{
+	return rotation;
+}
+
+/**
+ * @brief Returns the scale of the object.
+ * NOTE: Scale only affects the size of the image drawn of
+ * the GameObject, no other qualities of the GameObject
+ * (including physics bodies) are affected by scale.
+ */
+QPointF GameObject::getScale()
+{
+	return QPointF(scale.x, scale.y);
+}
+
+/**
+ * @brief Returns the image used to represent this object.
+ */
 QImage GameObject::getGraphic(){
 	return graphic;
 }
 
-QTransform GameObject::getOffset(){
-	return offset;
+/**
+ * @brief Returns the name of this object.
+ */
+std::string GameObject::getName()
+{
+	return name;
 }
 
-void GameObject::updateObject(float deltaTime){
-	offset.rotate(deltaTime*10);
-}
+/**
+ * @brief Called every frame by the game engine. Override
+ * this to make objects that do things every frame.
+ * @param deltaTime The amount of time that has passed since the
+ * last update call.
+ */
+void GameObject::updateObject(float deltaTime){ }

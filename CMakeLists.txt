@@ -32,11 +32,16 @@ set(PROJECT_SOURCES
         callbackoptions.h
         callbackoptions.cpp
         dialogue.h
-        quest.h
+        physicsgameobject.h
+        physicsgameobject.cpp
+        simpledropplet.h
+        simpledropplet.cpp
+        fishtank.h
+        fishtank.cpp
         )
 
 add_subdirectory(box2d-src)
-include_directories(./)
+
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(FishTutorial
             MANUAL_FINALIZATION
