@@ -38,6 +38,7 @@ set(PROJECT_SOURCES
         simpledropplet.cpp
         fishtank.h
         fishtank.cpp
+        quest.h
         )
 
 add_subdirectory(box2d-src)
