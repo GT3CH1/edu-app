@@ -14,6 +14,10 @@ class FishModel : public QObject {
 
     Q_OBJECT
 
+    public:
+        enum SCENE_STATE {
+            WATER_CHANGE, FILTER_CHANGE, FEEDING, ADD_FISH, PREPARE_TANK
+        };
     private:
         std::vector<GameObject *> gameObjects;
         std::map<std::string, GameObject *> gameObjectMap;
@@ -27,14 +31,12 @@ class FishModel : public QObject {
         bool debug = true;
 
         QImage getColliderShape(b2Shape *shape, QColor penColor, QPointF &translation);
-        enum SCENE_STATE {
-            WATER_CHANGE, FILTER_CHANGE, FEEDING, ADD_FISH, PREPARE_TANK
-        };
         // The current scene to draw
         SCENE_STATE currentScene = WATER_CHANGE;
     public:
         FishModel(float deltaTime);
         ~FishModel();
+        void setScene(FishModel::SCENE_STATE scene);
 
     public slots:
         void updateGameObjects();
@@ -44,7 +46,6 @@ class FishModel : public QObject {
     signals:
         void renderGameObjects(std::vector<ObjectRenderInformation> renderables);
         void startUp();
-        void setScene(SCENE_STATE nextScene);
 };
 
 #endif // FISHMODEL_H
