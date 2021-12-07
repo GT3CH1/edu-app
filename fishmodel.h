@@ -12,23 +12,30 @@
 
 class FishModel : public QObject {
 
-    Q_OBJECT
+	Q_OBJECT
 
+public:
+	enum SCENE_STATE {
+		WATER_CHANGE, FILTER_CHANGE, FEEDING, ADD_FISH, PREPARE_TANK
+	};
 private:
-	std::vector<GameObject*> gameObjects;
-	std::map<std::string, GameObject*> gameObjectMap;
+	std::vector<GameObject *> gameObjects;
+	std::map<std::string, GameObject *> gameObjectMap;
 	float deltaTime;
 	b2World physicsWorld;
 
 	void prepareStartUp();
-	void addGameObjectToScene(GameObject* toAdd);
-	GameObject* getGameObject(std::string objectName);
+	void addGameObjectToScene(GameObject *toAdd);
+	GameObject *getGameObject(std::string objectName);
 	void deleteGameObject(std::string objectName);
-	void addBodyToWorld(PhysicsGameObject* toAdd);
+	void addBodyToWorld(PhysicsGameObject *toAdd);
 
 	bool debug = true;
 
-	QImage getColliderShape(b2Shape* shape, QColor penColor, QPointF& translation);
+	QImage getColliderShape(b2Shape *shape, QColor penColor, QPointF &translation);
+	// The current scene to draw
+	SCENE_STATE currentScene = WATER_CHANGE;
+	void setScene(FishModel::SCENE_STATE scene);
 
 public:
 	FishModel(float deltaTime);
@@ -37,6 +44,7 @@ public:
 public slots:
 	void updateGameObjects();
 	void beginFirstTask();
+	void nextTask();
 
 signals:
 	void renderGameObjects(std::vector<ObjectRenderInformation> renderables);
