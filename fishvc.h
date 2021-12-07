@@ -26,8 +26,10 @@ private:
 
 public slots:
 	void renderGameObjects(std::vector<ObjectRenderInformation> renderables);
+	void startUp();
 
 signals:
+	void beginFirstTask();
 
 };
 #endif // FISHVC_H

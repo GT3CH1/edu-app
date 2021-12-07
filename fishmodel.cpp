@@ -21,6 +21,39 @@
  */
 FishModel::FishModel(float _deltaTime) : deltaTime(_deltaTime), physicsWorld(b2Vec2(0.0f, -10.0f))
 {
+	prepareStartUp();
+
+//	{
+//		PhysicsGameObject* dropplet = new SimpleDropplet(1, QPointF(0,0), 0, QPointF(0.1,0.1));
+//		addGameObjectToScene(dropplet);
+//	}
+
+//	{
+//		PhysicsGameObject* dropplet2 = new SimpleDropplet(2, QPointF(3,100), 0, QPointF(0.1,0.1));
+//		addGameObjectToScene(dropplet2);
+//	}
+//	{
+//		PhysicsGameObject* fishTank = new FishTank("FishTank", QPointF(0,-100), 0, QPointF(0.25,0.25));
+//		addGameObjectToScene(fishTank);
+//	}
+}
+
+/**
+ * @brief Sets the scene for start up
+ */
+void FishModel::prepareStartUp()
+{
+	PhysicsGameObject* fishTank = new FishTank("FishTank", QPointF(0,-100), 0, QPointF(0.25,0.25));
+	addGameObjectToScene(fishTank);
+
+	emit startUp();
+}
+
+/**
+ * @brief Begins the first task
+ */
+void FishModel::beginFirstTask()
+{
 	{
 		PhysicsGameObject* dropplet = new SimpleDropplet(1, QPointF(0,0), 0, QPointF(0.1,0.1));
 		addGameObjectToScene(dropplet);
@@ -29,11 +62,6 @@ FishModel::FishModel(float _deltaTime) : deltaTime(_deltaTime), physicsWorld(b2V
 	{
 		PhysicsGameObject* dropplet2 = new SimpleDropplet(2, QPointF(3,100), 0, QPointF(0.1,0.1));
 		addGameObjectToScene(dropplet2);
-	}
-
-	{
-		PhysicsGameObject* fishTank = new FishTank("FishTank", QPointF(0,-100), 0, QPointF(0.25,0.25));
-		addGameObjectToScene(fishTank);
 	}
 }
 

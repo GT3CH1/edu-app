@@ -36,13 +36,23 @@ set(PROJECT_SOURCES
         physicsgameobject.cpp
         simpledropplet.h
         simpledropplet.cpp
-        fishtank.h
         fishtank.cpp
         quest.h
+        fillbowl.cpp
+        choosefish.cpp
+        addfish.cpp
+        agewater.cpp
+        putwaterinbowl.cpp
+        addfood.cpp
+        turnoffwaterpump.cpp
+        removefilter.cpp
+        addfilter.cpp
+        turnonwaterpump.cpp
+        siphonoldwater.cpp
         )
 
 add_subdirectory(box2d-src)
-
+include_directories(./)
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(FishTutorial
             MANUAL_FINALIZATION
