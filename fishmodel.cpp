@@ -269,14 +269,15 @@ void FishModel::nextTask() {
             break;
         default:
             setScene(WATER_CHANGE);
+            break;
     }
 }
 
 /**
  * @brief Sets the scene.
- * @param nextScene - The scene to be set.
+ * @param scene - The scene to be set.
  */
-void FishModel::setScene(SCENE_STATE nextScene) {
-    currentScene = FILTER_CHANGE;
+void FishModel::setScene(FishModel::SCENE_STATE scene) {
+    currentScene = scene;
     //TODO(gcpease): Somehow update scene on UI.
 }
