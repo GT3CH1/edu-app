@@ -80,8 +80,8 @@ void FishModel::addGameObjectToScene(GameObject *toAdd)
 
 /**
  * @brief getGameObject
- * @param objectName
- * @return
+ * @param objectName, name of gameobject
+ * @return gameobject pointer as requested
  */
 GameObject* FishModel::getGameObject(std::string objectName)
 {
@@ -90,10 +90,12 @@ GameObject* FishModel::getGameObject(std::string objectName)
 
 /**
  * @brief deleteGameObject
- * @param objectName
+ * @param objectName, name of gameobject
  */
 void FishModel::deleteGameObject(std::string objectName)
 {
+	GameObject* objectPtr = gameObjectMap.at(objectName);
+	gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), objectPtr), gameObjects.end());
 	gameObjectMap.erase(objectName);
 }
 
