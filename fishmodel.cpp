@@ -71,10 +71,30 @@ void FishModel::beginFirstTask()
 void FishModel::addGameObjectToScene(GameObject *toAdd)
 {
 	gameObjects.push_back(toAdd);
+	gameObjectMap.emplace(toAdd->getName(), toAdd);
 
 	PhysicsGameObject* toAddPhysics = dynamic_cast<PhysicsGameObject*>(toAdd);
 	if (toAddPhysics != nullptr)
 		addBodyToWorld(toAddPhysics);
+}
+
+/**
+ * @brief getGameObject
+ * @param objectName
+ * @return
+ */
+GameObject* FishModel::getGameObject(std::string objectName)
+{
+	return gameObjectMap.at(objectName);
+}
+
+/**
+ * @brief deleteGameObject
+ * @param objectName
+ */
+void FishModel::deleteGameObject(std::string objectName)
+{
+	gameObjectMap.erase(objectName);
 }
 
 /**
@@ -260,4 +280,6 @@ FishModel::~FishModel()
 {
 	for(GameObject* gameObject : gameObjects)
 		delete gameObject;
+	for(auto pair : gameObjectMap)
+		delete pair.second;
 }

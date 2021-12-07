@@ -22,6 +22,8 @@ private:
 
 	void prepareStartUp();
 	void addGameObjectToScene(GameObject* toAdd);
+	GameObject* getGameObject(std::string objectName);
+	void deleteGameObject(std::string objectName);
 	void addBodyToWorld(PhysicsGameObject* toAdd);
 
 	bool debug = true;
