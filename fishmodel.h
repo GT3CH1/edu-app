@@ -33,10 +33,11 @@ class FishModel : public QObject {
         QImage getColliderShape(b2Shape *shape, QColor penColor, QPointF &translation);
         // The current scene to draw
         SCENE_STATE currentScene = WATER_CHANGE;
+        void setScene(FishModel::SCENE_STATE scene);
+
     public:
         FishModel(float deltaTime);
         ~FishModel();
-        void setScene(FishModel::SCENE_STATE scene);
 
     public slots:
         void updateGameObjects();
