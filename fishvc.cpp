@@ -10,6 +10,8 @@
 #include <QImage>
 #include <QTransform>
 #include <QTimer>
+#include <QPushButton>
+#include <iostream>
 
 /**
  * @brief Constructs a view/controller with a model.
@@ -22,6 +24,8 @@ FishVC::FishVC(QWidget *parent)
 	ui->setupUi(this);
 
 	connect(&tutorialModel, &FishModel::renderGameObjects, this, &FishVC::renderGameObjects);
+	connect(&tutorialModel, &FishModel::startUp, this, &FishVC::startUp);
+	connect(this, &FishVC::beginFirstTask, &tutorialModel, &FishModel::beginFirstTask);
 
 	//Update the model every 0.1666 seconds (60 fps).
 	QTimer *timer = new QTimer(this);
@@ -68,5 +72,13 @@ void FishVC::renderGameObjects(std::vector<ObjectRenderInformation> renderables)
 	}
 
 	ui->label_2->setPixmap(composite);
+}
+
+/**
+ * @brief Sets the view for the start up screen
+ */
+void FishVC::startUp()
+{
+	emit beginFirstTask();
 }
 

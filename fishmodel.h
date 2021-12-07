@@ -20,6 +20,7 @@ private:
 	float deltaTime;
 	b2World physicsWorld;
 
+	void prepareStartUp();
 	void addGameObjectToScene(GameObject* toAdd);
 	void addBodyToWorld(PhysicsGameObject* toAdd);
 
@@ -33,9 +34,11 @@ public:
 
 public slots:
 	void updateGameObjects();
+	void beginFirstTask();
 
 signals:
 	void renderGameObjects(std::vector<ObjectRenderInformation> renderables);
+	void startUp();
 };
 
 #endif // FISHMODEL_H

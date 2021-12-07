@@ -11,8 +11,8 @@ public:
 	virtual void reset(const CallbackOptions &callback) = 0;
 
 signals:
-	virtual void pass() = 0;
-	virtual void fail() = 0;
+	void pass();
+	void fail();
 };
 
 #endif // QUEST_H
