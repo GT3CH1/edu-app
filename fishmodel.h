@@ -26,7 +26,7 @@ class FishModel : public QObject {
 
         void prepareStartUp();
         void addGameObjectToScene(GameObject *toAdd);
-        void addBodyToWorld(PhysicsGameObject *toAdd);
+		void addBodyToWorld(PhysicsGameObject *toAdd);
 
         bool debug = true;
 
