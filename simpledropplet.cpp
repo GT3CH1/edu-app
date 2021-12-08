@@ -33,7 +33,7 @@ b2BodyDef SimpleDropplet::constructBodyDefinition()
 void SimpleDropplet::setBody(b2Body *newBody)
 {
 	b2CircleShape hitBoxShape;
-	hitBoxShape.m_radius = 10;
+	hitBoxShape.m_radius = 0.5;
 
 	b2FixtureDef hitBoxDefinition;
 

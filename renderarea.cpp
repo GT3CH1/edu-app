@@ -42,7 +42,7 @@ void RenderArea::setImage(QPixmap &toRender)
 void RenderArea::mouseMoveEvent(QMouseEvent *e)
 {
 	if (e->buttons() == Qt::LeftButton) {
-		emit mouseLocation(findMouseX(e), findMouseY(e));
+		emit mouseLocation(e->pos());
 	}
 }
 
@@ -55,7 +55,7 @@ void RenderArea::mouseMoveEvent(QMouseEvent *e)
 void RenderArea::mousePressEvent(QMouseEvent *e)
 {
 	if (e->button() == Qt::LeftButton) {
-		emit mousePressed(findMouseX(e), findMouseY(e));
+		emit mousePressed(e->pos());
 	}
 }
 
@@ -68,7 +68,7 @@ void RenderArea::mousePressEvent(QMouseEvent *e)
 void RenderArea::mouseReleaseEvent(QMouseEvent *e)
 {
 	if (e->button() == Qt::LeftButton) {
-		emit mouseReleased(findMouseX(e), findMouseY(e));
+		emit mouseReleased(e->pos());
 	}
 }
 
@@ -82,26 +82,7 @@ void RenderArea::mouseDoubleClickEvent(QMouseEvent *e)
 	// do nothing
 }
 
-/**
- * Calculates the x-position of the mouse based on a coordinate
- * system with (0,0) at the center of the RenderArea.
- *
- * @param e - mouse event
- * @return x-position of the mouse
- */
-float RenderArea::findMouseX(QMouseEvent *e)
+void RenderArea::resizeEvent(QResizeEvent *)
 {
-	return e->pos().x() - (this->width() / 2.0);
-}
-
-/**
- * Calculates the y-position of the mouse based on a coordinate
- * system with (0,0) at the center of the RenderArea.
- *
- * @param e - mouse event
- * @return y-position of the mouse
- */
-float RenderArea::findMouseY(QMouseEvent *e)
-{
-	return (-1.0 * e->pos().y()) + (this->height() / 2.0);
+	emit resized();
 }

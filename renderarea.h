@@ -12,8 +12,7 @@ public:
 	void setImage(QPixmap &);
 
 private:
-	float findMouseX(QMouseEvent *);
-	float findMouseY(QMouseEvent *);
+	void resizeEvent(QResizeEvent *);
 
 private slots:
 	void mouseMoveEvent(QMouseEvent *);
@@ -22,9 +21,10 @@ private slots:
 	void mouseDoubleClickEvent(QMouseEvent *);
 
 signals:
-	void mouseReleased(float, float);
-	void mousePressed(float, float);
-	void mouseLocation(float, float);
+	void mouseReleased(QPointF);
+	void mousePressed(QPointF);
+	void mouseLocation(QPointF);
+	void resized();
 };
 
 #endif // RENDERAREA_H

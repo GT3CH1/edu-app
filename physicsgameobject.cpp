@@ -7,6 +7,8 @@
 
 #include "physicsgameobject.h"
 #include <cmath>
+#include <QDebug>
+#include <QString>
 
 /**
  * @brief Constructs a PhysicsGameObject.
@@ -96,3 +98,41 @@ void PhysicsGameObject::onCollision(b2Contact* collision, bool isA, PhysicsGameO
  * in one of this object's sensors.
  */
 void PhysicsGameObject::onSensor(b2Contact* collision, bool isA, PhysicsGameObject* other) {}
+
+/**
+ * @brief Is triggered when one of this
+ * object's fixtures are clicked (doesn't matter
+ * if it's a sensor).
+ * @param position The position that the object was clicked at.
+ */
+void PhysicsGameObject::onMouseClick(QPointF position)
+{
+	//qDebug() << QString::fromStdString(name) << " was clicked at (" << position.x() << ", " << position.y() << ").";
+}
+
+/**
+ * @brief Is triggered when the object was clicked
+ * and the mouse is still held.
+ * @param position The position that the mouse is being held.
+ *
+ * NOTE: The mouse doesn't have to be on one of the
+ * fixtures of the object for this to be called (click,
+ * hold, move mouse off object still calls this method).
+ */
+void PhysicsGameObject::onMouseHold(QPointF position)
+{
+	//qDebug() << QString::fromStdString(name) << " was held at (" << position.x() << ", " << position.y() << ").";
+}
+
+/**
+ * @brief Is triggered when the object was clicked
+ * and the mouse is released.
+ * @param position The position that the mouse was released at.
+ *
+ * NOTE: The mouse doesn't have to be on one of the fixtures
+ * of the object for this to be called.
+ */
+void PhysicsGameObject::onMouseRelease(QPointF position)
+{
+	//qDebug() << QString::fromStdString(name) << " was released at (" << position.x() << ", " << position.y() << ").";
+}
