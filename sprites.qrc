@@ -1,7 +1,14 @@
 <RCC>
     <qresource prefix="/">
-        <file>stinkyMonkey.png</file>
-        <file>simpleDropplet.png</file>
-        <file>simpleTank.png</file>
+        <file>res/bowl.png</file>
+        <file>res/bucket.png</file>
+        <file>res/clock.png</file>
+        <file>res/latest.png</file>
+        <file>res/simpleDropplet.png</file>
+        <file>res/simpleTank.png</file>
+        <file>res/spigot.png</file>
+        <file>res/sprites.svg</file>
+        <file>res/stinkyMonkey.png</file>
     </qresource>
 </RCC>
+

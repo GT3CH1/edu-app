@@ -14,7 +14,7 @@
  * construction, only a definition.
  */
 FishTank::FishTank(std::string name, QPointF position, double rotation, QPointF scale) :
-	PhysicsGameObject(name, position, rotation, scale, constructBodyDefinition(), QImage(QString(":/simpleTank.png")))
+	PhysicsGameObject(name, position, rotation, scale, constructBodyDefinition(), QImage(":/res/simpleTank.png"))
 { }
 
 /**
