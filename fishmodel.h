@@ -24,7 +24,7 @@ private:
 	std::map<std::string, GameObject*> gameObjectMap;
 	float deltaTime;
 	b2World physicsWorld;
-	PhysicsGameObject* holdObject;
+	PhysicsGameObject* holdObject = nullptr;
 
 	void addGameObjectToScene(GameObject *toAdd);
 	GameObject *getGameObject(std::string objectName);
