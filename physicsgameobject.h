@@ -2,8 +2,6 @@
 #define PHYSICSGAMEOBJECT_H
 
 #include <gameobject.h>
-#include <Box2D/Box2D.h>
-#include <string>
 
 class PhysicsGameObject : public GameObject
 {

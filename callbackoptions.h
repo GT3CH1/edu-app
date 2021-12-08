@@ -1,17 +1,19 @@
 #ifndef CALLBACKOPTIONS_H
 #define CALLBACKOPTIONS_H
+
 #include <functional>
 #include <string>
-#include "gameobject.h"
+#include "physicsgameobject.h"
+
+/**
+ * @brief The CallbackOptions struct is the means through which GameObjects can affect the model.
+ */
 
 struct CallbackOptions
 {
 public:
 	CallbackOptions(std::function<GameObject*(std::string)>, std::function<void(GameObject&)>, std::function<void(std::string)>);
 
-	/**
-	 * @brief getGameObject
-	 */
 	std::function<GameObject*(std::string)> getGameObject;
 
 	std::function<void(GameObject&)> addGameObject;
