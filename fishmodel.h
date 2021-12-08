@@ -10,6 +10,7 @@
 #include <Box2D/Box2D.h>
 #include "physicsgameobject.h"
 #include "functional"
+#include "questsfile.h"
 
 class FishModel : public QObject {
 
@@ -30,6 +31,9 @@ private:
 	GameObject *getGameObject(std::string objectName);
 	void deleteGameObject(std::string objectName);
 	void addBodyToWorld(PhysicsGameObject *toAdd);
+
+	std::list<Quest*> quests;
+	void createQuests();
 
 	bool debug = true;
 

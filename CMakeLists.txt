@@ -37,18 +37,12 @@ set(PROJECT_SOURCES
         simpledropplet.h
         simpledropplet.cpp
         fishtank.cpp
-        quest.h
-        fillbowl.cpp
-        choosefish.cpp
-        addfish.cpp
-        agewater.cpp
-        putwaterinbowl.cpp
-        addfood.cpp
-        turnoffwaterpump.cpp
-        removefilter.cpp
-        addfilter.cpp
-        turnonwaterpump.cpp
-        siphonoldwater.cpp
+        fishtank.h
+	quest.h
+	physicgameobjectsfile.h
+	physicgameobjectsfile.cpp
+        questsfile.h
+        questsfile.cpp
         )
 
 add_subdirectory(box2d-src)

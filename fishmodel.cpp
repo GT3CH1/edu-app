@@ -35,6 +35,63 @@ FishModel::FishModel(float _deltaTime) : deltaTime(_deltaTime), physicsWorld(b2V
 		PhysicsGameObject* fishTank = new FishTank("FishTank", QPointF(0,0), 0, QPointF(10,5));
 		addGameObjectToScene(fishTank);
 	}
+
+	// Create the quests linked list
+	createQuests();
+}
+
+/**
+ * @brief Creates the quests linked list
+ */
+void FishModel::createQuests()
+{
+	// Task 1
+	FillBowl* fillBowl1;
+	Wait* ageWater1;
+	FillTank* fillTank1;
+
+	quests.push_back(fillBowl1);
+	quests.push_back(ageWater1);
+	quests.push_back(fillTank1);
+
+	// Task 2
+	ChooseFish* chooseFish2;
+	AddFish* addFish2;
+
+	quests.push_back(chooseFish2);
+	quests.push_back(addFish2);
+
+	// Task 3
+	AddFood* addFood3;
+
+	quests.push_back(addFood3);
+
+	// Task 4
+	TurnOffWaterPump* turnOffWaterPump4;
+	SwitchFilter* switchFilter4;
+	TurnOnWaterPump* turnOnWaterPump4;
+
+	quests.push_back(turnOffWaterPump4);
+	quests.push_back(switchFilter4);
+	quests.push_back(turnOnWaterPump4);
+
+	// Task 5
+	ChooseFish* chooseFish5;
+	AddFish* addFish5;
+
+	quests.push_back(chooseFish5);
+	quests.push_back(addFish5);
+
+	// Task 6
+	FillBowl* fillBowl6;
+	Wait* ageWater6;
+	SiphonOldWater* siphon6;
+	FillTank* fillTank6;
+
+	quests.push_back(fillBowl6);
+	quests.push_back(ageWater6);
+	quests.push_back(siphon6);
+	quests.push_back(fillTank6);
 }
 
 /**
