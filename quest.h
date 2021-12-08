@@ -2,10 +2,16 @@
 #define QUEST_H
 
 #include <QObject>
+#include "physicsgameobject.h"
 #include "callbackoptions.h"
 
-class Quest
+/**
+ * @brief Abstract class that has a listener and reset so that each Quest can communicate with the model.
+ */
+
+class Quest : public QObject
 {
+	Q_OBJECT
 public:
 	virtual void listener(const CallbackOptions &callback) = 0;
 	virtual void reset(const CallbackOptions &callback) = 0;
