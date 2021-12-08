@@ -13,7 +13,7 @@
  * All IDs for dropplets should be unique.
  */
 SimpleDropplet::SimpleDropplet(int id, QPointF position, double rotation, QPointF scale) :
-	PhysicsGameObject("SimpleDropplet " + std::to_string(id), position, rotation, scale, constructBodyDefinition(), QImage(QString(":/simpleDropplet.png")))
+	PhysicsGameObject("SimpleDropplet " + std::to_string(id), position, rotation, scale, constructBodyDefinition(), QImage(":/res/simpleDropplet.png"))
 { }
 
 /**
