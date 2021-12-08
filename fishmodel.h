@@ -9,22 +9,23 @@
 #include "monkeygameobject.h"
 #include <Box2D/Box2D.h>
 #include "physicsgameobject.h"
+#include "functional"
 
 class FishModel : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
 	enum SCENE_STATE {
 		WATER_CHANGE, FILTER_CHANGE, FEEDING, ADD_FISH, PREPARE_TANK
 	};
 private:
-	std::vector<GameObject *> gameObjects;
-	std::map<std::string, GameObject *> gameObjectMap;
+	std::vector<GameObject*> gameObjects;
+	std::map<std::string, GameObject*> gameObjectMap;
 	float deltaTime;
 	b2World physicsWorld;
+	PhysicsGameObject* holdObject;
 
-	void prepareStartUp();
 	void addGameObjectToScene(GameObject *toAdd);
 	GameObject *getGameObject(std::string objectName);
 	void deleteGameObject(std::string objectName);
@@ -36,6 +37,19 @@ private:
 	// The current scene to draw
 	SCENE_STATE currentScene = WATER_CHANGE;
 	void setScene(FishModel::SCENE_STATE scene);
+	QImage getColliderShape(b2Shape* shape, QColor penColor, QPointF& translation, QPointF& scale);
+
+	class MouseToPhysicsChecker : public b2QueryCallback
+	{
+	private:
+		QPointF center;
+		std::function<bool(QPointF, PhysicsGameObject*)> callback;
+	public:
+		MouseToPhysicsChecker(QPointF center, std::function<bool(QPointF, PhysicsGameObject*)> modelCallback);
+		virtual bool ReportFixture(b2Fixture* hit);
+	};
+
+	bool mouseClickProcess(QPointF, PhysicsGameObject*);
 
 public:
 	FishModel(float deltaTime);
@@ -43,12 +57,13 @@ public:
 
 public slots:
 	void updateGameObjects();
-	void beginFirstTask();
+	void mouseClick(QPointF);
+	void mouseHold(QPointF);
+	void mouseRelease(QPointF);
 	void nextTask();
 
 signals:
 	void renderGameObjects(std::vector<ObjectRenderInformation> renderables);
-	void startUp();
 };
 
 #endif // FISHMODEL_H

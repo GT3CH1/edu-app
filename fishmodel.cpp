@@ -19,57 +19,33 @@
  * @brief Constructs the game engine with a default scene.
  * @param _deltaTime The amount of time that passes between update calls.
  */
-FishModel::FishModel(float _deltaTime) : deltaTime(_deltaTime), physicsWorld(b2Vec2(0.0f, -10.0f)) {
-	prepareStartUp();
-
-//	{
-//		PhysicsGameObject* dropplet = new SimpleDropplet(1, QPointF(0,0), 0, QPointF(0.1,0.1));
-//		addGameObjectToScene(dropplet);
-//	}
-
-//	{
-//		PhysicsGameObject* dropplet2 = new SimpleDropplet(2, QPointF(3,100), 0, QPointF(0.1,0.1));
-//		addGameObjectToScene(dropplet2);
-//	}
-//	{
-//		PhysicsGameObject* fishTank = new FishTank("FishTank", QPointF(0,-100), 0, QPointF(0.25,0.25));
-//		addGameObjectToScene(fishTank);
-//	}
-}
-
-/**
- * @brief Sets the scene for start up
- */
-void FishModel::prepareStartUp() {
-	PhysicsGameObject *fishTank = new FishTank("FishTank", QPointF(0, -100), 0, QPointF(0.25, 0.25));
-	addGameObjectToScene(fishTank);
-
-	emit startUp();
-}
-
-/**
- * @brief Begins the first task
- */
-void FishModel::beginFirstTask() {
+FishModel::FishModel(float _deltaTime) : deltaTime(_deltaTime), physicsWorld(b2Vec2(0.0f, -10.0f / 10))
+{
 	{
-		PhysicsGameObject *dropplet = new SimpleDropplet(1, QPointF(0, 0), 0, QPointF(0.1, 0.1));
+		PhysicsGameObject* dropplet = new SimpleDropplet(1, QPointF(0,0), 0, QPointF(1,1));
 		addGameObjectToScene(dropplet);
 	}
 
 	{
-		PhysicsGameObject *dropplet2 = new SimpleDropplet(2, QPointF(3, 100), 0, QPointF(0.1, 0.1));
+		PhysicsGameObject* dropplet2 = new SimpleDropplet(2, QPointF(0.5,10), 0, QPointF(1,1));
 		addGameObjectToScene(dropplet2);
+	}
+
+	{
+		PhysicsGameObject* fishTank = new FishTank("FishTank", QPointF(0,0), 0, QPointF(10,5));
+		addGameObjectToScene(fishTank);
 	}
 }
 
 /**
  * @brief Adds a GameObject to the active scene.
  */
-void FishModel::addGameObjectToScene(GameObject *toAdd) {
+void FishModel::addGameObjectToScene(GameObject *toAdd)
+{
 	gameObjects.push_back(toAdd);
 	gameObjectMap.emplace(toAdd->getName(), toAdd);
 
-	PhysicsGameObject *toAddPhysics = dynamic_cast<PhysicsGameObject *>(toAdd);
+	auto* toAddPhysics = dynamic_cast<PhysicsGameObject*>(toAdd);
 	if (toAddPhysics != nullptr)
 		addBodyToWorld(toAddPhysics);
 }
@@ -98,9 +74,10 @@ void FishModel::deleteGameObject(std::string objectName)
 /**
  * @brief Adds a PhysicsGameObject to the active physics world.
  */
-void FishModel::addBodyToWorld(PhysicsGameObject *objectToAdd) {
-	b2BodyDef bodyDef = objectToAdd->getBodyDef();
-	b2Body *body = physicsWorld.CreateBody(&bodyDef);
+void FishModel::addBodyToWorld(PhysicsGameObject* objectToAdd)
+{
+	b2BodyDef bodyDef =  objectToAdd->getBodyDef();
+	b2Body* body = physicsWorld.CreateBody(&bodyDef);
 	objectToAdd->setBody(body);
 }
 
@@ -108,27 +85,29 @@ void FishModel::addBodyToWorld(PhysicsGameObject *objectToAdd) {
  * @brief Updates the active scene and sends all the objects
  * that need to be rendered at the end.
  */
-void FishModel::updateGameObjects() {
+void FishModel::updateGameObjects(){
 	//Update the physics world.
 	physicsWorld.Step(deltaTime, 6, 2);
 
 	//Manage collisions from the physics world.
-	b2Contact *contact = physicsWorld.GetContactList();
+	b2Contact* contact =  physicsWorld.GetContactList();
 	int contactCount = physicsWorld.GetContactCount();
 
-	for (int i = 0; i < contactCount; i++) {
-		b2Fixture *fixtureA = contact->GetFixtureA();
-		b2Fixture *fixtureB = contact->GetFixtureB();
+	for(int i = 0; i < contactCount; i++)
+	{
+		b2Fixture* fixtureA = contact->GetFixtureA();
+		b2Fixture* fixtureB = contact->GetFixtureB();
 
-		PhysicsGameObject *gameObjectA = (PhysicsGameObject *) fixtureA->GetBody()->GetUserData();
-		PhysicsGameObject *gameObjectB = (PhysicsGameObject *) fixtureB->GetBody()->GetUserData();
+		auto* gameObjectA = (PhysicsGameObject*) fixtureA->GetBody()->GetUserData();
+		auto* gameObjectB = (PhysicsGameObject*) fixtureB->GetBody()->GetUserData();
 
 
-		if (fixtureA->IsSensor())
+		if(fixtureA->IsSensor())
 			gameObjectA->onSensor(contact, true, gameObjectB);
-		if (fixtureB->IsSensor())
+		if(fixtureB->IsSensor())
 			gameObjectB->onSensor(contact, false, gameObjectA);
-		if (!(fixtureA->IsSensor() || fixtureB->IsSensor())) {
+		if(!(fixtureA->IsSensor() || fixtureB->IsSensor()))
+		{
 			gameObjectA->onCollision(contact, true, gameObjectB);
 			gameObjectB->onCollision(contact, false, gameObjectA);
 		}
@@ -141,51 +120,47 @@ void FishModel::updateGameObjects() {
 	//Hitboxes collects the render data of all fixtures (only used when debug is true).
 	std::vector<ObjectRenderInformation> hitBoxes;
 
-	for (GameObject *gameObject: gameObjects) {
+	for(GameObject* gameObject : gameObjects)
+	{
 		//Update all GameObjects once per frame.
 		gameObject->updateObject(deltaTime);
 
-		ObjectRenderInformation renderInfo{gameObject->getLocation(), gameObject->getRotation(), gameObject->getScale(),
-		                                   gameObject->getGraphic()};
+		ObjectRenderInformation renderInfo {gameObject->getLocation(), gameObject->getRotation(), gameObject->getScale(), gameObject->getGraphic()};
 		renderables.push_back(renderInfo);
 
 		//If we're debugging we want to render fixtures.
-		if (debug) {
+		if (debug)
+		{
 			//Fixtures can only be in PhysicsGameObjects.
-			PhysicsGameObject *toPhysics = dynamic_cast<PhysicsGameObject *>(gameObject);
-			if (toPhysics != nullptr) {
-				b2Fixture *fixture = toPhysics->getBody()->GetFixtureList();
+			auto* toPhysics = dynamic_cast<PhysicsGameObject*>(gameObject);
+			b2Fixture *fixture = toPhysics->getBody()->GetFixtureList();//Render all fixtures of the current object.
+			while (fixture != nullptr) {
+				b2Shape *shape = fixture->GetShape();
 
-				//Render all fixtures of the current object.
-				while (fixture != nullptr) {
-					b2Shape *shape = fixture->GetShape();
+				QColor color = Qt::red;
 
-					QColor color = Qt::red;
+				if (fixture->IsSensor())
+					color = Qt::green;
 
-					if (fixture->IsSensor())
-						color = Qt::green;
+				//fixtureTranslation is the vector between the center of the body
+				//and the center of this fixture.
+				QPointF fixtureTranslation;
+				QPointF scale(1, 1);
+				QImage fixtureImage = getColliderShape(shape, color, fixtureTranslation, scale);
 
-					//fixtureTranslation is the vector between the center of the body
-					//and the center of this fixture.
-					QPointF fixtureTranslation;
-					QImage fixtureImage = getColliderShape(shape, color, fixtureTranslation);
-
-					QPointF pos(toPhysics->getBody()->GetPosition().x, toPhysics->getBody()->GetPosition().y);
-					pos += fixtureTranslation;
-
-					ObjectRenderInformation hitBoxRender{pos, toPhysics->getBody()->GetAngle() * 180 / M_PI,
-					                                     QPointF(1, 1), fixtureImage};
-
-					hitBoxes.push_back(hitBoxRender);
+				QPointF pos(toPhysics->getBody()->GetPosition().x, toPhysics->getBody()->GetPosition().y);
+				pos += fixtureTranslation;
+				ObjectRenderInformation hitBoxRender{pos, toPhysics->getBody()->GetAngle() * 180 / M_PI, scale,
+				                                     fixtureImage};
+				hitBoxes.push_back(hitBoxRender);
 
 					fixture = fixture->GetNext();
 				}
 			}
 		}
-	}
-
 	//Compiles all things to render together (on release, this loop will be ignored).
-	for (ObjectRenderInformation &hitBox: hitBoxes) {
+	for(ObjectRenderInformation& hitBox : hitBoxes)
+	{
 		renderables.push_back(hitBox);
 	}
 
@@ -198,22 +173,27 @@ void FishModel::updateGameObjects() {
  * show the given shape).
  * @param translation The vector between (0,0) (the center of the body) and the center of this shape.
  */
-QImage FishModel::getColliderShape(b2Shape *shape, QColor penColor, QPointF &translation) {
+QImage FishModel::getColliderShape(b2Shape* shape, QColor penColor, QPointF& translation, QPointF& scale)
+{
 	QImage shapeImage;
 
-	b2CircleShape *circle = dynamic_cast<b2CircleShape *>(shape);
-	b2PolygonShape *polygon = dynamic_cast<b2PolygonShape *>(shape);
+	auto* circle = dynamic_cast<b2CircleShape*>(shape);
+	auto* polygon = dynamic_cast<b2PolygonShape*>(shape);
 
 	//If we have a circle, just draw a cirlce.
-	if (circle != nullptr) {
-		shapeImage = QImage(shape->m_radius * 2, shape->m_radius * 2, QImage::Format::Format_RGBA64);
+	if (circle != nullptr)
+	{
+		shapeImage = QImage((int)(shape->m_radius*2*20), (int)(shape->m_radius*2*20), QImage::Format::Format_RGBA64);
+		shapeImage.fill(Qt::transparent);
 		QPainter painter(&shapeImage);
 		painter.setPen(penColor);
-		painter.drawEllipse(0, 0, shapeImage.width(), shapeImage.height());
-		painter.drawLine(shapeImage.width() / 2, shapeImage.height() / 2, shapeImage.width(), shapeImage.height() / 2);
+		painter.drawEllipse(0,0,shapeImage.width(), shapeImage.height());
+		painter.drawLine(shapeImage.width()/2,shapeImage.height()/2, shapeImage.width(), shapeImage.height()/2);
 		painter.end();
-		translation = QPointF(circle->m_p.x, circle->m_p.y);
-	} else if (polygon != nullptr) //If we have a polygon...
+		translation = QPointF(circle->m_p.x,circle->m_p.y);
+		scale =	QPointF(circle->m_radius * 2, circle->m_radius * 2);
+	}
+	else if (polygon != nullptr) //If we have a polygon...
 	{
 		b2Vec2 last = polygon->m_vertices[0];
 		b2Vec2 current;
@@ -223,42 +203,47 @@ QImage FishModel::getColliderShape(b2Shape *shape, QColor penColor, QPointF &tra
 		//And collect the edges of the polygon.
 		std::vector<QLineF> lines;
 
-		for (int i = 1; i < polygon->m_count; i++) {
+		for (int i = 1; i < polygon->m_count; i++)
+		{
 			current = polygon->m_vertices[i];
-			if (current.x < polygonBounds.left())
-				polygonBounds = QRectF(QPointF(current.x, polygonBounds.top()),
-				                       QPointF(polygonBounds.right(), polygonBounds.bottom()));
-			if (current.y < polygonBounds.top())
-				polygonBounds = QRectF(QPointF(polygonBounds.left(), current.y),
-				                       QPointF(polygonBounds.right(), polygonBounds.bottom()));
-			if (current.x > polygonBounds.right())
-				polygonBounds = QRectF(QPointF(polygonBounds.left(), polygonBounds.top()),
-				                       QPointF(current.x, polygonBounds.bottom()));
-			if (current.y > polygonBounds.bottom())
-				polygonBounds = QRectF(QPointF(polygonBounds.left(), polygonBounds.top()),
-				                       QPointF(polygonBounds.right(), current.y));
+			if(current.x < polygonBounds.left())
+				polygonBounds = QRectF(QPointF(current.x, polygonBounds.top()),QPointF(polygonBounds.right(), polygonBounds.bottom()));
+			if(current.y < polygonBounds.top())
+				polygonBounds = QRectF(QPointF(polygonBounds.left(), current.y),QPointF(polygonBounds.right(), polygonBounds.bottom()));
+			if(current.x > polygonBounds.right())
+				polygonBounds = QRectF(QPointF(polygonBounds.left(), polygonBounds.top()),QPointF(current.x, polygonBounds.bottom()));
+			if(current.y > polygonBounds.bottom())
+				polygonBounds = QRectF(QPointF(polygonBounds.left(), polygonBounds.top()),QPointF(polygonBounds.right(), current.y));
 
-			lines.push_back(QLineF(last.x, last.y, current.x, current.y));
+			lines.emplace_back(last.x,last.y,current.x,current.y);
 			last = current;
 		}
 
 		last = polygon->m_vertices[0];
-		lines.push_back(QLineF(last.x, last.y, current.x, current.y));
+		lines.emplace_back(last.x, last.y, current.x, current.y);
+
+		float imageScaledBy = 10;
 
 		//Create the image with the polygon's bounds.
-		shapeImage = QImage(polygonBounds.width() + 1, polygonBounds.height() + 1, QImage::Format::Format_RGBA64);
+		qreal shapeScaleX = (polygonBounds.width()) * imageScaledBy + 1;
+		qreal shapeScaleY = (polygonBounds.height()) * imageScaledBy + 1;
+		shapeImage = QImage((int)shapeScaleX, (int)shapeScaleY, QImage::Format::Format_RGBA64);
+		shapeImage.fill(Qt::transparent);
 		QPainter painter(&shapeImage);
 		painter.setPen(penColor);
 
-		QPoint imageCenter(polygonBounds.width() / 2, polygonBounds.height() / 2);
+		QPoint imageCenter(shapeImage.width()/2, shapeImage.height()/2);
 		translation = polygonBounds.center();
 
 		//Draw the edges of the polygon.
-		for (QLineF line: lines) {
-			painter.drawLine(line.p1() + imageCenter - translation, line.p2() + imageCenter - translation);
+		for(QLineF line : lines)
+		{
+			painter.drawLine((line.p1() - translation)*imageScaledBy + imageCenter, (line.p2() - translation)*imageScaledBy + imageCenter);
 		}
 
 		painter.end();
+
+		scale =	QPointF(polygonBounds.width(), polygonBounds.height());
 	}
 
 	return shapeImage;
@@ -267,8 +252,9 @@ QImage FishModel::getColliderShape(b2Shape *shape, QColor penColor, QPointF &tra
 /**
  * @brief Destroys this FishModel and all of its objects.
  */
-FishModel::~FishModel() {
-	for (GameObject *gameObject: gameObjects)
+FishModel::~FishModel()
+{
+	for(GameObject* gameObject : gameObjects)
 		delete gameObject;
 	for(auto pair : gameObjectMap)
 		delete pair.second;
@@ -304,4 +290,72 @@ void FishModel::nextTask() {
 void FishModel::setScene(FishModel::SCENE_STATE scene) {
 	currentScene = scene;
 	//TODO(gcpease): Somehow update scene on UI.
+}
+
+FishModel::MouseToPhysicsChecker::MouseToPhysicsChecker(QPointF center, std::function<bool(QPointF, PhysicsGameObject*)> modelCallback) :
+	center(center), callback(modelCallback){}
+
+bool FishModel::MouseToPhysicsChecker::ReportFixture(b2Fixture* fixture)
+{
+	PhysicsGameObject* gameObject = (PhysicsGameObject*) fixture->GetBody()->GetUserData();
+	return callback(center, gameObject);
+}
+
+/**
+ * @brief Does the collision check for where the mouse is clicked.
+ * @param position the position of the mouse.
+ */
+void FishModel::mouseClick(QPointF position)
+{
+	//Set up the callback that processes detected fixtures.
+	b2Vec2 positionAsVector(position.x(), position.y());
+	std::function<bool(QPointF, PhysicsGameObject*)> callBack = [&](QPointF center, PhysicsGameObject* gameObject){return this->mouseClickProcess(center, gameObject);};
+	MouseToPhysicsChecker checker(position, callBack);
+
+	//Define the area of the cursor.
+	b2AABB areaToCheck;
+	areaToCheck.upperBound.Set(position.x(), position.y());
+	areaToCheck.lowerBound.Set(position.x(), position.y());
+
+	physicsWorld.QueryAABB(&checker, areaToCheck);
+}
+
+/**
+ * @brief Triggers a clicked GameObject. Used in mouseClick.
+ * @param position The position of the mouse.
+ * @param gameObject A detected GameObject under the mouse.
+ * @return Whether this object was clicked.
+ */
+bool FishModel::mouseClickProcess(QPointF position, PhysicsGameObject* gameObject)
+{
+	gameObject->onMouseClick(position);
+	holdObject = gameObject;
+	return true;
+}
+
+/**
+ * @brief Triggers the object that is considered to be "held"
+ * by the mouse.
+ * @param position The position of the mouse.
+ */
+void FishModel::mouseHold(QPointF position)
+{
+	if (holdObject != nullptr)
+	{
+		holdObject->onMouseHold(position);
+	}
+}
+
+/**
+ * @brief Triggers the object that is considered to be "held"
+ * by the mouse.
+ * @param position The position of the mouse.
+ */
+void FishModel::mouseRelease(QPointF position)
+{
+	if (holdObject != nullptr)
+	{
+		holdObject->onMouseRelease(position);
+		holdObject = nullptr;
+	}
 }

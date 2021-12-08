@@ -14,26 +14,13 @@
    <string>fishvc</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="RenderArea" name="label">
+   <widget class="RenderArea" name="mainCanvas">
     <property name="geometry">
      <rect>
       <x>36</x>
       <y>30</y>
       <width>721</width>
       <height>512</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>30</y>
-      <width>661</width>
-      <height>411</height>
      </rect>
     </property>
     <property name="text">

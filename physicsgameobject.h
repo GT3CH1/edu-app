@@ -19,6 +19,9 @@ public:
 	virtual void updateObject(float);
 	virtual void onCollision(b2Contact* collision, bool isA, PhysicsGameObject* other);
 	virtual void onSensor(b2Contact* collision, bool isA, PhysicsGameObject* other);
+	virtual void onMouseClick(QPointF position);
+	virtual void onMouseHold(QPointF position);
+	virtual void onMouseRelease(QPointF position);
 };
 
 #endif // PHYSICSGAMEOBJECT_H

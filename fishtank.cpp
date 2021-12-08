@@ -25,7 +25,7 @@ void FishTank::setBody(b2Body* newBody)
 {
 	// Make the sensor...
 	b2PolygonShape sensorShape;
-	sensorShape.SetAsBox(100.0f, 50.0f);
+	sensorShape.SetAsBox(5, 2.5);
 
 	b2FixtureDef hitBoxDefinition;
 	hitBoxDefinition.shape = &sensorShape;
@@ -35,7 +35,7 @@ void FishTank::setBody(b2Body* newBody)
 
 	//Make the bottom...
 	b2PolygonShape bottomShape;
-	bottomShape.SetAsBox(110,10,b2Vec2(0,-55),0);
+	bottomShape.SetAsBox(5,1,b2Vec2(0,-2.5),0);
 
 	b2FixtureDef bottomFixture;
 	bottomFixture.shape = &bottomShape;
@@ -46,7 +46,7 @@ void FishTank::setBody(b2Body* newBody)
 	//Make the left wall...
 	{
 		b2PolygonShape wall;
-		wall.SetAsBox(10,60,b2Vec2(-100,0),0);
+		wall.SetAsBox(0.5,2.5,b2Vec2(-5,0),0);
 
 		b2FixtureDef wallFixture;
 		wallFixture.shape = &wall;
@@ -58,7 +58,7 @@ void FishTank::setBody(b2Body* newBody)
 	//Make the right wall...
 	{
 		b2PolygonShape wall;
-		wall.SetAsBox(10,60,b2Vec2(100,0),0);
+		wall.SetAsBox(0.5,2.5,b2Vec2(5,0),0);
 
 		b2FixtureDef wallFixture;
 		wallFixture.shape = &wall;
