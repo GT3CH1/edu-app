@@ -62,4 +62,4 @@ CMakeFiles/
 *autogen/
 CMakeCache.txt
 cmake_install.cmake
-./FishTutorial
+FishTutorial

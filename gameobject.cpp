@@ -12,7 +12,7 @@
 /**
  * @brief Constructs a default monkey GameObject.
  */
-GameObject::GameObject() : name("default"), graphic(QImage(QString(":/stinkyMonkey.png"))), scale(1,1) {}
+GameObject::GameObject() : name("default"), graphic(QImage(":/res/stinkyMonkey.png")), scale(1,1) {}
 
 /**
  * @brief Constructs a GameObject with the given parameters.
