@@ -10,9 +10,10 @@
 class Bowl : public PhysicsGameObject
 {
 public:
-	Bowl(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef body, QImage image);
+	Bowl();
 	int getWaterLevel();
 	void setWaterLevel(int newWaterLevel);
+	virtual void setBody(b2Body* newBody);
 private:
 	int waterLevel;
 };
@@ -20,7 +21,7 @@ private:
 class Clock : public PhysicsGameObject
 {
 public:
-	Clock(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef body, QImage image);
+	Clock();
 	int getTime();
 	void setTime(int newTime);
 
@@ -42,7 +43,7 @@ private:
 class FoodContainer : public PhysicsGameObject
 {
 public:
-	FoodContainer(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef body, QImage image);
+	FoodContainer();
 	int getShaken();
 	void setShaken(int newShaken);
 
@@ -64,7 +65,7 @@ private:
 class WaterPump : public PhysicsGameObject
 {
 public:
-	WaterPump(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef body, QImage image);
+	WaterPump();
 	bool getPower();
 	void setPower(bool newPower);
 
@@ -75,7 +76,7 @@ private:
 class Filter : public PhysicsGameObject
 {
 public:
-	Filter(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef body, QImage image);
+	Filter();
 	bool getOldFilter();
 	void setOldFilter(bool newFilter);
 
@@ -86,13 +87,13 @@ private:
 class Siphon : public PhysicsGameObject
 {
 public:
-	Siphon(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef body, QImage image);
+	Siphon();
 };
 
 class Fish : public PhysicsGameObject
 {
 public:
-	Fish(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef body, QImage image);
+	Fish(std::string name, QPointF position, double rotation, QPointF scale, QImage image);
 	bool getInTank();
 	void setInTank(bool newInTank);
 
@@ -102,12 +103,19 @@ private:
 
 class Tank : public PhysicsGameObject{
 public:
-	Tank(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef body, QImage image);
+	Tank(std::string name, QPointF position, double rotation, QPointF scale);
 	bool getWaterLevel();
 	void seWaterLevel(bool newWaterLevel);
-
+	virtual void setBody(b2Body* newBody);
 private:
 	bool waterLevel;
+};
+
+
+class Countertop : public PhysicsGameObject{
+public:
+	Countertop(double rotation);
+	virtual void setBody(b2Body* newBody);
 };
 
 #endif // PHYSICGAMEOBJECTSFILE_H

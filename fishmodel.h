@@ -35,12 +35,12 @@ private:
 	std::list<Quest*> quests;
 	void createQuests();
 
-	bool debug = true;
+	bool debug = false;
 
 	QImage getColliderShape(b2Shape *shape, QColor penColor, QPointF &translation);
 	// The current scene to draw
-	SCENE_STATE currentScene = WATER_CHANGE;
-	void setScene(FishModel::SCENE_STATE scene);
+	SCENE_STATE currentScene = PREPARE_TANK;
+	void setScene(SCENE_STATE currentScene);
 	QImage getColliderShape(b2Shape* shape, QColor penColor, QPointF& translation, QPointF& scale);
 
 	class MouseToPhysicsChecker : public b2QueryCallback
