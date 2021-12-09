@@ -54,6 +54,7 @@ private:
 	};
 
 	bool mouseClickProcess(QPointF, PhysicsGameObject*);
+	void removeAllGameObjects();
 
 public:
 	FishModel(float deltaTime);
