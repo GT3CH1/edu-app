@@ -1,6 +1,6 @@
 /**
  * Authors - Alex Richins, William Erignac, Jonathan Vielstich
- * Last Modified - 12/8/2021
+ * Last Modified - 12/9/2021
  *
  * The view / controller of the fish training application.
  */
@@ -154,17 +154,27 @@ void FishVC::mouseHold()
 void FishVC::resizeEvent(QResizeEvent *event)
 {
 	// Get new window dimensions
-	int w = ui->centralwidget->width();
-	int h = ui->centralwidget->height();
+	int windowWidth = ui->centralwidget->width();
+	int windowHeight = ui->centralwidget->height();
+	double aspectRatio = windowWidth / (double)windowHeight;
+	double windowRatio = (WINDOW_MIN.width() / (double)WINDOW_MIN.height());
 
-	// Find new dimensions for mainCanvas
-	int canvasW = (int)(w * (CANVAS_MIN.width() / (double)WINDOW_MIN.width()));
-	int canvasH = (int)(h * (CANVAS_MIN.height() / (double)WINDOW_MIN.height()));
-	int canvasX = (int)((w - canvasW) / 2.0);
-	int canvasY = (int)((h - canvasH) / 2.0);
+	// Find new canvas dimensions
+	int canvasWidth = (int)(windowWidth * (CANVAS_MIN.width() / (double)WINDOW_MIN.width()));
+	int canvasHeight = (int)(windowHeight * (CANVAS_MIN.height() / (double)WINDOW_MIN.height()));
 
-	// Set new mainCanvas size and position
-	ui->mainCanvas->resize(canvasW, canvasH);
+	// Adjust canvas to maintain aspect ratio
+	if (aspectRatio < windowRatio)		// Window is taller than normal, set based on width
+		canvasHeight = (int)(canvasWidth * (CANVAS_MIN.height() / (double)CANVAS_MIN.width()));
+	else if (aspectRatio > windowRatio)	// Window is wider than normal, set based on height
+		canvasWidth = (int)(canvasHeight * (CANVAS_MIN.width() / (double)CANVAS_MIN.height()));
+
+	// Find new canvas position
+	int canvasX = (windowWidth - canvasWidth) / 2;
+	int canvasY = (windowHeight - canvasHeight) / 2;
+
+	// Scale and move canvas
+	ui->mainCanvas->resize(canvasWidth, canvasHeight);
 	ui->mainCanvas->move(canvasX, canvasY);
 
 	// Redefine modelRatio
