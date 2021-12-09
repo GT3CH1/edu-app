@@ -1,18 +1,16 @@
 /**
  * Authors - Alex Richins, William Erignac, Jonathan Vielstich
- * Last Modified - 12/7/2021
+ * Last Modified - 12/8/2021
  *
  * The view / controller of the fish training application.
  */
 
 #include "fishvc.h"
 #include <QPoint>
-#include <QImage>
 #include <QTransform>
 #include <QTimer>
 #include <QPushButton>
 #include <iostream>
-#include <QDebug>
 
 /**
  * @brief Constructs a view/controller with a model.
@@ -23,6 +21,9 @@ FishVC::FishVC(QWidget *parent)
 	, tutorialModel(0.1666f)
 {
 	ui->setupUi(this);
+
+	ui->centralwidget->setMinimumSize(WINDOW_MIN);
+	ui->mainCanvas->setMinimumSize(CANVAS_MIN);
 
 	connect(&tutorialModel, &FishModel::renderGameObjects, this, &FishVC::renderGameObjects);
 
@@ -42,7 +43,6 @@ FishVC::FishVC(QWidget *parent)
 	connect(this, &FishVC::mouseClickSignal, &tutorialModel, &FishModel::mouseClick);
 	connect(this, &FishVC::mouseHoldSignal, &tutorialModel, &FishModel::mouseHold);
 	connect(this, &FishVC::mouseReleaseSignal, &tutorialModel, &FishModel::mouseRelease);
-	connect(ui->mainCanvas, &RenderArea::resized, this, &FishVC::canvasResized);
 }
 
 FishVC::~FishVC()
@@ -145,7 +145,28 @@ void FishVC::mouseHold()
 	emit mouseHoldSignal(mousePosition);
 }
 
-void FishVC::canvasResized()
+/**
+ * Resizes the main canvas to match the new window size.
+ *
+ * Overrides the default resizeEvent method.
+ * @param event
+ */
+void FishVC::resizeEvent(QResizeEvent *event)
 {
+	// Get new window dimensions
+	int w = ui->centralwidget->width();
+	int h = ui->centralwidget->height();
+
+	// Find new dimensions for mainCanvas
+	int canvasW = (int)(w * (CANVAS_MIN.width() / (double)WINDOW_MIN.width()));
+	int canvasH = (int)(h * (CANVAS_MIN.height() / (double)WINDOW_MIN.height()));
+	int canvasX = (int)((w - canvasW) / 2.0);
+	int canvasY = (int)((h - canvasH) / 2.0);
+
+	// Set new mainCanvas size and position
+	ui->mainCanvas->resize(canvasW, canvasH);
+	ui->mainCanvas->move(canvasX, canvasY);
+
+	// Redefine modelRatio
 	modelRatio = MODEL_SCALE / (float)ui->mainCanvas->width();
 }

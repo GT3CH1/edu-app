@@ -81,8 +81,3 @@ void RenderArea::mouseDoubleClickEvent(QMouseEvent *e)
 {
 	// do nothing
 }
-
-void RenderArea::resizeEvent(QResizeEvent *)
-{
-	emit resized();
-}
