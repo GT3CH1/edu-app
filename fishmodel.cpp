@@ -35,7 +35,7 @@ FishModel::FishModel(float _deltaTime) : deltaTime(_deltaTime), physicsWorld(b2V
 		PhysicsGameObject* fishTank = new FishTank("FishTank", QPointF(0,0), 0, QPointF(10,5));
 		addGameObjectToScene(fishTank);
 	}
-
+	setScene(WATER_CHANGE);
 	// Create the quests linked list
 	createQuests();
 }
@@ -123,9 +123,14 @@ GameObject* FishModel::getGameObject(std::string objectName)
  */
 void FishModel::deleteGameObject(std::string objectName)
 {
-	GameObject* objectPtr = gameObjectMap.at(objectName);
+	GameObject *objectPtr = gameObjectMap.at(objectName);
+	PhysicsGameObject* gameObject = dynamic_cast<PhysicsGameObject*>(objectPtr);
+	if(gameObject)
+		physicsWorld.DestroyBody(gameObject->getBody());
 	gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), objectPtr), gameObjects.end());
 	gameObjectMap.erase(objectName);
+
+	delete objectPtr;
 }
 
 /**
@@ -309,10 +314,8 @@ QImage FishModel::getColliderShape(b2Shape* shape, QColor penColor, QPointF& tra
 /**
  * @brief Destroys this FishModel and all of its objects.
  */
-FishModel::~FishModel()
-{
-	for(GameObject* gameObject : gameObjects)
-		delete gameObject;
+FishModel::~FishModel() {
+	removeAllGameObjects();
 }
 
 /**
@@ -343,6 +346,7 @@ void FishModel::nextTask() {
  * @param scene - The scene to be set.
  */
 void FishModel::setScene(FishModel::SCENE_STATE scene) {
+	removeAllGameObjects();
 	currentScene = scene;
 	//TODO(gcpease): Somehow update scene on UI.
 }
@@ -413,4 +417,14 @@ void FishModel::mouseRelease(QPointF position)
 		holdObject->onMouseRelease(position);
 		holdObject = nullptr;
 	}
+}
+
+/**
+ * @brief Removes all game objects from the scene.
+ */
+void FishModel::removeAllGameObjects()
+{
+	auto objsToDel(gameObjectMap);
+	for (auto gameObject: objsToDel)
+		deleteGameObject(gameObject.first);
 }
