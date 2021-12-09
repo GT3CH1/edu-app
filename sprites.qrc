@@ -9,6 +9,17 @@
         <file>res/spigot.png</file>
         <file>res/sprites.svg</file>
         <file>res/stinkyMonkey.png</file>
+        <file>res/background.png</file>
+        <file>res/counter.png</file>
+        <file>res/dirty_filter.png</file>
+        <file>res/filter.png</file>
+        <file>res/filter_pouch.png</file>
+        <file>res/food_3.png</file>
+        <file>res/food_1.png</file>
+        <file>res/food_2.png</file>
+        <file>res/food_shaker.png</file>
+        <file>res/pump.png</file>
+        <file>res/simple_fish.png</file>
+        <file>res/siphon.png</file>
     </qresource>
 </RCC>
-
