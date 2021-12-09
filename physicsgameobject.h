@@ -13,6 +13,7 @@ public:
 	PhysicsGameObject(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef, QImage);
 	b2BodyDef getBodyDef();
 	b2Body* getBody();
+	static b2BodyDef createBodyDef(b2BodyType);
 	virtual void setBody(b2Body* newBody);
 	virtual void updateObject(float);
 	virtual void onCollision(b2Contact* collision, bool isA, PhysicsGameObject* other);

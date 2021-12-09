@@ -136,3 +136,12 @@ void PhysicsGameObject::onMouseRelease(QPointF position)
 {
 	//qDebug() << QString::fromStdString(name) << " was released at (" << position.x() << ", " << position.y() << ").";
 }
+
+/**
+* @brief Returns a body definition for the FishTank.
+*/
+b2BodyDef PhysicsGameObject::createBodyDef(b2BodyType bodyType) {
+		b2BodyDef definition;
+		definition.type = bodyType;
+		return definition;
+}

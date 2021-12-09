@@ -35,7 +35,7 @@ FishModel::FishModel(float _deltaTime) : deltaTime(_deltaTime), physicsWorld(b2V
 		PhysicsGameObject* fishTank = new FishTank("FishTank", QPointF(0,0), 0, QPointF(10,5));
 		addGameObjectToScene(fishTank);
 	}
-	setScene(WATER_CHANGE);
+	setScene(PREPARE_TANK);
 	// Create the quests linked list
 	createQuests();
 }
@@ -189,12 +189,11 @@ void FishModel::updateGameObjects(){
 
 		ObjectRenderInformation renderInfo {gameObject->getLocation(), gameObject->getRotation(), gameObject->getScale(), gameObject->getGraphic()};
 		renderables.push_back(renderInfo);
+		auto* toPhysics = dynamic_cast<PhysicsGameObject*>(gameObject);
 
 		//If we're debugging we want to render fixtures.
-		if (debug)
+		if (debug && toPhysics)
 		{
-			//Fixtures can only be in PhysicsGameObjects.
-			auto* toPhysics = dynamic_cast<PhysicsGameObject*>(gameObject);
 			b2Fixture *fixture = toPhysics->getBody()->GetFixtureList();//Render all fixtures of the current object.
 			while (fixture != nullptr) {
 				b2Shape *shape = fixture->GetShape();
@@ -216,10 +215,10 @@ void FishModel::updateGameObjects(){
 				                                     fixtureImage};
 				hitBoxes.push_back(hitBoxRender);
 
-					fixture = fixture->GetNext();
-				}
+				fixture = fixture->GetNext();
 			}
 		}
+	}
 	//Compiles all things to render together (on release, this loop will be ignored).
 	for(ObjectRenderInformation& hitBox : hitBoxes)
 	{
@@ -323,32 +322,75 @@ FishModel::~FishModel() {
  */
 void FishModel::nextTask() {
 	switch (currentScene) {
-		case WATER_CHANGE:
-			setScene(PREPARE_TANK);
+		case PREPARE_TANK:
+			setScene(ADD_FISH);
 			break;
-		case FILTER_CHANGE:
+		//TODO: Figure out how to add more fish?
+		case ADD_FISH:
 			setScene(FEEDING);
 			break;
 		case FEEDING:
-			setScene(ADD_FISH);
+			setScene(FILTER_CHANGE);
 			break;
-		case ADD_FISH:
-			setScene(PREPARE_TANK);
-			break;
-		default:
+		case FILTER_CHANGE:
 			setScene(WATER_CHANGE);
+		default:
+			setScene(PREPARE_TANK);
 			break;
 	}
 }
 
 /**
- * @brief Sets the scene.
- * @param scene - The scene to be set.
+ * @brief Creates the scene and adds all the game objects
  */
-void FishModel::setScene(FishModel::SCENE_STATE scene) {
+void FishModel::setScene(SCENE_STATE scene)
+{
 	removeAllGameObjects();
 	currentScene = scene;
-	//TODO(gcpease): Somehow update scene on UI.
+	auto tank = new Tank("simpleTank", QPointF(0, 10), 0, QPointF(10, 5));
+	auto background = new GameObject("background",QPointF(0,0),0,QPointF(20,14),QImage(":/res/background.png"));
+	addGameObjectToScene(background);
+	addGameObjectToScene(new Filter());
+	addGameObjectToScene(new WaterPump());
+	addGameObjectToScene(new Countertop(0));
+	addGameObjectToScene(tank);
+	switch (currentScene)
+	{
+		case WATER_CHANGE : {
+			addGameObjectToScene(new Clock());
+			addGameObjectToScene(new Bowl());
+			addGameObjectToScene(new Fish("Jim Carey",QPointF(0,-2),0,QPointF(2,2),QImage(":/res/simple_fish.png")));
+			//TODO: spigot
+			addGameObjectToScene(new Siphon());
+			break;
+		}
+		case FILTER_CHANGE :
+			addGameObjectToScene(new Fish("Jim Carey",QPointF(0,-2),0,QPointF(2,2),QImage(":/res/simple_fish.png")));
+			break;
+
+		case FEEDING :
+			addGameObjectToScene(new Fish("Jim Carey",QPointF(0,-2),0,QPointF(2,2),QImage(":/res/simple_fish.png")));
+			// food container
+			// lots of food
+			break;
+
+		case ADD_FISH :
+			addGameObjectToScene(new Fish("Jim Carey",QPointF(0,-2),0,QPointF(2,2),QImage(":/res/simple_fish.png")));
+			break;
+
+		case PREPARE_TANK :
+			// tank
+			// bowl
+			// clock
+			// spigot
+			break;
+
+		default:
+			// tank
+			// game object water pump
+			// game object filter
+			break;
+	}
 }
 
 FishModel::MouseToPhysicsChecker::MouseToPhysicsChecker(QPointF center, std::function<bool(QPointF, PhysicsGameObject*)> modelCallback) :
