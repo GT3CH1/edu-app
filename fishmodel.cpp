@@ -313,8 +313,6 @@ FishModel::~FishModel()
 {
 	for(GameObject* gameObject : gameObjects)
 		delete gameObject;
-	for(auto pair : gameObjectMap)
-		delete pair.second;
 }
 
 /**
