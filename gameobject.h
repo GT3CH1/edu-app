@@ -15,13 +15,15 @@ protected:
 
 	std::string name;
 	QImage graphic;
+	int renderLayer;
 public:
 	GameObject();
-	GameObject(std::string name, QPointF, double, QPointF scale, QImage);
+	GameObject(std::string name, QPointF, double, QPointF scale, QImage, int);
 	QPointF getLocation();
 	double getRotation();
 	QPointF getScale();
 	QImage getGraphic();
+	int getLayer();
 	std::string getName();
 	virtual void updateObject(float);
 };

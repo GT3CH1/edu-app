@@ -1,6 +1,6 @@
 /**
  * Authors - William Erignac
- * Last Modified - 12/3/2021
+ * Last Modified - 12/9/2021
  *
  * A GameObject with a physics body.
  */
@@ -18,8 +18,8 @@
  * to the physics world. The FishModel must first create a body for
  * the PhysicsGameObject using bodyDef.
  */
-PhysicsGameObject::PhysicsGameObject(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef _bodyDef, QImage toRender) :
-	GameObject(name, position, rotation, scale, toRender)
+PhysicsGameObject::PhysicsGameObject(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef _bodyDef, QImage toRender, int layer) :
+	GameObject(name, position, rotation, scale, toRender, layer)
 {
 	bodyDef = _bodyDef;
 	isDynamic = bodyDef.type == b2_dynamicBody;
@@ -53,9 +53,16 @@ void PhysicsGameObject::setBody(b2Body* newBody)
 
 /**
  * @brief Returns the body of this object.
- * NOTE: This method should only be called by the FishModel.
  */
 b2Body* PhysicsGameObject::getBody(){return body;}
+
+/**
+ * @brief Returns whether this object does something when clicked on.
+ */
+bool PhysicsGameObject::getIsClickable()
+{
+	return clickable;
+}
 
 /**
  * @brief Aligns the object's position and rotation

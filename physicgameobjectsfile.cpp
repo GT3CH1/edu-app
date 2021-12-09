@@ -220,7 +220,7 @@ void Tank::seWaterLevel(bool newWaterLevel)
 }
 
 Countertop::Countertop(double rotation)
-: PhysicsGameObject("countertop",QPointF(0,-5),rotation,QPointF(20,0.5),PhysicsGameObject::createBodyDef(b2_staticBody),QImage(":/res/counter.png")){
+: PhysicsGameObject("countertop",QPointF(0,-5),rotation,QPointF(20,0.5),createBodyDef(b2_staticBody),QImage(":/res/counter.png")){
 
 }
 

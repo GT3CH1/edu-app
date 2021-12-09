@@ -1,6 +1,6 @@
 /**
  * Authors - William Erignac
- * Last Modified - 12/3/2021
+ * Last Modified - 12/8/2021
  *
  * The FishTank is a static, rectangular GameObject with 3 sides
  * and a sensor in the middle.
@@ -14,7 +14,7 @@
  * construction, only a definition.
  */
 FishTank::FishTank(std::string name, QPointF position, double rotation, QPointF scale) :
-	PhysicsGameObject(name, position, rotation, scale, constructBodyDefinition(), QImage(":/res/simpleTank.png"))
+	PhysicsGameObject(name, position, rotation, scale, constructBodyDefinition(), QImage(":/res/simpleTank.png"),0)
 { }
 
 /**

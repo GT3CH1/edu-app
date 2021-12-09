@@ -46,11 +46,10 @@ private:
 	class MouseToPhysicsChecker : public b2QueryCallback
 	{
 	private:
-		QPointF center;
-		std::function<bool(QPointF, PhysicsGameObject*)> callback;
+		PhysicsGameObject* greatestLayer = nullptr;
 	public:
-		MouseToPhysicsChecker(QPointF center, std::function<bool(QPointF, PhysicsGameObject*)> modelCallback);
 		virtual bool ReportFixture(b2Fixture* hit);
+		PhysicsGameObject* reportFrontmostObject();
 	};
 
 	bool mouseClickProcess(QPointF, PhysicsGameObject*);

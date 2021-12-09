@@ -1,6 +1,6 @@
 /**
  * Authors - Alex Richins, William Erignac
- * Last Modified - 12/3/2021
+ * Last Modified - 12/8/2021
  *
  * A standard object in the game engine. A GameObject
  * always has at least a transformation (loc,rot,scale)
@@ -19,12 +19,13 @@ GameObject::GameObject() : name("default"), graphic(QImage(":/res/stinkyMonkey.p
  * @param name The names of all GameObjects should be unique.
  * @param _rotation The rotation of the object in degrees.
  */
-GameObject::GameObject(std::string name, QPointF _position, double _rotation, QPointF _scale, QImage graphic) :
+GameObject::GameObject(std::string name, QPointF _position, double _rotation, QPointF _scale, QImage graphic, int layer) :
 	name(name),
 	position(_position.x(), _position.y()),
 	rotation(_rotation),
 	scale(_scale.x(), _scale.y()),
-	graphic(graphic)
+	graphic(graphic),
+	renderLayer(layer)
 { }
 
 /**
@@ -62,6 +63,14 @@ QPointF GameObject::getScale()
  */
 QImage GameObject::getGraphic(){
 	return graphic;
+}
+
+/**
+ * @brief Returns the order that this object should be rendered int.
+ */
+int GameObject::getLayer()
+{
+	return renderLayer;
 }
 
 /**
