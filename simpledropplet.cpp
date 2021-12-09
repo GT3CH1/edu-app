@@ -1,6 +1,6 @@
 /**
  * Authors - William Erignac
- * Last Modified - 12/3/2021
+ * Last Modified - 12/9/2021
  *
  * A water droplet (a circular rigidbody).
  */
@@ -13,8 +13,8 @@
  * All IDs for dropplets should be unique.
  */
 SimpleDropplet::SimpleDropplet(int id, QPointF position, double rotation, QPointF scale) :
-	PhysicsGameObject("SimpleDropplet " + std::to_string(id), position, rotation, scale, constructBodyDefinition(), QImage(":/res/simpleDropplet.png"))
-{ }
+	PhysicsGameObject("SimpleDropplet " + std::to_string(id), position, rotation, scale, constructBodyDefinition(), QImage(":/res/simpleDropplet.png"),1)
+{ clickable = false; }
 
 /**
  * @brief Returns a dynamic body type.

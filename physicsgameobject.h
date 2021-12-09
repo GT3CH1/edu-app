@@ -9,10 +9,12 @@ protected:
 	bool isDynamic;
 	b2Body* body;
 	b2BodyDef bodyDef;
+	bool clickable = true;
 public:
-	PhysicsGameObject(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef, QImage);
+	PhysicsGameObject(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef, QImage, int layer =1);
 	b2BodyDef getBodyDef();
 	b2Body* getBody();
+	bool getIsClickable();
 	static b2BodyDef createBodyDef(b2BodyType);
 	virtual void setBody(b2Body* newBody);
 	virtual void updateObject(float);

@@ -27,6 +27,7 @@ set(PROJECT_SOURCES
         gameobject.cpp
         sprites.qrc
         objectrenderinformation.h
+								objectrenderinformation.cpp
         monkeygameobject.cpp
         monkeygameobject.h
         callbackoptions.h

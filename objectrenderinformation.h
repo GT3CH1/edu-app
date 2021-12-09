@@ -15,10 +15,16 @@
 struct ObjectRenderInformation
 {
 public:
-	const QPointF position;
-	const double rotation;
-	const QPointF scale;
-	const QImage toRender;
+	QPointF position;
+	double rotation;
+	QPointF scale;
+	QImage toRender;
+	int renderLayer;
+	int id;
+
+	bool operator==(const ObjectRenderInformation& other) const;
+	bool operator>(const ObjectRenderInformation& other) const;
+	bool operator<(const ObjectRenderInformation& other) const;
 };
 
 #endif // OBJECTRENDERINFORMATION_H

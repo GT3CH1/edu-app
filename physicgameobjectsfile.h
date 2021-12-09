@@ -6,7 +6,6 @@
 /**
  * @brief All the needed PhysicsGameObjects for the model
  */
-
 class Bowl : public PhysicsGameObject
 {
 public:
@@ -93,7 +92,11 @@ public:
 class Fish : public PhysicsGameObject
 {
 public:
-	Fish(std::string name, QPointF position, double rotation, QPointF scale, QImage image);
+	Fish(std::string name = "Jim Carey",
+		 QPointF position = QPointF(0,-2),
+		 double rotation = 0,
+		 QPointF scale = QPointF(2,2),
+		 QImage image = QImage(":/res/simple_fish.png"));
 	bool getInTank();
 	void setInTank(bool newInTank);
 
@@ -103,7 +106,10 @@ private:
 
 class Tank : public PhysicsGameObject{
 public:
-	Tank(std::string name, QPointF position, double rotation, QPointF scale);
+	Tank(std::string name = "tank",
+		 QPointF position = QPointF(0,10),
+		 double rotation = 0,
+		 QPointF scale = QPointF(10,5));
 	bool getWaterLevel();
 	void seWaterLevel(bool newWaterLevel);
 	virtual void setBody(b2Body* newBody);

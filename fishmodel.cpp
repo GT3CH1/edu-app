@@ -14,6 +14,8 @@
 #include <QPainter>
 #include <QPen>
 #include <cmath>
+#include <queue>
+#include <functional>
 
 /**
  * @brief Constructs the game engine with a default scene.
@@ -178,7 +180,7 @@ void FishModel::updateGameObjects(){
 	}
 
 	//Renderable collects the render data of all active objects.
-	std::vector<ObjectRenderInformation> renderables;
+	std::priority_queue<ObjectRenderInformation, std::vector<ObjectRenderInformation>, std::greater<ObjectRenderInformation>> renderables;
 	//Hitboxes collects the render data of all fixtures (only used when debug is true).
 	std::vector<ObjectRenderInformation> hitBoxes;
 
@@ -187,13 +189,17 @@ void FishModel::updateGameObjects(){
 		//Update all GameObjects once per frame.
 		gameObject->updateObject(deltaTime);
 
-		ObjectRenderInformation renderInfo {gameObject->getLocation(), gameObject->getRotation(), gameObject->getScale(), gameObject->getGraphic()};
-		renderables.push_back(renderInfo);
+		int hashCode = std::hash<std::string>()(gameObject->getName());
+
+		ObjectRenderInformation renderInfo {gameObject->getLocation(), gameObject->getRotation(), gameObject->getScale(), gameObject->getGraphic(), gameObject->getLayer(), hashCode};
+		renderables.push(renderInfo);
 		auto* toPhysics = dynamic_cast<PhysicsGameObject*>(gameObject);
 
 		//If we're debugging we want to render fixtures.
 		if (debug && toPhysics)
 		{
+			//Fixtures can only be in PhysicsGameObjects.
+			auto* toPhysics = dynamic_cast<PhysicsGameObject*>(gameObject);
 			b2Fixture *fixture = toPhysics->getBody()->GetFixtureList();//Render all fixtures of the current object.
 			while (fixture != nullptr) {
 				b2Shape *shape = fixture->GetShape();
@@ -215,17 +221,23 @@ void FishModel::updateGameObjects(){
 				                                     fixtureImage};
 				hitBoxes.push_back(hitBoxRender);
 
-				fixture = fixture->GetNext();
+					fixture = fixture->GetNext();
 			}
 		}
 	}
+	std::vector<ObjectRenderInformation> allRenderables;
+
 	//Compiles all things to render together (on release, this loop will be ignored).
-	for(ObjectRenderInformation& hitBox : hitBoxes)
+	while(!renderables.empty())
 	{
-		renderables.push_back(hitBox);
+		allRenderables.push_back(renderables.top());
+		renderables.pop();
 	}
 
-	emit renderGameObjects(renderables);
+	for(ObjectRenderInformation hitBox : hitBoxes)
+		allRenderables.push_back(hitBox);
+
+	emit renderGameObjects(allRenderables);
 }
 
 /**
@@ -347,8 +359,8 @@ void FishModel::setScene(SCENE_STATE scene)
 {
 	removeAllGameObjects();
 	currentScene = scene;
-	auto tank = new Tank("simpleTank", QPointF(0, 10), 0, QPointF(10, 5));
-	auto background = new GameObject("background",QPointF(0,0),0,QPointF(20,14),QImage(":/res/background.png"));
+	auto tank = new Tank();
+	auto background = new GameObject("background",QPointF(0,0),0,QPointF(20,14),QImage(":/res/background.png"),0);
 	addGameObjectToScene(background);
 	addGameObjectToScene(new Filter());
 	addGameObjectToScene(new WaterPump());
@@ -359,23 +371,23 @@ void FishModel::setScene(SCENE_STATE scene)
 		case WATER_CHANGE : {
 			addGameObjectToScene(new Clock());
 			addGameObjectToScene(new Bowl());
-			addGameObjectToScene(new Fish("Jim Carey",QPointF(0,-2),0,QPointF(2,2),QImage(":/res/simple_fish.png")));
+			addGameObjectToScene(new Fish());
 			//TODO: spigot
 			addGameObjectToScene(new Siphon());
 			break;
 		}
 		case FILTER_CHANGE :
-			addGameObjectToScene(new Fish("Jim Carey",QPointF(0,-2),0,QPointF(2,2),QImage(":/res/simple_fish.png")));
+			addGameObjectToScene(new Fish());
 			break;
 
 		case FEEDING :
-			addGameObjectToScene(new Fish("Jim Carey",QPointF(0,-2),0,QPointF(2,2),QImage(":/res/simple_fish.png")));
+			addGameObjectToScene(new Fish());
 			// food container
 			// lots of food
 			break;
 
 		case ADD_FISH :
-			addGameObjectToScene(new Fish("Jim Carey",QPointF(0,-2),0,QPointF(2,2),QImage(":/res/simple_fish.png")));
+			addGameObjectToScene(new Fish());
 			break;
 
 		case PREPARE_TANK :
@@ -393,13 +405,23 @@ void FishModel::setScene(SCENE_STATE scene)
 	}
 }
 
-FishModel::MouseToPhysicsChecker::MouseToPhysicsChecker(QPointF center, std::function<bool(QPointF, PhysicsGameObject*)> modelCallback) :
-	center(center), callback(modelCallback){}
-
 bool FishModel::MouseToPhysicsChecker::ReportFixture(b2Fixture* fixture)
 {
 	PhysicsGameObject* gameObject = (PhysicsGameObject*) fixture->GetBody()->GetUserData();
-	return callback(center, gameObject);
+	if (gameObject->getIsClickable())
+	{
+		if (greatestLayer == nullptr)
+			greatestLayer = gameObject;
+		else if (greatestLayer->getLayer() < gameObject->getLayer())
+			greatestLayer = gameObject;
+	}
+
+	return true;
+}
+
+PhysicsGameObject* FishModel::MouseToPhysicsChecker::reportFrontmostObject()
+{
+	return greatestLayer;
 }
 
 /**
@@ -411,7 +433,7 @@ void FishModel::mouseClick(QPointF position)
 	//Set up the callback that processes detected fixtures.
 	b2Vec2 positionAsVector(position.x(), position.y());
 	std::function<bool(QPointF, PhysicsGameObject*)> callBack = [&](QPointF center, PhysicsGameObject* gameObject){return this->mouseClickProcess(center, gameObject);};
-	MouseToPhysicsChecker checker(position, callBack);
+	MouseToPhysicsChecker checker;
 
 	//Define the area of the cursor.
 	b2AABB areaToCheck;
@@ -419,6 +441,11 @@ void FishModel::mouseClick(QPointF position)
 	areaToCheck.lowerBound.Set(position.x(), position.y());
 
 	physicsWorld.QueryAABB(&checker, areaToCheck);
+
+	PhysicsGameObject* toClick = checker.reportFrontmostObject();
+
+	if (toClick != nullptr)
+		mouseClickProcess(position, toClick);
 }
 
 /**
@@ -443,7 +470,10 @@ void FishModel::mouseHold(QPointF position)
 {
 	if (holdObject != nullptr)
 	{
-		holdObject->onMouseHold(position);
+		if (holdObject->getIsClickable())
+			holdObject->onMouseHold(position);
+		else
+			holdObject = nullptr;
 	}
 }
 
@@ -456,7 +486,8 @@ void FishModel::mouseRelease(QPointF position)
 {
 	if (holdObject != nullptr)
 	{
-		holdObject->onMouseRelease(position);
+		if (holdObject->getIsClickable())
+			holdObject->onMouseRelease(position);
 		holdObject = nullptr;
 	}
 }
