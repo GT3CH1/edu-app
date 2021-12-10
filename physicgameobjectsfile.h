@@ -107,8 +107,8 @@ private:
 class Tank : public PhysicsGameObject{
 public:
 	Tank(std::string name = "tank",
-		 QPointF position = QPointF(0,10),
-		 double rotation = 0,
+		 QPointF position = QPointF(4.5,10),
+		 double rotation = -10,
 		 QPointF scale = QPointF(10,5));
 	bool getWaterLevel();
 	void seWaterLevel(bool newWaterLevel);
