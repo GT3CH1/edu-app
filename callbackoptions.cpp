@@ -2,9 +2,13 @@
 #include <functional>
 #include <string>
 
-CallbackOptions::CallbackOptions(std::function<GameObject*(std::string name)> getGameObject, std::function<void(GameObject&)> addGameObject, std::function<void(std::string)> deleteGameObject)
+CallbackOptions::CallbackOptions(std::function<void*(std::string name)> getGameObject, std::function<void(void*)> addGameObject, std::function<void(std::string)> deleteGameObject)
 {
-	getGameObject = getGameObject;
-	addGameObject = addGameObject;
-	deleteGameObject = deleteGameObject;
+	this->getGameObject = getGameObject;
+	this->addGameObject = addGameObject;
+	this->deleteGameObject = deleteGameObject;
+}
+
+CallbackOptions::CallbackOptions()
+{
 }

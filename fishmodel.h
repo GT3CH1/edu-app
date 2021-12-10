@@ -32,6 +32,10 @@ private:
 	void deleteGameObject(std::string objectName);
 	void addBodyToWorld(PhysicsGameObject *toAdd);
 
+	std::function<void*(std::string)> getGameObjectLambda;
+	std::function<void(void*)> addGameObjectLambda;
+	std::function<void(std::string)> deleteGameObjectLambda;
+
 	std::list<Quest*> quests;
 	void createQuests();
 
@@ -42,6 +46,7 @@ private:
 	SCENE_STATE currentScene = PREPARE_TANK;
 	void setScene(SCENE_STATE currentScene);
 	QImage getColliderShape(b2Shape* shape, QColor penColor, QPointF& translation, QPointF& scale);
+	CallbackOptions constructCallbackOptions();
 
 	class MouseToPhysicsChecker : public b2QueryCallback
 	{

@@ -23,6 +23,10 @@
  */
 FishModel::FishModel(float _deltaTime) : deltaTime(_deltaTime), physicsWorld(b2Vec2(0.0f, -10.0f / 10))
 {
+	getGameObjectLambda = [=](std::string name) {return this->getGameObject(name);};
+	addGameObjectLambda = [=](void* toAdd) {this->addGameObjectToScene((GameObject*)toAdd);};
+	deleteGameObjectLambda = [=](std::string name) {this->deleteGameObject(name);};
+
 	{
 		PhysicsGameObject* dropplet = new SimpleDropplet(1, QPointF(0,0), 0, QPointF(1,1));
 		addGameObjectToScene(dropplet);
@@ -96,6 +100,12 @@ void FishModel::createQuests()
 	quests.push_back(fillTank6);
 }
 
+CallbackOptions FishModel::constructCallbackOptions()
+{
+	CallbackOptions options(getGameObjectLambda, addGameObjectLambda, deleteGameObjectLambda);
+	return options;
+}
+
 /**
  * @brief Adds a GameObject to the active scene.
  */
@@ -103,6 +113,9 @@ void FishModel::addGameObjectToScene(GameObject *toAdd)
 {
 	gameObjects.push_back(toAdd);
 	gameObjectMap.emplace(toAdd->getName(), toAdd);
+
+	CallbackOptions options = constructCallbackOptions();
+	toAdd->setCallbacks(options);
 
 	auto* toAddPhysics = dynamic_cast<PhysicsGameObject*>(toAdd);
 	if (toAddPhysics != nullptr)

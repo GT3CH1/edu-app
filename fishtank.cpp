@@ -14,7 +14,7 @@
  * construction, only a definition.
  */
 FishTank::FishTank(std::string name, QPointF position, double rotation, QPointF scale) :
-	PhysicsGameObject(name, position, rotation, scale, constructBodyDefinition(), QImage(":/res/simpleTank.png"),0)
+	AdvancedPhysicsGameObject(name, position, rotation, scale, constructBodyDefinition(), QImage(":/res/simpleTank.png"))
 { }
 
 /**
@@ -77,15 +77,6 @@ void FishTank::setBody(b2Body* newBody)
 
 	//THIS MUST ALWAYS BE CALLED AT THE END OF A SETBODY FOR ANY PHYSICSGAMEOBJECT.
 	PhysicsGameObject::setBody(newBody);
-}
-
-/**
- * @brief Detects whether any objects have entered the tank and prints
- * the names of the objects.
- */
-void FishTank::onSensor(b2Contact* collision, bool isA, PhysicsGameObject* other)
-{
-//    std::cout << "I sensed object " << other->getName() << std::endl;
 }
 
 /**
