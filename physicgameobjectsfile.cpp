@@ -169,16 +169,21 @@ void Tank::setBody(b2Body* newBody)
 	b2FixtureDef hitBoxDefinition;
 	hitBoxDefinition.shape = &sensorShape;
 	hitBoxDefinition.isSensor = true;
+	hitBoxDefinition.density = 1;
+	hitBoxDefinition.friction = 1;
 
 	newBody->CreateFixture(&hitBoxDefinition);
 
 	//Make the bottom...
 	b2PolygonShape bottomShape;
-	bottomShape.SetAsBox(5,0.25,b2Vec2(0,0),0);
+	bottomShape.SetAsBox(5,0.25,b2Vec2(0,-2),0);
 
 	b2FixtureDef bottomFixture;
 	bottomFixture.shape = &bottomShape;
 	bottomFixture.isSensor = false;
+	bottomFixture.density = 1;
+	bottomFixture.friction = 1;
+	bottomFixture.restitution = 0.25;
 
 	newBody->CreateFixture(&bottomFixture);
 
@@ -190,6 +195,10 @@ void Tank::setBody(b2Body* newBody)
 		b2FixtureDef wallFixture;
 		wallFixture.shape = &wall;
 		wallFixture.isSensor = false;
+		wallFixture.density = 1;
+		wallFixture.friction = 1;
+		wallFixture.restitution = 0.25;
+
 
 		newBody->CreateFixture(&wallFixture);
 	}
@@ -202,9 +211,13 @@ void Tank::setBody(b2Body* newBody)
 		b2FixtureDef wallFixture;
 		wallFixture.shape = &wall;
 		wallFixture.isSensor = false;
+		wallFixture.density = 1;
+		wallFixture.friction = 1;
+		wallFixture.restitution = 0.25;
 
 		newBody->CreateFixture(&wallFixture);
 	}
+	newBody->SetAngularDamping(0);
 
 	//THIS MUST ALWAYS BE CALLED AT THE END OF A SETBODY FOR ANY PHYSICSGAMEOBJECT.
 	PhysicsGameObject::setBody(newBody);
@@ -231,6 +244,8 @@ void Countertop::setBody(b2Body *newBody) {
 		b2FixtureDef wallFixture;
 		wallFixture.shape = &wall;
 		wallFixture.isSensor = false;
+		wallFixture.friction = 1;
+		wallFixture.restitution = 0.1;
 
 		newBody->CreateFixture(&wallFixture);
 		PhysicsGameObject::setBody(newBody);

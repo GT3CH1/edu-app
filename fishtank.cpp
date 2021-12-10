@@ -30,6 +30,8 @@ void FishTank::setBody(b2Body* newBody)
 	b2FixtureDef hitBoxDefinition;
 	hitBoxDefinition.shape = &sensorShape;
 	hitBoxDefinition.isSensor = true;
+	hitBoxDefinition.density = 1;
+	hitBoxDefinition.friction = 1;
 
 	newBody->CreateFixture(&hitBoxDefinition);
 
@@ -40,6 +42,8 @@ void FishTank::setBody(b2Body* newBody)
 	b2FixtureDef bottomFixture;
 	bottomFixture.shape = &bottomShape;
 	bottomFixture.isSensor = false;
+	bottomFixture.density = 1;
+	bottomFixture.friction = 1;
 
 	newBody->CreateFixture(&bottomFixture);
 
@@ -51,6 +55,8 @@ void FishTank::setBody(b2Body* newBody)
 		b2FixtureDef wallFixture;
 		wallFixture.shape = &wall;
 		wallFixture.isSensor = false;
+		wallFixture.density = 1;
+		wallFixture.friction = 1;
 
 		newBody->CreateFixture(&wallFixture);
 	}
@@ -63,6 +69,8 @@ void FishTank::setBody(b2Body* newBody)
 		b2FixtureDef wallFixture;
 		wallFixture.shape = &wall;
 		wallFixture.isSensor = false;
+		wallFixture.density = 1;
+		wallFixture.friction = 1;
 
 		newBody->CreateFixture(&wallFixture);
 	}

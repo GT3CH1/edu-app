@@ -13,7 +13,7 @@
  * All IDs for dropplets should be unique.
  */
 SimpleDropplet::SimpleDropplet(int id, QPointF position, double rotation, QPointF scale) :
-	PhysicsGameObject("SimpleDropplet " + std::to_string(id), position, rotation, scale, constructBodyDefinition(), QImage(":/res/simpleDropplet.png"),1)
+	PhysicsGameObject("SimpleDropplet " + std::to_string(id), position, rotation, scale, constructBodyDefinition(), QImage(":/res/simpleDropplet.png"),100)
 { clickable = false; }
 
 /**
@@ -38,10 +38,10 @@ void SimpleDropplet::setBody(b2Body *newBody)
 	b2FixtureDef hitBoxDefinition;
 
 	hitBoxDefinition.shape = &hitBoxShape;
-	hitBoxDefinition.density = 1;
+	hitBoxDefinition.density = 10;
 	hitBoxDefinition.isSensor = false;
-	hitBoxDefinition.friction = 0.5;
-	hitBoxDefinition.restitution = 0.9;
+	hitBoxDefinition.friction = 10;
+	hitBoxDefinition.restitution = 0.0;
 
 	newBody->CreateFixture(&hitBoxDefinition);
 

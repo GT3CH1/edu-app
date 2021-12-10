@@ -35,7 +35,7 @@ private:
 	std::list<Quest*> quests;
 	void createQuests();
 
-	bool debug = false;
+	bool debug = true;
 
 	QImage getColliderShape(b2Shape *shape, QColor penColor, QPointF &translation);
 	// The current scene to draw

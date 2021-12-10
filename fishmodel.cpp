@@ -216,8 +216,11 @@ void FishModel::updateGameObjects(){
 				QImage fixtureImage = getColliderShape(shape, color, fixtureTranslation, scale);
 
 				QPointF pos(toPhysics->getBody()->GetPosition().x, toPhysics->getBody()->GetPosition().y);
-				pos += fixtureTranslation;
-				ObjectRenderInformation hitBoxRender{pos, toPhysics->getBody()->GetAngle() * 180 / M_PI, scale,
+				float angle = toPhysics->getBody()->GetAngle();
+				QPointF rotatedTranslation(fixtureTranslation.x()*cos(angle) - fixtureTranslation.y()*sin(angle),
+										  fixtureTranslation.x()*sin(angle) + fixtureTranslation.y()*cos(angle));
+				pos += rotatedTranslation;
+				ObjectRenderInformation hitBoxRender{pos, angle* 180 / M_PI, scale,
 				                                     fixtureImage};
 				hitBoxes.push_back(hitBoxRender);
 
