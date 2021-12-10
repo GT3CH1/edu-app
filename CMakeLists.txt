@@ -35,6 +35,8 @@ set(PROJECT_SOURCES
         dialogue.h
         physicsgameobject.h
         physicsgameobject.cpp
+								advancedphysicsgameobject.h
+								advancedphysicsgameobject.cpp
         simpledropplet.h
         simpledropplet.cpp
         fishtank.cpp

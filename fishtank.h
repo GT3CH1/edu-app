@@ -1,14 +1,13 @@
 #ifndef FISHTANK_H
 #define FISHTANK_H
 
-#include "physicsgameobject.h"
+#include "advancedphysicsgameobject.h"
 
-class FishTank : public PhysicsGameObject
+class FishTank : public AdvancedPhysicsGameObject
 {
 public:
 	FishTank(std::string name, QPointF position, double rotation, QPointF scale);
 	virtual void setBody(b2Body* newBody);
-	virtual void onSensor(b2Contact* collision, bool isA, PhysicsGameObject* other);
 private:
 	static b2BodyDef constructBodyDefinition();
 };

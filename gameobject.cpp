@@ -29,6 +29,16 @@ GameObject::GameObject(std::string name, QPointF _position, double _rotation, QP
 { }
 
 /**
+ * @brief Assign the methods that this object can use
+ * to affect / get information from the model.
+ * NOTE: To be used by the model.
+ */
+void GameObject::setCallbacks(CallbackOptions _callbackOptions)
+{
+	this->callbackOptions = _callbackOptions;
+}
+
+/**
  * @brief Returns the location of this GameObject
  * in the active scene.
  * NOTE: The origin of the scene is at (0,0) at the center of
@@ -88,3 +98,8 @@ std::string GameObject::getName()
  * last update call.
  */
 void GameObject::updateObject(float deltaTime){ }
+
+GameObject::~GameObject()
+{
+	//delete callbackOptions;
+}
