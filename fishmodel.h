@@ -9,7 +9,7 @@
 #include "monkeygameobject.h"
 #include <Box2D/Box2D.h>
 #include "physicsgameobject.h"
-#include "functional"
+#include <functional>
 #include "questsfile.h"
 
 class FishModel : public QObject {
@@ -68,6 +68,17 @@ public:
 	FishModel(float deltaTime);
 	~FishModel();
 
+	struct CollisionEntry
+	{
+	public:
+		CollisionEntry(PhysicsGameObject* first, PhysicsGameObject* second);
+		size_t hashCode() const;
+		bool operator==(const CollisionEntry& other) const;
+	private:
+		const PhysicsGameObject* a;
+		const PhysicsGameObject* b;
+	};
+
 public slots:
 	void updateGameObjects();
 	void mouseClick(QPointF);
@@ -78,5 +89,20 @@ public slots:
 signals:
 	void renderGameObjects(std::vector<ObjectRenderInformation> renderables);
 };
+
+namespace std {
+template<>
+/**
+ * @brief Needed for unordered_set of CollisionEntries.
+ */
+struct hash<FishModel::CollisionEntry>
+{
+public:
+	size_t operator()(const FishModel::CollisionEntry& toHash) const
+	{
+		return toHash.hashCode();
+	}
+};
+}
 
 #endif // FISHMODEL_H

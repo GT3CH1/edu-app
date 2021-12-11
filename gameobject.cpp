@@ -86,7 +86,7 @@ int GameObject::getLayer()
 /**
  * @brief Returns the name of this object.
  */
-std::string GameObject::getName()
+std::string GameObject::getName() const
 {
 	return name;
 }
