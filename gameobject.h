@@ -5,7 +5,7 @@
 #include <QImage>
 #include <string>
 #include <Box2D/Box2D.h>
-#include "callbackoptions.h"
+#include <callbackoptions.h>
 
 class GameObject
 {
@@ -13,7 +13,6 @@ protected:
 	b2Vec2 position;
 	b2Vec2 scale;
 	double rotation;
-
 	std::string name;
 	QImage graphic;
 	int renderLayer;

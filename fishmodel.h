@@ -31,10 +31,14 @@ private:
 	GameObject *getGameObject(std::string objectName);
 	void deleteGameObject(std::string objectName);
 	void addBodyToWorld(PhysicsGameObject *toAdd);
+	b2Joint* addJoint(b2JointDef* jointDefinition);
+	void destroyJoint(b2Joint* toDestory);
 
 	std::function<void*(std::string)> getGameObjectLambda;
 	std::function<void(void*)> addGameObjectLambda;
 	std::function<void(std::string)> deleteGameObjectLambda;
+	std::function<b2Joint*(b2JointDef*)> addJointLambda;
+	std::function<void(b2Joint* toDestory)> destroyJointLambda;
 
 	std::list<Quest*> quests;
 	void createQuests();

@@ -15,7 +15,7 @@
  */
 FishTank::FishTank(std::string name, QPointF position, double rotation, QPointF scale) :
 	AdvancedPhysicsGameObject(name, position, rotation, scale, constructBodyDefinition(), QImage(":/res/simpleTank.png"))
-{ }
+{}
 
 /**
  * @brief Assigns this FishTank a body and adds the 3 walls

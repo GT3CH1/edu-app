@@ -27,7 +27,7 @@ set(PROJECT_SOURCES
         gameobject.cpp
         sprites.qrc
         objectrenderinformation.h
-								objectrenderinformation.cpp
+        objectrenderinformation.cpp
         monkeygameobject.cpp
         monkeygameobject.h
         callbackoptions.h
@@ -35,8 +35,12 @@ set(PROJECT_SOURCES
         dialogue.h
         physicsgameobject.h
         physicsgameobject.cpp
-								advancedphysicsgameobject.h
-								advancedphysicsgameobject.cpp
+        advancedphysicsgameobject.h
+        advancedphysicsgameobject.cpp
+        dragable.h
+        dragable.cpp
+        simpledragable.h
+        simpledragable.cpp
         simpledropplet.h
         simpledropplet.cpp
         fishtank.cpp
