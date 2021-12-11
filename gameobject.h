@@ -26,7 +26,7 @@ public:
 	QPointF getScale();
 	QImage getGraphic();
 	int getLayer();
-	std::string getName();
+	std::string getName() const;
 	virtual void updateObject(float);
 	~GameObject();
 };

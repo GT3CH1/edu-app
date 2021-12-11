@@ -17,6 +17,8 @@
 #include <cmath>
 #include <functional>
 #include <queue>
+#include <unordered_set>
+#include <QDebug>
 
 /**
  * @brief Constructs the game engine with a default scene.
@@ -172,6 +174,40 @@ void FishModel::destroyJoint(b2Joint *toDestory)
 }
 
 /**
+ * @brief Collision entries are used to tell whether two
+ * objects have already collided.
+ */
+FishModel::CollisionEntry::CollisionEntry(PhysicsGameObject* first, PhysicsGameObject* second)
+{
+	if (first->getName() > second->getName())
+	{
+		a = first;
+		b = second;
+	}
+	else
+	{
+		a = second;
+		b = first;
+	}
+}
+
+/**
+ * @brief Used for unordered_set of CollisionEntries.
+ */
+size_t FishModel::CollisionEntry::hashCode() const
+{
+	return	std::hash<std::string>()(a->getName());
+}
+
+/**
+ * @brief Used for unordered_set of CollisionEntries.
+ */
+bool FishModel::CollisionEntry::operator==(const CollisionEntry& other) const
+{
+	return a == other.a && b == other.b;
+}
+
+/**
  * @brief Updates the active scene and sends all the objects
  * that need to be rendered at the end.
  */
@@ -183,6 +219,8 @@ void FishModel::updateGameObjects(){
 	b2Contact* contact =  physicsWorld.GetContactList();
 	int contactCount = physicsWorld.GetContactCount();
 
+	std::unordered_set<CollisionEntry> entries;
+
 	for(int i = 0; i < contactCount; i++)
 	{
 		b2Fixture* fixtureA = contact->GetFixtureA();
@@ -191,15 +229,21 @@ void FishModel::updateGameObjects(){
 		auto* gameObjectA = (PhysicsGameObject*) fixtureA->GetBody()->GetUserData();
 		auto* gameObjectB = (PhysicsGameObject*) fixtureB->GetBody()->GetUserData();
 
+		CollisionEntry entry(gameObjectA, gameObjectB);
 
-		if(fixtureA->IsSensor())
-			gameObjectA->onSensor(contact, true, gameObjectB);
-		if(fixtureB->IsSensor())
-			gameObjectB->onSensor(contact, false, gameObjectA);
-		if(!(fixtureA->IsSensor() || fixtureB->IsSensor()))
+		if (entries.count(entry) == 0)
 		{
-			gameObjectA->onCollision(contact, true, gameObjectB);
-			gameObjectB->onCollision(contact, false, gameObjectA);
+			entries.insert(entry);
+
+			if(fixtureA->IsSensor())
+				gameObjectA->onSensor(contact, true, gameObjectB);
+			if(fixtureB->IsSensor())
+				gameObjectB->onSensor(contact, false, gameObjectA);
+			if(!(fixtureA->IsSensor() || fixtureB->IsSensor()))
+			{
+				gameObjectA->onCollision(contact, true, gameObjectB);
+				gameObjectB->onCollision(contact, false, gameObjectA);
+			}
 		}
 
 		contact = contact->GetNext();
