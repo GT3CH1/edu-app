@@ -244,7 +244,7 @@ void Countertop::setBody(b2Body *newBody) {
 		b2FixtureDef wallFixture;
 		wallFixture.shape = &wall;
 		wallFixture.isSensor = false;
-		wallFixture.friction = 1;
+		wallFixture.friction = 0.01;
 		wallFixture.restitution = 0.1;
 
 		newBody->CreateFixture(&wallFixture);

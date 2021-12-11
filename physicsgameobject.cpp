@@ -112,9 +112,9 @@ void PhysicsGameObject::onSensor(b2Contact* collision, bool isA, PhysicsGameObje
  * if it's a sensor).
  * @param position The position that the object was clicked at.
  */
-void PhysicsGameObject::onMouseClick(QPointF position)
+void PhysicsGameObject::onMouseClick(QPointF mousePosition)
 {
-	//qDebug() << QString::fromStdString(name) << " was clicked at (" << position.x() << ", " << position.y() << ").";
+	qDebug() << QString::fromStdString(name) << " was clicked at (" << mousePosition.x() << ", " << mousePosition.y() << ").";
 }
 
 /**
@@ -126,7 +126,7 @@ void PhysicsGameObject::onMouseClick(QPointF position)
  * fixtures of the object for this to be called (click,
  * hold, move mouse off object still calls this method).
  */
-void PhysicsGameObject::onMouseHold(QPointF position)
+void PhysicsGameObject::onMouseHold(QPointF mousePosition)
 {
 	//qDebug() << QString::fromStdString(name) << " was held at (" << position.x() << ", " << position.y() << ").";
 }
@@ -139,7 +139,7 @@ void PhysicsGameObject::onMouseHold(QPointF position)
  * NOTE: The mouse doesn't have to be on one of the fixtures
  * of the object for this to be called.
  */
-void PhysicsGameObject::onMouseRelease(QPointF position)
+void PhysicsGameObject::onMouseRelease(QPointF mousePosition)
 {
 	//qDebug() << QString::fromStdString(name) << " was released at (" << position.x() << ", " << position.y() << ").";
 }

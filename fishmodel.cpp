@@ -9,13 +9,14 @@
 #include <QPoint>
 #include "physicsgameobject.h"
 #include "simpledropplet.h"
+#include "simpledragable.h"
 #include "fishtank.h"
 #include <iostream>
 #include <QPainter>
 #include <QPen>
 #include <cmath>
-#include <queue>
 #include <functional>
+#include <queue>
 
 /**
  * @brief Constructs the game engine with a default scene.
@@ -26,6 +27,8 @@ FishModel::FishModel(float _deltaTime) : deltaTime(_deltaTime), physicsWorld(b2V
 	getGameObjectLambda = [=](std::string name) {return this->getGameObject(name);};
 	addGameObjectLambda = [=](void* toAdd) {this->addGameObjectToScene((GameObject*)toAdd);};
 	deleteGameObjectLambda = [=](std::string name) {this->deleteGameObject(name);};
+	addJointLambda = [=](b2JointDef* def) {return this->addJoint(def);};
+	destroyJointLambda = [=](b2Joint* joint) {this->destroyJoint(joint);};
 
 	{
 		PhysicsGameObject* dropplet = new SimpleDropplet(1, QPointF(0,0), 0, QPointF(1,1));
@@ -102,7 +105,7 @@ void FishModel::createQuests()
 
 CallbackOptions FishModel::constructCallbackOptions()
 {
-	CallbackOptions options(getGameObjectLambda, addGameObjectLambda, deleteGameObjectLambda);
+	CallbackOptions options(getGameObjectLambda, addGameObjectLambda, deleteGameObjectLambda, addJointLambda, destroyJointLambda);
 	return options;
 }
 
@@ -156,6 +159,16 @@ void FishModel::addBodyToWorld(PhysicsGameObject* objectToAdd)
 	b2BodyDef bodyDef =  objectToAdd->getBodyDef();
 	b2Body* body = physicsWorld.CreateBody(&bodyDef);
 	objectToAdd->setBody(body);
+}
+
+b2Joint* FishModel::addJoint(b2JointDef *jointDefinition)
+{
+	return physicsWorld.CreateJoint(jointDefinition);
+}
+
+void FishModel::destroyJoint(b2Joint *toDestory)
+{
+	physicsWorld.DestroyJoint(toDestory);
 }
 
 /**
@@ -238,9 +251,37 @@ void FishModel::updateGameObjects(){
 				hitBoxes.push_back(hitBoxRender);
 
 					fixture = fixture->GetNext();
+				}
 			}
 		}
+
+	b2Joint* joint = physicsWorld.GetJointList();
+
+	while(debug && joint != nullptr)
+	{
+		b2DistanceJoint* spring = dynamic_cast<b2DistanceJoint*>(joint);
+		if (spring)
+		{
+			b2Vec2 coordinateA = spring->GetLocalAnchorA() + spring->GetBodyA()->GetPosition();
+			b2Vec2 coordinateB = spring->GetLocalAnchorB() + spring->GetBodyB()->GetPosition();
+			b2Vec2 dimensions(abs(coordinateA.x - coordinateB.x), abs(coordinateA.y - coordinateB.y));
+			b2Vec2 center((coordinateA.x + coordinateB.x)/2, (coordinateA.y + coordinateB.y)/2);
+
+			QImage image(dimensions.x*20+1, dimensions.y*20+1, QImage::Format::Format_RGBA64);
+			image.fill(Qt::transparent);
+			QPainter painter(&image);
+			painter.setPen(Qt::yellow);
+			painter.drawLine((coordinateA.x - center.x)*20 + image.width()/2
+							 , -(coordinateA.y - center.y)*20 + image.height()/2
+							 , (coordinateB.x - center.x)*20 + image.width()/2,
+							 -(coordinateB.y - center.y)*20 + image.height()/2);
+			painter.end();
+			ObjectRenderInformation info {QPointF(center.x, center.y), 0, QPointF(dimensions.x, dimensions.y), image};
+			hitBoxes.push_back(info);
+		}
+		joint = joint->GetNext();
 	}
+
 	std::vector<ObjectRenderInformation> allRenderables;
 
 	//Compiles all things to render together (on release, this loop will be ignored).
@@ -411,6 +452,10 @@ void FishModel::setScene(SCENE_STATE scene)
 			// bowl
 			// clock
 			// spigot
+			{
+				SimpleDragable* dragable = new SimpleDragable("SimpleDragable", QPointF(0,50), 0, QPointF(2.5, 2),100);
+				addGameObjectToScene(dragable);
+			}
 			break;
 
 		default:
@@ -474,7 +519,7 @@ bool FishModel::mouseClickProcess(QPointF position, PhysicsGameObject* gameObjec
 {
 	gameObject->onMouseClick(position);
 	holdObject = gameObject;
-	return true;
+	return false;
 }
 
 /**
