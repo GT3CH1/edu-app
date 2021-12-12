@@ -23,5 +23,9 @@
         <file>res/siphon.png</file>
         <file>res/ghanoush_fish.png</file>
         <file>res/jim_carrey.png</file>
+        <file>res/moorish_idol.png</file>
+        <file>res/ghanoush_fish_bag.png</file>
+        <file>res/jim_carrey_bag.png</file>
+        <file>res/moorish_idol_bag.png</file>
     </qresource>
 </RCC>
