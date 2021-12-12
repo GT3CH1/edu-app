@@ -16,13 +16,14 @@ public:
 		static b2BodyDef constructBodyDefinition();
 	};
 private:
-	b2DistanceJoint* spring = nullptr;
-	MousePointerObject* mousePointer = nullptr;
+	b2MouseJoint* spring = nullptr;
+	MousePointerObject* mousePointer;
 public:
 	Dragable(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef, QImage, int layer);
 	virtual void onMouseClick(QPointF position);
 	virtual void onMouseHold(QPointF position);
 	virtual void onMouseRelease(QPointF position);
+
 };
 
 #endif // DRAGABLE_H

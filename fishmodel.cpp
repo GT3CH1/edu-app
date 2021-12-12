@@ -306,7 +306,9 @@ void FishModel::updateGameObjects(){
 		b2DistanceJoint* spring = dynamic_cast<b2DistanceJoint*>(joint);
 		if (spring)
 		{
-			b2Vec2 coordinateA = spring->GetLocalAnchorA() + spring->GetBodyA()->GetPosition();
+			b2Vec2 coordinateA(spring->GetLocalAnchorA().x * cos(spring->GetBodyA()->GetAngle()) - spring->GetLocalAnchorA().y * sin(spring->GetBodyA()->GetAngle()),
+							   spring->GetLocalAnchorA().x * cos(spring->GetBodyA()->GetAngle()) + spring->GetLocalAnchorA().y * sin(spring->GetBodyA()->GetAngle()));
+			coordinateA += spring->GetBodyA()->GetPosition();
 			b2Vec2 coordinateB = spring->GetLocalAnchorB() + spring->GetBodyB()->GetPosition();
 			b2Vec2 dimensions(abs(coordinateA.x - coordinateB.x), abs(coordinateA.y - coordinateB.y));
 			b2Vec2 center((coordinateA.x + coordinateB.x)/2, (coordinateA.y + coordinateB.y)/2);
