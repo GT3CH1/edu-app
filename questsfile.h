@@ -1,78 +1,16 @@
 #ifndef QUESTSFILE_H
 #define QUESTSFILE_H
-
 #include "quest.h"
-#include "physicgameobjectsfile.h"
-
-// Fill Bowl
-class FillBowl : public Quest
-{
-	void listener(const CallbackOptions &callback);
-	void reset(const CallbackOptions &callback);
-};
-
-class FillTank : public Quest
-{
-	void listener(const CallbackOptions &callback);
-	void reset(const CallbackOptions &callback);
-};
-
-// Choose Fish not sure if it is necisary or how to determine pass/fail
-class ChooseFish : public Quest
-{
-	void listener(const CallbackOptions &callback);
-	void reset(const CallbackOptions &callback);
-};
-
-// Add Fish
-class AddFish : public Quest
-{
-	void listener(const CallbackOptions &callback);
-	void reset(const CallbackOptions &callback);
-};
-
-// Age Water
-class Wait : public Quest
-{
-	void listener(const CallbackOptions &callback);
-	void reset(const CallbackOptions &callback);
-};
-
-// Add Food
-
-class AddFood : public Quest
-{
-	void listener(const CallbackOptions &callback);
-	void reset(const CallbackOptions &callback);
-};
-
-//Turn Off Water Pump
-class TurnOffWaterPump : public Quest
-{
-	void listener(const CallbackOptions &callback);
-	void reset(const CallbackOptions &callback);
-};
-
-//Turn On Water Pump
-class TurnOnWaterPump : public Quest
-{
-	void listener(const CallbackOptions &callback);
-	void reset(const CallbackOptions &callback);
-};
-
-// swap Filter
-class SwitchFilter : public Quest
-{
-	void listener(const CallbackOptions &callback);
-	void reset(const CallbackOptions &callback);
-};
-
-//Siphon Old Water essentially fill bowl but with a different range
-class SiphonOldWater : public Quest
-{
-	void listener(const CallbackOptions &callback);
-	void reset(const CallbackOptions &callback);
-};
-
+#include "questaddfish.h"
+#include "questaddfood.h"
+#include "questchoosefish.h"
+#include "questfillbowl.h"
+#include "questfilltank.h"
+#include "questremovefishfrombag.h"
+#include "questsiphonwater.h"
+#include "questswitchfilter.h"
+#include "questturnoffpump.h"
+#include "questturnonpump.h"
+#include "questwait.h"
 
 #endif // QUESTSFILE_H

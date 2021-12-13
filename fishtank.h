@@ -1,9 +1,9 @@
 #ifndef FISHTANK_H
 #define FISHTANK_H
 
-#include "advancedphysicsgameobject.h"
+#include "physicsgameobject.h"
 
-class FishTank : public AdvancedPhysicsGameObject
+class FishTank : public PhysicsGameObject
 {
 public:
 	FishTank(std::string name, QPointF position, double rotation, QPointF scale);
