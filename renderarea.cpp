@@ -1,9 +1,11 @@
+/**
+ * Authors - Jonathan Vielstich
+ * Last Modified - 12/01/2021
+ */
 #include "renderarea.h"
 
 /**
  * Draws the various game objects
- * Jonathan Vielstich
- * 12/01/2021
  *
  * @brief Displays a clickable QPixmap and provides a simple
  * method to update that image. To add a RenderArea to an

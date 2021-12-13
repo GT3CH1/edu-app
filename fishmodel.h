@@ -4,26 +4,22 @@
 #include <QObject>
 #include <vector>
 #include <map>
+#include <queue>
 #include "gameobject.h"
 #include "objectrenderinformation.h"
-#include "monkeygameobject.h"
 #include <Box2D/Box2D.h>
 #include "physicsgameobject.h"
 #include <functional>
 #include "questsfile.h"
-
+#include "scenestate.h"
 class FishModel : public QObject {
 
     Q_OBJECT
-
-public:
-	enum SCENE_STATE {
-		WATER_CHANGE, FILTER_CHANGE, FEEDING, ADD_FISH, PREPARE_TANK
-	};
 private:
 	std::vector<GameObject*> gameObjects;
 	std::map<std::string, GameObject*> gameObjectMap;
 	float deltaTime;
+	float getDeltaTime();
 	b2World physicsWorld;
 	PhysicsGameObject* holdObject = nullptr;
 
@@ -39,8 +35,10 @@ private:
 	std::function<void(std::string)> deleteGameObjectLambda;
 	std::function<b2Joint*(b2JointDef*)> addJointLambda;
 	std::function<void(b2Joint* toDestory)> destroyJointLambda;
+	std::function<float()> getDeltaTimeLambda;
 
-	std::list<Quest*> quests;
+	std::queue<Quest*> quests;
+	std::vector<Fish> fishInTank;
 	void createQuests();
 
 	bool debug = true;
@@ -86,6 +84,8 @@ public slots:
 	void mouseHold(QPointF);
 	void mouseRelease(QPointF);
 	void nextTask();
+	void nextQuest();
+	void addFishToTank(Fish *f);
 
 signals:
 	void renderGameObjects(std::vector<ObjectRenderInformation> renderables);

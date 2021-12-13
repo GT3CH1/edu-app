@@ -20,7 +20,9 @@ public:
 
 	std::function<void(b2Joint* toDestory)> destroyJoint;
 
-	CallbackOptions(std::function<void*(std::string)>, std::function<void(void*)>, std::function<void(std::string)>, std::function<b2Joint*(b2JointDef*)>, std::function<void(b2Joint* toDestory)>);
+	std::function<float()> getDeltaTime;
+
+	CallbackOptions(std::function<void*(std::string)>, std::function<void(void*)>, std::function<void(std::string)>, std::function<b2Joint*(b2JointDef*)>, std::function<void(b2Joint* toDestory)>, std::function<float()> getDeltaTime);
 
 	CallbackOptions();
 };

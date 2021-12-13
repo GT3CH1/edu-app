@@ -15,7 +15,7 @@ public:
 	private:
 		static b2BodyDef constructBodyDefinition();
 	};
-private:
+protected:
 	b2MouseJoint* spring = nullptr;
 	MousePointerObject* mousePointer;
 public:

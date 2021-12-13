@@ -28,29 +28,63 @@ set(PROJECT_SOURCES
         sprites.qrc
         objectrenderinformation.h
         objectrenderinformation.cpp
-        monkeygameobject.cpp
-        monkeygameobject.h
         callbackoptions.h
         callbackoptions.cpp
         dialogue.h
         physicsgameobject.h
         physicsgameobject.cpp
-        advancedphysicsgameobject.h
-        advancedphysicsgameobject.cpp
         dragable.h
         dragable.cpp
-        simpledragable.h
-        simpledragable.cpp
-        simpledropplet.h
-        simpledropplet.cpp
         fishtank.cpp
         fishtank.h
-	quest.h
-	physicgameobjectsfile.h
-	physicgameobjectsfile.cpp
+        quest.h
+        physicgameobjectsfile.h
         questsfile.h
-        questsfile.cpp
-        )
+        questfillbowl.h
+        questfillbowl.cpp
+        questfilltank.cpp
+        questfilltank.h
+        questchoosefish.cpp
+        questchoosefish.h
+        questaddfish.cpp
+        questaddfish.h
+        questwait.cpp
+        questwait.h
+        questaddfood.cpp
+        questaddfood.h
+        questturnoffpump.cpp
+        questturnoffpump.h
+        questturnonpump.cpp
+        questturnonpump.h
+        questswitchfilter.cpp
+        questswitchfilter.h
+        questsiphonwater.cpp
+        questsiphonwater.h
+        physicsbowl.cpp
+        physicsbowl.h
+        physicsclock.cpp
+        physicsclock.h
+        physicsfood.cpp
+        physicsfood.h
+        physicsfoodcontainer.cpp
+        physicsfoodcontainer.h
+        physicsspigot.cpp
+        physicsspigot.h
+        physicswaterpump.cpp
+        physicswaterpump.h
+        physicsfilter.cpp
+        physicsfilter.h
+        physicssiphon.cpp
+        physicssiphon.h
+        physicsfish.cpp
+        physicsfish.h
+        physicstank.cpp
+        physicstank.h
+        physicscountertop.cpp
+        physicscountertop.h
+        questremovefishfrombag.cpp
+        questremovefishfrombag.h
+        scenestate.h)
 
 add_subdirectory(box2d-src)
 include_directories(./)

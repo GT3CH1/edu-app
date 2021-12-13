@@ -1,5 +1,5 @@
 /**
- * Authors - William Erignac
+ * Authors - William Erignac, Gavin Pease
  * Last Modified - 12/10/2021
  *
  * An object that can be dragged onscreen.

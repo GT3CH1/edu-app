@@ -59,52 +59,15 @@ b2Body* PhysicsGameObject::getBody(){return body;}
 /**
  * @brief Returns whether this object does something when clicked on.
  */
-bool PhysicsGameObject::getIsClickable()
+bool PhysicsGameObject::isClickable()
 {
 	return clickable;
 }
 
-/**
- * @brief Aligns the object's position and rotation
- * to the position and rotation of its body in the physics world.
- *
- * NOTE: If you wish to override this, make sure to always call
- * PhysicsGameObject::updateObject(deltaTime) at the start of
- * the method.
- */
-void PhysicsGameObject::updateObject(float deltaTime)
+void PhysicsGameObject::setClickable(bool setClickable)
 {
-	if (isDynamic)
-	{
-		position = body->GetPosition();
-		rotation = body->GetAngle() * 180.0/M_PI;
-	}
+	clickable = setClickable;
 }
-
-/**
- * @brief Is triggered when a non-sensor
- * fixture of this object's body collides with another fixture.
- * Override this to do something on collisions.
- * @param isA b2Contacts have two fixtures, A and B. isA
- * is true when the fixture corresponding to this object is
- * the A fixture.
- *
- * NOTE: This method is called anytime there's a new collision
- * between this object and another, or if there is a maintained collision.
- */
-void PhysicsGameObject::onCollision(b2Contact* collision, bool isA, PhysicsGameObject* other) {}
-
-/**
- * @brief Is triggered when a sensor
- * fixture of this object's body sense another fixture.
- * @param isA b2Contacts have two fixtures, A and B. isA
- * is true when the fixture corresponding to this object is
- * the A fixture.
- *
- * NOTE: This method is called anytime there's a fixture
- * in one of this object's sensors.
- */
-void PhysicsGameObject::onSensor(b2Contact* collision, bool isA, PhysicsGameObject* other) {}
 
 /**
  * @brief Is triggered when one of this
@@ -152,3 +115,105 @@ b2BodyDef PhysicsGameObject::createBodyDef(b2BodyType bodyType) {
 		definition.type = bodyType;
 		return definition;
 }
+
+void PhysicsGameObject::setRotation(double rotation)
+{
+	GameObject::setRotation(rotation);
+	body->SetFixedRotation(true);
+	body->SetTransform(position,rotation);
+}
+
+/**
+ * @brief Checks the exit collision triggers and
+ * @param deltaTime
+ */
+void PhysicsGameObject::updateObject(float deltaTime)
+{
+	if (isDynamic)
+	{
+		position = body->GetPosition();
+		rotation = body->GetAngle() * 180.0/M_PI;
+	}
+
+	std::function<void*(std::string)> getGameObject = callbackOptions.getGameObject;
+
+	//If we didn't collide with objects we collided with last frame, they left us.
+	for(std::string name : lastContacts)
+	{
+		if(contacts.count(name) == 0)
+		{
+			PhysicsGameObject* object = (PhysicsGameObject*) getGameObject(name);
+			onCollisionExit(object);
+		}
+	}
+
+	//If we didn't sense objects we sensed last frame, they left us.
+	for(std::string name : lastSensorContacts)
+	{
+		if(sensorContacts.count(name) == 0)
+		{
+			PhysicsGameObject* object = (PhysicsGameObject*) getGameObject(name);
+			onSensorExit(object);
+		}
+	}
+
+	lastContacts = contacts;
+	lastSensorContacts = sensorContacts;
+	contacts.clear();
+	sensorContacts.clear();
+}
+
+/**
+ * @brief Determines the collision state between this object and other.
+ */
+void PhysicsGameObject::onCollision(b2Contact* collision, bool isA, PhysicsGameObject* other)
+{
+	std::string name = other->getName();
+	contacts.insert(name);
+
+	if(lastContacts.count(name) == 0)
+		onCollisionEnter(collision, isA, other);
+	else
+		onCollisionStay(collision, isA, other);
+}
+
+/**
+ * @brief Determines the sensor state between this object and other.
+ */
+void PhysicsGameObject::onSensor(b2Contact* collision, bool isA, PhysicsGameObject* other)
+{
+	std::string name = other->getName();
+	sensorContacts.insert(name);
+
+	if(lastSensorContacts.count(name) == 0)
+		onSensorEnter(collision, isA, other);
+	else
+		onSensorStay(collision, isA, other);
+}
+
+void PhysicsGameObject::onCollisionEnter(b2Contact *collision, bool isA, PhysicsGameObject *other)
+{
+	//qDebug() << "Entered a Collision with: " << QString::fromStdString(other->getName());
+}
+void PhysicsGameObject::onCollisionStay(b2Contact *collision, bool isA, PhysicsGameObject *other)
+{
+	//qDebug() << "Stayed a Collision with: " << QString::fromStdString(other->getName());
+}
+void PhysicsGameObject::onCollisionExit(PhysicsGameObject *other)
+{
+	//qDebug() << "Exited a Collision with: " << QString::fromStdString(other->getName());
+}
+
+void PhysicsGameObject::onSensorEnter(b2Contact *collision, bool isA, PhysicsGameObject *other)
+{
+	//qDebug() << "Entered a Sense with: " << QString::fromStdString(other->getName());
+}
+void PhysicsGameObject::onSensorStay(b2Contact *collision, bool isA, PhysicsGameObject *other)
+{
+	//qDebug() << "Stayed a Sense with: " << QString::fromStdString(other->getName());
+}
+void PhysicsGameObject::onSensorExit(PhysicsGameObject *other)
+{
+	//qDebug() << "Exit a Sense with: " << QString::fromStdString(other->getName());
+}
+
