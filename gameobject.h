@@ -35,6 +35,7 @@ public:
 	virtual void setRotation(double newRotation);
 	int getLayer();
 	std::string getName() const;
+	virtual void start();
 	virtual void updateObject(float);
 	~GameObject();
 };

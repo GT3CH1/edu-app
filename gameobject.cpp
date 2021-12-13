@@ -103,6 +103,9 @@ std::string GameObject::getName() const
 void GameObject::updateObject(float deltaTime)
 {}
 
+void GameObject::start()
+{}
+
 GameObject::~GameObject()
 {
 	//delete callbackOptions;

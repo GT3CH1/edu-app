@@ -25,7 +25,7 @@
 FishModel::FishModel(float _deltaTime) : deltaTime(_deltaTime), physicsWorld(b2Vec2(0.0f, -10.0f / 10))
 {
 	getGameObjectLambda = [=](std::string name) {return this->getGameObject(name);};
-	addGameObjectLambda = [=](void* toAdd) {this->addGameObjectToScene((GameObject*)toAdd);};
+	addGameObjectLambda = [=](void* toAdd) {this->addGameObjectToScene((GameObject*)toAdd, true);};
 	deleteGameObjectLambda = [=](std::string name) {this->deleteGameObject(name);};
 	addJointLambda = [=](b2JointDef* def) {return this->addJoint(def);};
 	destroyJointLambda = [=](b2Joint* joint) {this->destroyJoint(joint);};
@@ -88,7 +88,7 @@ float FishModel::getDeltaTime()
 /**
  * @brief Adds a GameObject to the active scene.
  */
-void FishModel::addGameObjectToScene(GameObject *toAdd)
+void FishModel::addGameObjectToScene(GameObject *toAdd, bool runStart)
 {
 	gameObjects.push_back(toAdd);
 	gameObjectMap.emplace(toAdd->getName(), toAdd);
@@ -99,6 +99,9 @@ void FishModel::addGameObjectToScene(GameObject *toAdd)
 	auto* toAddPhysics = dynamic_cast<PhysicsGameObject*>(toAdd);
 	if (toAddPhysics != nullptr)
 		addBodyToWorld(toAddPhysics);
+
+	if (runStart)
+		toAdd->start();
 }
 
 /**
@@ -464,11 +467,11 @@ void FishModel::setScene(SCENE_STATE scene)
 	currentScene = scene;
 	auto tank = new Tank();
 	auto background = new GameObject("background",QPointF(0,0),0,QPointF(20,14),QImage(":/res/background.png"),0);
-	addGameObjectToScene(background);
-	addGameObjectToScene(new Filter());
-	addGameObjectToScene(new WaterPump());
-	addGameObjectToScene(new Countertop(0));
-	addGameObjectToScene(tank);
+	addGameObjectToScene(background, false);
+	addGameObjectToScene(new Filter(), false);
+	addGameObjectToScene(new WaterPump(), false);
+	addGameObjectToScene(new Countertop(0), false);
+	addGameObjectToScene(tank, false);
 	while(!quests.empty()) {
 		delete quests.front();
 		quests.pop();
@@ -476,11 +479,11 @@ void FishModel::setScene(SCENE_STATE scene)
 	switch (currentScene)
 	{
 		case WATER_CHANGE : {
-			addGameObjectToScene(new Clock());
-			addGameObjectToScene(new Bowl());
-			addGameObjectToScene(new Fish());
+			addGameObjectToScene(new Clock(), false);
+			addGameObjectToScene(new Bowl(), false);
+			addGameObjectToScene(new Fish(), false);
 			//TODO: spigot
-			addGameObjectToScene(new Siphon());
+			addGameObjectToScene(new Siphon(), false);
 
 			break;
 		}
@@ -488,7 +491,7 @@ void FishModel::setScene(SCENE_STATE scene)
 			for(auto fish : fishInTank)
 			{
 				fish.setClickable(false);
-				addGameObjectToScene(new Fish(fish));
+				addGameObjectToScene(new Fish(fish), false);
 			}
 			break;
 
@@ -496,11 +499,11 @@ void FishModel::setScene(SCENE_STATE scene)
 			for(auto fish : fishInTank)
 			{
 				fish.setClickable(false);
-				addGameObjectToScene(new Fish(fish));
+				addGameObjectToScene(new Fish(fish), false);
 				auto foodContainer = new FoodContainer();
 				foodContainer->setLocation(QPointF(-4,-2.75));
 				foodContainer->setScale(b2Vec2(2,4));
-				addGameObjectToScene(foodContainer);
+				addGameObjectToScene(foodContainer, false);
 			}
 			tank->setWaterLevel(100);
 			quests.push(new AddFood());
@@ -525,10 +528,10 @@ void FishModel::setScene(SCENE_STATE scene)
 			goldfish->setName("goldfish");
 			goldfish->setLocation(QPointF(-4,-3.5));
 			tank->setWaterLevel(100);
-			addGameObjectToScene(pleco);
-			addGameObjectToScene(moorish);
-			addGameObjectToScene(goldfish);
-			addGameObjectToScene(new Clock());
+			addGameObjectToScene(pleco, false);
+			addGameObjectToScene(moorish, false);
+			addGameObjectToScene(goldfish, false);
+			addGameObjectToScene(new Clock(), false);
 
 			// Task 2
 			quests.push(new ChooseFish());
@@ -541,9 +544,9 @@ void FishModel::setScene(SCENE_STATE scene)
 		}
 		case PREPARE_TANK :
 		{
-			addGameObjectToScene(new Clock());
-			addGameObjectToScene(new Bowl());
-			addGameObjectToScene(new Spigot());
+			addGameObjectToScene(new Clock(), false);
+			addGameObjectToScene(new Bowl(), false);
+			addGameObjectToScene(new Spigot(), false);
 			quests.push(new FillBowl());
 			quests.push(new Wait());
 			quests.push(new FillTank());
@@ -570,6 +573,9 @@ void FishModel::setScene(SCENE_STATE scene)
 			qRef->showText(constructCallbackOptions());
 		}
 	}
+
+	for(GameObject* gameObject : gameObjects)
+		gameObject->start();
 }
 
 bool FishModel::MouseToPhysicsChecker::ReportFixture(b2Fixture* fixture)

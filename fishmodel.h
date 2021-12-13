@@ -23,7 +23,7 @@ private:
 	b2World physicsWorld;
 	PhysicsGameObject* holdObject = nullptr;
 
-	void addGameObjectToScene(GameObject *toAdd);
+	void addGameObjectToScene(GameObject *toAdd, bool runStart);
 	GameObject *getGameObject(std::string objectName);
 	void deleteGameObject(std::string objectName);
 	void addBodyToWorld(PhysicsGameObject *toAdd);
