@@ -163,9 +163,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="345.54325"
-     inkscape:cy="1020.9983"
+     inkscape:zoom="7.9195959"
+     inkscape:cx="405.5084"
+     inkscape:cy="693.53191"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -182,7 +182,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -324,7 +324,8 @@
        cy="111.49201"
        r="8.5526247"
        inkscape:export-xdpi="500"
-       inkscape:export-ydpi="500" />
+       inkscape:export-ydpi="500"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\clock.png" />
     <circle
        style="opacity:1;fill:#ffd42a;fill-opacity:1;stroke:none;stroke-width:1.26499999;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path4688-4"
@@ -332,7 +333,8 @@
        cy="111.11404"
        r="8.5526247"
        inkscape:export-xdpi="500"
-       inkscape:export-ydpi="500" />
+       inkscape:export-ydpi="500"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\clock.png" />
     <circle
        style="opacity:1;fill:#decd87;fill-opacity:1;stroke:none;stroke-width:1.09728312;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path4688-4-5"
@@ -340,23 +342,8 @@
        cy="111.11404"
        r="7.4186959"
        inkscape:export-xdpi="500"
-       inkscape:export-ydpi="500" />
-    <path
-       style="opacity:1;fill:#333333;fill-opacity:1;stroke:none;stroke-width:0.69899523;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 97.17794,104.03199 h 0.57933 l 0.66817,7.60677 -0.28397,1.6064 h -1.46466 l -0.23386,-1.6064 z"
-       id="rect4720"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccc"
-       inkscape:export-xdpi="500"
-       inkscape:export-ydpi="500" />
-    <path
-       style="opacity:1;fill:#333333;fill-opacity:1;stroke:none;stroke-width:0.54146469;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 92.44907,108.8183 0.22438,-0.38865 5.52029,2.58949 0.96766,0.81268 -0.56729,0.98257 -1.16823,-0.4653 z"
-       id="rect4720-9"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccc"
-       inkscape:export-xdpi="500"
-       inkscape:export-ydpi="500" />
+       inkscape:export-ydpi="500"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\clock.png" />
     <path
        style="fill:none;stroke:#717171;stroke-width:1.36500001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 20.599702,101.11384 v 24.66294 h 23.434523 v -24.66294"
@@ -569,35 +556,52 @@
        id="path6862"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccccccc" />
-    <path
-       style="fill:none;stroke:#90baf4;stroke-width:1.065;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.625;stroke-miterlimit:4;stroke-dasharray:none"
-       d="M 22.206101,22.305803 V 41.866071 H 39.120534 V 22.116815"
-       id="path894"
-       inkscape:connector-curvature="0" />
+    <rect
+       style="opacity:1;fill:#d40000;fill-opacity:1;stroke:none;stroke-width:0.27283126;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect918"
+       width="17.979"
+       height="20.393784"
+       x="21.673817"
+       y="22.039253"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
     <rect
        style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.23446399;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect896"
        width="17.979"
        height="9.0694618"
        x="21.673817"
-       y="12.96979" />
+       y="12.96979"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
     <ellipse
        style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.96850872;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.625"
        id="path898"
        cx="30.663317"
        cy="22.013065"
        rx="8.9895"
-       ry="2.3875322" />
+       ry="2.3875322"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
     <ellipse
        style="opacity:1;fill:#f7e019;fill-opacity:1;stroke:none;stroke-width:1.96850872;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.625"
        id="path898-2"
        cx="30.663317"
        cy="12.892492"
        rx="8.9895"
-       ry="2.3875322" />
+       ry="2.3875322"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
     <g
        id="g983"
-       transform="translate(-0.16383559,0.13363476)">
+       transform="translate(-0.16383559,0.13363476)"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500">
       <ellipse
          ry="0.47402775"
          rx="1.7848021"
@@ -615,7 +619,10 @@
     </g>
     <g
        id="g979"
-       transform="translate(0,0.13363476)">
+       transform="translate(0,0.13363476)"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500">
       <ellipse
          ry="0.47402775"
          rx="1.7848022"
@@ -638,79 +645,164 @@
          id="path898-2-7-5"
          style="opacity:1;fill:#242001;fill-opacity:1;stroke:none;stroke-width:0.39083359;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.625" />
     </g>
+    <ellipse
+       style="opacity:1;fill:#d40000;fill-opacity:1;stroke:none;stroke-width:1.96850872;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.625"
+       id="path898-22"
+       cx="30.663317"
+       cy="42.57478"
+       rx="8.9895"
+       ry="2.3875322"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
     <path
-       style="fill:#f78619;fill-opacity:0.6875;stroke:none;stroke-width:0.23391993px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 94.014637,29.119854 c -2.443629,0.208857 -4.887256,0.417713 -7.330884,0.62657 2.269581,1.134791 6.099242,6.438129 7.727714,4.594858 1.628472,-1.843271 -1.280991,-3.063238 -0.39683,-5.221428 z"
+       style="opacity:1;fill:#d5fff6;fill-opacity:1;stroke:none;stroke-width:0.26499999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 23.02943,26.389605 c 5.089257,1.353065 10.178515,1.319544 15.267772,0 v 14.465963 c -5.089257,1.904031 -10.178515,1.55667 -15.267772,0 z"
+       id="rect937"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.51306796px;line-height:1.25;font-family:Impact;-inkscape-font-specification:Impact;letter-spacing:0px;word-spacing:0px;fill:#ebbe37;fill-opacity:1;stroke:#ec5844;stroke-width:0.15096016;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       x="9.8058815"
+       y="40.214985"
+       id="text942"
+       transform="rotate(-22.597648)"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500"><tspan
+         sodipodi:role="line"
+         x="9.8058815"
+         y="40.214985"
+         style="fill:#ebbe37;fill-opacity:1;stroke:#ec5844;stroke-width:0.15096016;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="tspan944">&quot;Quality&quot;</tspan><tspan
+         sodipodi:role="line"
+         x="9.8058815"
+         y="43.356319"
+         style="fill:#ebbe37;fill-opacity:1;stroke:#ec5844;stroke-width:0.15096016;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="tspan948">Fish Food!</tspan></text>
+    <path
+       style="fill:#f78619;fill-opacity:0.6875;stroke:none;stroke-width:0.43014333px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 122.56641 153.57031 C 123.38282 154.78955 124.07258 156.82385 124.76562 158.97266 C 127.19803 158.74806 129.6301 158.40641 132.0625 157.94531 C 128.89717 156.48654 125.73174 155.02908 122.56641 153.57031 z "
+       transform="scale(0.26458333)"
        id="path1092"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cczc" />
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
     <path
-       style="fill:#f78619;fill-opacity:0.68627451;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 89.409833,19.010484 c 2.018833,0.850461 4.037667,1.700921 6.0565,2.551382 0.452435,-2.255738 4.998187,-5.116784 2.543884,-6.150696 -2.454311,-1.033913 -5.733589,2.399542 -8.600384,3.599314 z"
+       style="fill:#f78619;fill-opacity:0.68627451;stroke:none;stroke-width:0.48652866px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 144.74609 138.78125 C 141.98269 138.90713 139.09475 139.18125 136.68359 138.88867 C 139.13741 142.08333 141.59111 145.278 144.04492 148.47266 C 144.24266 148.24494 144.48348 148.03401 144.74609 147.83203 L 144.74609 138.78125 z "
+       transform="scale(0.26458333)"
        id="path1096"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cczc" />
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
     <path
-       style="fill:#f78619;fill-opacity:0.68627451;stroke:none;stroke-width:0.37497571px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 96.252515,28.844014 1.824658,-0.435238 c 0,0 0.610299,1.285732 -0.602638,1.506596 -1.212937,0.220864 -1.22202,-1.071358 -1.22202,-1.071358 z"
-       id="path1094"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cczc" />
-    <path
-       style="fill:#f78619;fill-opacity:0.68627451;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 99.195124,25.991071 c -0.237499,5.306178 5.489716,7.619482 6.638206,7.016184 1.14849,-0.603298 0.0722,-5.586353 -1.39379,-6.472844 2.83354,-1.099103 4.11916,-5.398874 3.54353,-6.590959 -0.57563,-1.192085 -8.550447,0.741441 -8.787946,6.047619 z"
-       id="path1098"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="zzczz" />
-    <path
-       style="fill:#f7e019;stroke:none;stroke-width:0.265;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
-       d="m 82.398808,23.723214 c 2.529339,-4.402192 7.721245,-6.417613 11.229564,-4.15282 5.840202,3.770137 9.268308,3.241599 9.000678,6.414945 -0.26763,3.173346 -5.205319,2.044232 -9.794789,4.203426 -4.58947,2.159194 -8.445401,-0.264207 -10.529946,-3.252753 0.866195,-0.295294 1.720578,-0.696894 2.456844,-1.417411 -0.704768,-0.893756 -1.421348,-1.468595 -2.362351,-1.795387 z"
+       style="fill:#f7e019;fill-opacity:1;stroke:none;stroke-width:0.48729482;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 130.66602 137.30078 C 127.51958 137.37224 124.21018 138.27042 121.19336 140.04688 C 122.4004 141.42467 123.0219 142.99517 123.33594 145.06445 C 121.50407 145.54678 119.77409 145.4131 118.12109 145.09766 C 118.61582 150.46323 121.28039 156.27907 127.13867 158.72852 C 133.00763 158.00527 138.87714 156.6098 144.74609 154.41406 L 144.74609 146.84766 C 144.14213 145.85331 143.53123 144.79387 142.91797 143.61719 C 140.69989 139.36131 135.91008 137.18168 130.66602 137.30078 z "
+       transform="scale(0.26458333)"
        id="path987"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
+    <path
+       style="fill:#f79919;fill-opacity:1;stroke:none;stroke-width:0.12872738px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 32.984128,36.625886 c -0.164415,0.05856 -0.327752,0.125203 -0.488758,0.201297 0.154227,0.687492 0.769357,1.081403 1.094108,0.879962 0.547565,-0.339651 -0.336581,-0.51326 -0.60535,-1.081259 z"
+       id="path989"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cszzccc" />
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
     <path
-       style="fill:#f79919;fill-opacity:1;stroke:none;stroke-width:0.99999994px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 315.98633 83.242188 C 315.10098 84.269024 314.25397 85.346351 313.45898 86.478516 C 317.1407 90.52862 322.80726 90.826199 324.22656 88.21875 C 326.61967 83.822309 319.9826 86.045492 315.98633 83.242188 z "
-       transform="scale(0.26458333)"
-       id="path989" />
-    <path
-       style="fill:#f79919;fill-opacity:1;stroke:none;stroke-width:0.99999994px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 353.87109 73.966797 C 346.14289 82.04272 334.10593 87.168717 343.30664 93.365234 C 353.00085 99.894114 350.73588 84.07188 360.77734 78.080078 C 358.58251 76.868438 356.29354 75.529292 353.87305 73.966797 C 353.87273 73.967129 353.87141 73.966465 353.87109 73.966797 z "
-       transform="scale(0.26458333)"
-       id="path989-9" />
-    <path
-       style="fill:#f79919;fill-opacity:1;stroke:none;stroke-width:0.99999994px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 362.86328 79.207031 C 359.25625 82.482471 354.0408 87.832653 360.38086 90.568359 C 367.14783 93.488275 365.6382 85.002814 367.91992 81.732422 C 366.32097 80.977683 364.63012 80.136918 362.86328 79.207031 z "
-       transform="scale(0.26458333)"
-       id="path989-9-5" />
-    <path
-       style="fill:#f79919;fill-opacity:0.98076922;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 89.085461,27.533604 c 0.400904,0.840785 -0.384201,1.514527 -1.052375,1.520095 l 2.789628,4.560287 3.307459,-2.488948 z"
-       id="path1021"
+       style="fill:#f79919;fill-opacity:1;stroke:none;stroke-width:0.12872738px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 37.813576,37.998948 c -1.378702,0.411853 -3.051809,0.219414 -2.416621,1.498307 0.669257,1.347487 1.422724,-0.567105 2.927641,-0.598539 -0.168486,-0.275255 -0.339393,-0.570769 -0.510801,-0.899644 -5.7e-5,1.7e-5 -1.63e-4,-1.41e-4 -2.19e-4,-1.24e-4 z"
+       id="path989-9"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc" />
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
     <path
-       style="fill:#f79919;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
-       d="m 86.692382,23.138532 2.214705,-1.080776 0.519716,3.956938 z"
+       style="fill:#f79919;fill-opacity:1;stroke:none;stroke-width:0.48652866px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 144.74609 148.16992 C 142.50929 148.73391 139.85307 149.78647 141.67773 152.20508 C 142.87016 153.78566 143.82907 153.27368 144.74609 152.37109 L 144.74609 148.16992 z "
+       transform="scale(0.26458333)"
+       id="path989-9-5"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
+    <path
+       style="fill:#f79919;fill-opacity:1;stroke:none;stroke-width:0.12872738px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 34.021997,37.839691 1.196588,0.07562 -0.731947,1.798457 z"
        id="path1075"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
     <path
-       style="fill:#f79919;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 88.951779,22.952509 -2.248336,-1.008952 2.70639,-2.933073 z"
+       style="fill:#f79919;fill-opacity:1;stroke:none;stroke-width:0.12872738px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 35.022275,38.30446 -0.708179,-0.967483 1.850053,-0.589488 z"
        id="path1075-2"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
     <circle
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#f79919;stroke-width:0.30000001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#f79919;stroke-width:0.14595862;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path1071"
-       cx="87.778542"
-       cy="22.535467"
-       r="1.0866816" />
+       cx="48.808922"
+       cy="15.779366"
+       r="0.52870178"
+       transform="rotate(29.628198)"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
     <circle
-       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.63000005;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3065131;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path1073"
-       cx="87.778542"
-       cy="22.535467"
-       r="0.087697811" />
+       cx="48.808922"
+       cy="15.779366"
+       r="0.042667501"
+       transform="rotate(29.628198)"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
+    <path
+       style="fill:#f78619;fill-opacity:0.68627451;stroke:none;stroke-width:0.15298153px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 30.031202,41.928538 c 0.817864,-0.254858 1.780447,-0.208235 2.115196,-0.957146 0.334748,-0.748908 -0.513647,-1.326403 -0.939669,-2.085885 -0.0442,-0.721861 -0.0884,-1.443721 -0.132595,-2.165582 -0.367093,0.07252 -0.61526,0.217934 -0.769629,0.590298 -0.154367,0.372363 0.0292,1.047143 0.04379,1.570715 -0.597055,0.207478 -1.203854,0.391413 -1.686377,0.875631 -0.19717,0.352957 -0.140695,0.590548 0.143144,0.724725 0.06339,0.0016 0.126791,0.0033 0.190187,0.0049 -0.048,0.08607 -0.09601,0.172136 -0.144008,0.258204 -0.04043,0.342791 0.08772,0.560758 0.409335,0.635464 0.08977,-0.04408 0.17951,-0.08823 0.269266,-0.132349 -0.06164,0.0952 -0.12329,0.190398 -0.184936,0.285597 0.07213,0.272392 0.17667,0.510377 0.518886,0.49605 0.05579,-0.03359 0.111602,-0.0671 0.167407,-0.100637 z"
+       id="path1014"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="czcczcccccccccc"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\food_shaker.png"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
+    <circle
+       style="opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:1.26499999;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path4688-4-3"
+       cx="123.04421"
+       cy="111.84904"
+       r="8.5526247"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\minute_hand.png" />
+    <path
+       style="opacity:1;fill:#333333;fill-opacity:1;stroke:none;stroke-width:0.54146469;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 130.83039,118.06326 0.44877,-1e-5 0.51758,6.07546 -0.21997,1.24435 h -1.13458 l -0.18115,-1.24437 z"
+       id="rect4720-9-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccc"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500"
+       inkscape:export-filename="D:\a9-an-educational-app-GT3CH1\res\hour_hand.png" />
+    <path
+       style="opacity:1;fill:#333333;fill-opacity:1;stroke:none;stroke-width:0.69899523;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 122.78796,104.90384 h 0.57933 l 0.66817,7.60677 -0.28397,1.6064 h -1.46466 l -0.23386,-1.6064 z"
+       id="rect4720-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccc"
+       inkscape:export-xdpi="500"
+       inkscape:export-ydpi="500" />
   </g>
   <g
      inkscape:groupmode="layer"
