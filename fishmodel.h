@@ -72,6 +72,7 @@ public:
 	{
 	public:
 		CollisionEntry(PhysicsGameObject* first, PhysicsGameObject* second);
+		CollisionEntry(PhysicsGameObject* first, PhysicsGameObject* second, bool forcePosition);
 		size_t hashCode() const;
 		bool operator==(const CollisionEntry& other) const;
 	private:
