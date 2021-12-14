@@ -33,9 +33,9 @@ void FoodContainer::updateObject(float deltaTime)
 		b2Vec2 velocity = body->GetLinearVelocity();
 		b2Vec2 acceleration = spring->GetReactionForce(1 / callbackOptions.getDeltaTime());
 
-		if (shakeUp && abs(velocity.y) < velocityThreshold && acceleration.y < -accelerationConstraint)
+		if (shakeUp && velocity.y <= 0 && lastVelocity > 0 && acceleration.y < -accelerationConstraint)
 			shakeUp = false;
-		else if (!shakeUp && abs(velocity.y) < velocityThreshold && acceleration.y > accelerationConstraint)
+		else if (!shakeUp && velocity.y >= 0 && lastVelocity < 0 && acceleration.y > accelerationConstraint)
 		{
 			shakeUp = true;
 			callbackOptions.addGameObject(new Food(
@@ -46,6 +46,8 @@ void FoodContainer::updateObject(float deltaTime)
 					createBodyDef(b2_dynamicBody)
 			));
 		}
+
+		lastVelocity = velocity.y;
 	}
 }
 

@@ -10,7 +10,7 @@
 #include <QDebug>
 // Tank
 Tank::Tank(std::string name, QPointF position, double rotation, QPointF scale) :
-		PhysicsGameObject(name, position, rotation, scale, PhysicsGameObject::createBodyDef(b2_staticBody), QImage(":/res/simpleTank.png"))
+		PhysicsGameObject(name, position, rotation, scale, PhysicsGameObject::createBodyDef(b2_staticBody), QImage(":/res/simpleTank.png"), 3)
 {
 	waterLevel = 0;
 	emptyTank = graphic;
@@ -119,12 +119,21 @@ void Tank::drawWater()
 
 void Tank::onSensorEnter(b2Contact *collision, bool isA, PhysicsGameObject *other)
 {
+	other->getBody()->SetLinearDamping(other->getBody()->GetLinearDamping()*5);
+	other->getBody()->SetAngularDamping(other->getBody()->GetAngularDamping()*5);
+
 	auto fish = dynamic_cast<Fish*>(other);
 	auto food = dynamic_cast<Food*>(other);
 	if(fish)
 		fish->setInTank(true);
 	else if (food)
 		incrementFoodInTank();
+}
+
+void Tank::onSensorExit(PhysicsGameObject *other)
+{
+	other->getBody()->SetLinearDamping(other->getBody()->GetLinearDamping()/5);
+	other->getBody()->SetAngularDamping(other->getBody()->GetAngularDamping()/5);
 }
 
 /**

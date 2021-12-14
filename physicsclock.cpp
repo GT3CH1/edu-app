@@ -3,12 +3,21 @@
  * Last Modified - 12/12/2021
  */
 #include "physicsclock.h"
+#include <QDebug>
 // Clock
 Clock::Clock() :
 		PhysicsGameObject("clock", QPointF(-8,5), 0, QPointF(2,2), PhysicsGameObject::createBodyDef(b2_staticBody), QImage(":/res/clock.png"))
 {
 	time = 0;
-	baseClock = graphic;
+}
+
+void Clock::start()
+{
+	hourHand = new GameObject("hour hand", QPointF(position.x, position.y), rotation, QPointF(scale.x, scale.y),QImage(":/res/hour_hand.png"), 2);
+	callbackOptions.addGameObject(hourHand);
+
+	minuteHand = new GameObject("minute hand", QPointF(position.x, position.y), rotation, QPointF(scale.x, scale.y),QImage(":/res/minute_hand.png"), 2);
+	callbackOptions.addGameObject(minuteHand);
 }
 
 int Clock::getTime()
@@ -23,7 +32,7 @@ void Clock::setTime(int newTime)
 }
 
 void Clock::addTime(){
-	time++;
+	time += clockRate * callbackOptions.getDeltaTime();
 	drawClock();
 }
 
@@ -47,6 +56,6 @@ void Clock::onMouseHold(QPointF position){
 
 void Clock::drawClock(){
 	QTransform rotationT;
-	rotationT.rotate(time*30);
-	graphic = baseClock.transformed(rotationT);
+	hourHand->setRotation(-time/24*360);
+	minuteHand->setRotation(-time*360);
 }

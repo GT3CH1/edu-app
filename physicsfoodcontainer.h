@@ -12,8 +12,8 @@ public:
 private:
 	bool shakeUp = true;
 	const float angleConstraint = M_PI/4;
-	const float velocityThreshold = 0.1;
-	const float accelerationConstraint = 100;
+	float lastVelocity = 0;
+	const float accelerationConstraint = 50;
 };
 
 

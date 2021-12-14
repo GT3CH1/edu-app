@@ -10,9 +10,10 @@ public:
 	void setWaterLevel(int newWaterLevel);
 	virtual void setBody(b2Body *newBody);
 	void onSensorEnter(b2Contact *collision, bool isA, PhysicsGameObject *other);
+	void onSensorExit(PhysicsGameObject *other);
 private:
-	int waterLevel;
-	int foodInTank;
+	int waterLevel = 0;
+	int foodInTank = 0;
 public:
 	int getFoodInTank() const;
 	void incrementFoodInTank();

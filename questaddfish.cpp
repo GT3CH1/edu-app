@@ -18,12 +18,29 @@ void AddFish::listener(const CallbackOptions &callback)
 	auto moorish = (Fish *) callback.getGameObject("moorish");
 	auto clock = (Clock *) callback.getGameObject("clock");
 	bool fishInTank = (pleco->isInTank() || goldfish->isInTank() || moorish->isInTank());
-	auto theFish = pleco->isSelected() ? pleco : goldfish->isSelected() ? goldfish : moorish;
+	auto theFish = pleco->isInTank() ? pleco : goldfish->isInTank() ? goldfish : moorish;
 	if (fishInTank)
 	{
 		clock->setClickable(true);
 		theFish->setSelected(false);
 		theFish->setClickable(false);
+
+		if (pleco->isInTank())
+		{
+			callback.deleteGameObject(goldfish->getName());
+			callback.deleteGameObject(moorish->getName());
+		}
+		else if (goldfish->isInTank())
+		{
+			callback.deleteGameObject(pleco->getName());
+			callback.deleteGameObject(moorish->getName());
+		}
+		else if (moorish->isInTank())
+		{
+			callback.deleteGameObject(goldfish->getName());
+			callback.deleteGameObject(pleco->getName());
+		}
+
 		emit Quest::pass();
 	}
 }

@@ -2,7 +2,7 @@
 class Bowl : public PhysicsGameObject
 {
 public:
-	Bowl();
+	Bowl(QPointF position);
 	int getWaterLevel();
 	void setWaterLevel(int newWaterLevel);
 	void raiseWaterLevel();

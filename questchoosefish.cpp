@@ -13,13 +13,14 @@ ChooseFish::ChooseFish(){
 
 void ChooseFish::listener(const CallbackOptions &callback)
 {
+
 	auto pleco = (Fish *) callback.getGameObject("pleco");
 	auto goldfish = (Fish *) callback.getGameObject("goldfish");
 	auto moorish = (Fish *) callback.getGameObject("moorish");
 	bool fishSelected = (pleco->isSelected() || goldfish->isSelected() || moorish->isSelected());
 	if (fishSelected)
-	{		
-		callback.deleteGameObject("ChooseFishinstructions");
+	{
+/*
 		if (pleco->isSelected())
 		{
 			goldfish->setClickable(false);
@@ -34,7 +35,8 @@ void ChooseFish::listener(const CallbackOptions &callback)
 		{
 			goldfish->setClickable(false);
 			pleco->setClickable(false);
-		}
+		}*/
+		callback.deleteGameObject("ChooseFishinstructions");
 		emit Quest::pass();
 	}
 }
