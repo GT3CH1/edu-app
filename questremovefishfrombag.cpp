@@ -10,8 +10,8 @@ void RemoveFishFromBag::listener(const CallbackOptions &callback)
 	auto pleco = (Fish *) callback.getGameObject("pleco");
 	auto goldfish = (Fish *) callback.getGameObject("goldfish");
 	auto moorish = (Fish *) callback.getGameObject("moorish");
-	bool fishSelected = (pleco->isSelected() || goldfish->isSelected() || moorish->isSelected());
-	auto theFish = pleco->isSelected() ? pleco : goldfish->isSelected() ? goldfish : moorish;
+	auto theFish = pleco ? pleco : goldfish ? goldfish : moorish;
+	bool fishSelected = theFish->isSelected();
 	if (fishSelected)
 	{
 		theFish->setInBag(false);

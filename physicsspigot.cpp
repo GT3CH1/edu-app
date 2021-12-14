@@ -6,7 +6,7 @@
 #include "physicsspigot.h"
 #include "physicsbowl.h"
 // Spigot
-Spigot::Spigot() : PhysicsGameObject("spigot", QPointF(-8, 0), 0, QPointF(1,1), PhysicsGameObject::createBodyDef(b2_staticBody), QImage(":/res/spigot.png"))
+Spigot::Spigot(QPointF position) : PhysicsGameObject("spigot", position, 0, QPointF(1.5,2.25), PhysicsGameObject::createBodyDef(b2_staticBody), QImage(":/res/spigot.png"))
 {
 	power = false;
 	setClickable(true);
@@ -32,7 +32,7 @@ void Spigot::setBody(b2Body* newBody)
 {
 	// Make the sensor...
 	b2PolygonShape sensorShape;
-	sensorShape.SetAsBox(0.5, 0.5);
+	sensorShape.SetAsBox(scale.x / 2, scale.y / 2);
 
 	b2FixtureDef hitBoxDefinition;
 	hitBoxDefinition.shape = &sensorShape;

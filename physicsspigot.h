@@ -2,7 +2,7 @@
 class Spigot : public PhysicsGameObject
 {
 public:
-	Spigot();
+	Spigot(QPointF position);
 	Spigot(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef body, QImage image);
 	bool getPower();
 	void setPower(bool newPower);

@@ -127,7 +127,11 @@ void FishModel::deleteGameObject(std::string objectName)
 	GameObject *objectPtr = gameObjectMap.at(objectName);
 	PhysicsGameObject* gameObject = dynamic_cast<PhysicsGameObject*>(objectPtr);
 	if(gameObject)
+	{
 		physicsWorld.DestroyBody(gameObject->getBody());
+		if (gameObject == holdObject)
+			holdObject = nullptr;
+	}
 	gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), objectPtr), gameObjects.end());
 	gameObjectMap.erase(objectName);
 
@@ -252,7 +256,9 @@ void FishModel::updateGameObjects(){
 	//Hitboxes collects the render data of all fixtures (only used when debug is true).
 	std::vector<ObjectRenderInformation> hitBoxes;
 
-	for(GameObject* gameObject : gameObjects)
+	std::vector<GameObject*> toIterate (gameObjects);
+
+	for(GameObject* gameObject : toIterate)
 	{
 		//Update all GameObjects once per frame.
 		gameObject->updateObject(deltaTime);
@@ -463,6 +469,7 @@ void FishModel::nextTask() {
  */
 void FishModel::setScene(SCENE_STATE scene)
 {
+	holdObject = nullptr;
 	removeAllGameObjects();
 	currentScene = scene;
 	auto tank = new Tank();
@@ -480,7 +487,7 @@ void FishModel::setScene(SCENE_STATE scene)
 	{
 		case WATER_CHANGE : {
 			addGameObjectToScene(new Clock(), false);
-			addGameObjectToScene(new Bowl(), false);
+			addGameObjectToScene(new Bowl(QPointF(-5,-3)), false);
 			addGameObjectToScene(new Fish(), false);
 			//TODO: spigot
 			addGameObjectToScene(new Siphon(), false);
@@ -516,17 +523,17 @@ void FishModel::setScene(SCENE_STATE scene)
 			auto pleco = new Fish();
 			pleco->setFishType(Fish::PLECO);
 			pleco->setName("pleco");
-			pleco->setLocation(QPointF(-9,-3.5));
+			pleco->setLocation(QPointF(-8,-3.5));
 
 			auto moorish = new Fish();
 			moorish->setFishType(Fish::SIMPLE);
 			moorish->setName("moorish");
-			moorish->setLocation(QPointF(-6.5,-3.5));
+			moorish->setLocation(QPointF(-5.5,-3.5));
 
 			auto goldfish = new Fish();
 			goldfish->setFishType(Fish::GOLDFISH);
 			goldfish->setName("goldfish");
-			goldfish->setLocation(QPointF(-4,-3.5));
+			goldfish->setLocation(QPointF(-3,-3.5));
 			tank->setWaterLevel(100);
 			addGameObjectToScene(pleco, false);
 			addGameObjectToScene(moorish, false);
@@ -545,8 +552,8 @@ void FishModel::setScene(SCENE_STATE scene)
 		case PREPARE_TANK :
 		{
 			addGameObjectToScene(new Clock(), false);
-			addGameObjectToScene(new Bowl(), false);
-			addGameObjectToScene(new Spigot(), false);
+			addGameObjectToScene(new Bowl(QPointF(-5,-3)), false);
+			addGameObjectToScene(new Spigot(QPointF(-5,2)), false);
 			quests.push(new FillBowl());
 			quests.push(new Wait());
 			quests.push(new FillTank());
@@ -574,7 +581,9 @@ void FishModel::setScene(SCENE_STATE scene)
 		}
 	}
 
-	for(GameObject* gameObject : gameObjects)
+	std::vector<GameObject*> toStart(gameObjects);
+
+	for(GameObject* gameObject : toStart)
 		gameObject->start();
 }
 

@@ -9,7 +9,7 @@ void AddFood::listener(const CallbackOptions &callback)
 {
 	Tank* fishTank = (Tank*)callback.getGameObject("tank");
 	int foodGiven = fishTank->getFoodInTank();
-	if (foodGiven == 4){
+	if (foodGiven >= 4){
 		fishTank->setClickable(false);
 		emit Quest::pass();
 	}

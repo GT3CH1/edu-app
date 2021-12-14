@@ -31,6 +31,8 @@ void Food::setBody(b2Body *newBody)
 
 	newBody->CreateFixture(&mainFixtureDef);
 
+	newBody->SetLinearDamping(2);
+
 	PhysicsGameObject::setBody(newBody);
 }
 

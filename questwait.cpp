@@ -22,10 +22,10 @@ void Wait::listener(const CallbackOptions &callback)
 			bowl->setClickable(true);
 		}
 		clock->setClickable(false);
-		bool isAddingFishToTank = pleco != nullptr && goldfish != nullptr && moorish != nullptr;
+		bool isAddingFishToTank = pleco != nullptr || goldfish != nullptr || moorish != nullptr;
 		if (isAddingFishToTank)
 		{
-			auto theFish = pleco->isInTank() ? pleco : goldfish->isInTank() ? goldfish : moorish;
+			auto theFish = pleco ? pleco : goldfish ? goldfish : moorish;
 			theFish->setClickable(true);
 		}
 		emit Quest::pass();

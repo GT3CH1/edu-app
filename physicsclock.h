@@ -4,13 +4,16 @@ class Clock : public PhysicsGameObject
 {
 public:
 	Clock();
+	void start();
 	int getTime();
 	void setTime(int newTime);
 	void addTime();
 	virtual void setBody(b2Body* newBody);
 	void onMouseHold(QPointF position);
 private:
-	int time;
+	double time;
+	double clockRate = 0.5;
 	void drawClock();
-	QImage baseClock;
+	GameObject* hourHand;
+	GameObject* minuteHand;
 };
