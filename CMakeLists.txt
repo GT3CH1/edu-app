@@ -84,7 +84,13 @@ set(PROJECT_SOURCES
         physicscountertop.h
         questremovefishfrombag.cpp
         questremovefishfrombag.h
-        scenestate.h)
+        scenestate.h
+        queststart.h
+        queststart.cpp
+        questend.h
+        questend.cpp
+        physicsstartbutton.h
+        physicsstartbutton.cpp)
 
 add_subdirectory(box2d-src)
 include_directories(./)

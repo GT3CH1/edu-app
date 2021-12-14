@@ -45,7 +45,7 @@ private:
 
 	QImage getColliderShape(b2Shape *shape, QColor penColor, QPointF &translation);
 	// The current scene to draw
-	SCENE_STATE currentScene = PREPARE_TANK;
+	SCENE_STATE currentScene = START;
 	void setScene(SCENE_STATE currentScene);
 	QImage getColliderShape(b2Shape* shape, QColor penColor, QPointF& translation, QPointF& scale);
 	CallbackOptions constructCallbackOptions();

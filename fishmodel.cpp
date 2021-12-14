@@ -30,7 +30,7 @@ FishModel::FishModel(float _deltaTime) : deltaTime(_deltaTime), physicsWorld(b2V
 	addJointLambda = [=](b2JointDef* def) {return this->addJoint(def);};
 	destroyJointLambda = [=](b2Joint* joint) {this->destroyJoint(joint);};
 	getDeltaTimeLambda = [=]() {return this->getDeltaTime();};
-	setScene(PREPARE_TANK);
+	setScene(START);
 }
 
 
@@ -445,6 +445,9 @@ FishModel::~FishModel() {
  */
 void FishModel::nextTask() {
 	switch (currentScene) {
+		case START:
+			setScene(PREPARE_TANK);
+			break;
 		case PREPARE_TANK:
 			setScene(ADD_FISH);
 			break;
@@ -472,19 +475,37 @@ void FishModel::setScene(SCENE_STATE scene)
 	holdObject = nullptr;
 	removeAllGameObjects();
 	currentScene = scene;
+
 	auto tank = new Tank();
-	auto background = new GameObject("background",QPointF(0,0),0,QPointF(20,14),QImage(":/res/background.png"),0);
+	GameObject* background;
+
+	if (currentScene != START && currentScene != END)
+	{
+		background = new GameObject("background",QPointF(0,0),0,QPointF(20,14),QImage(":/res/background.png"),0);
+		addGameObjectToScene(new Countertop(0), false);
+		addGameObjectToScene(new Filter(), false);
+		addGameObjectToScene(new WaterPump(), false);
+		addGameObjectToScene(tank, false);
+	}
+	else
+	{
+		background = new GameObject("background",QPointF(0,0),0,QPointF(20,14),QImage(":/res/start_background.png"),0);
+	}
+
 	addGameObjectToScene(background, false);
-	addGameObjectToScene(new Filter(), false);
-	addGameObjectToScene(new WaterPump(), false);
-	addGameObjectToScene(new Countertop(0), false);
-	addGameObjectToScene(tank, false);
+
+
 	while(!quests.empty()) {
 		delete quests.front();
 		quests.pop();
 	}
 	switch (currentScene)
 	{
+		case START: {
+			addGameObjectToScene(new StartButton(), false);
+			quests.push(new Start());
+			break;
+	}
 		case WATER_CHANGE : {
 			addGameObjectToScene(new Clock(), false);
 			addGameObjectToScene(new Bowl(QPointF(-5,-3)), false);
@@ -557,6 +578,10 @@ void FishModel::setScene(SCENE_STATE scene)
 			quests.push(new FillBowl());
 			quests.push(new Wait());
 			quests.push(new FillTank());
+			break;
+		}
+		case END: {
+			quests.push(new End());
 			break;
 		}
 		default:
