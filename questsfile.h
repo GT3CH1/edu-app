@@ -12,5 +12,7 @@
 #include "questturnoffpump.h"
 #include "questturnonpump.h"
 #include "questwait.h"
+#include "queststart.h"
+#include "questend.h"
 
 #endif // QUESTSFILE_H

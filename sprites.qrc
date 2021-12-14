@@ -29,5 +29,7 @@
         <file>res/jim_carrey_bag.png</file>
         <file>res/moorish_idol.png</file>
         <file>res/moorish_idol_bag.png</file>
+        <file>res/start_background.png</file>
+        <file>res/start_button.png</file>
     </qresource>
 </RCC>

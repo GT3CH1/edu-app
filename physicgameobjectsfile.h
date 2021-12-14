@@ -13,5 +13,6 @@
 #include "physicsspigot.h"
 #include "physicstank.h"
 #include "physicswaterpump.h"
+#include "physicsstartbutton.h"
 
 #endif // PHYSICGAMEOBJECTSFILE_H
