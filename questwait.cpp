@@ -5,7 +5,9 @@
 
 #include "questwait.h"
 
-// Age Water
+Wait::Wait(){
+	callShowText = true;
+}
 void Wait::listener(const CallbackOptions &callback)
 {
 
