@@ -455,15 +455,14 @@ void FishModel::nextTask() {
 		case PREPARE_TANK:
 			setScene(ADD_FISH);
 			break;
-		//TODO: Figure out how to add more fish?
 		case ADD_FISH:
 			setScene(FEEDING);
 			break;
 		case FEEDING:
-			setScene(FILTER_CHANGE);
+			setScene(END);
 			break;
-		case FILTER_CHANGE:
-			setScene(WATER_CHANGE);
+		case END:
+			setScene(START);
 			break;
 		default:
 			setScene(PREPARE_TANK);
@@ -508,6 +507,7 @@ void FishModel::setScene(SCENE_STATE scene)
 		delete quests.front();
 		quests.pop();
 	}
+
 	switch (currentScene)
 	{
 		case START: {
@@ -533,21 +533,21 @@ void FishModel::setScene(SCENE_STATE scene)
 			break;
 
 		case FEEDING :
-			for(auto fish : fishInTank)
+		{
+			for (auto fish: fishInTank)
 			{
 				fish.setClickable(false);
+				fish.setLocation(QPointF(5,-2));
 				addGameObjectToScene(new Fish(fish), false);
-				auto foodContainer = new FoodContainer();
-				foodContainer->setLocation(QPointF(-4,-2.75));
-				foodContainer->setScale(b2Vec2(2,4));
-				addGameObjectToScene(foodContainer, false);
 			}
+			auto foodContainer = new FoodContainer();
+			foodContainer->setLocation(QPointF(-4, -2.75));
+			foodContainer->setScale(b2Vec2(2, 4));
+			addGameObjectToScene(foodContainer, false);
 			tank->setWaterLevel(100);
 			quests.push(new AddFood());
-			// food container
-			// lots of food
 			break;
-
+		}
 		case ADD_FISH :
 		{
 			auto pleco = new Fish();
@@ -590,6 +590,10 @@ void FishModel::setScene(SCENE_STATE scene)
 			break;
 		}
 		case END: {
+			fishInTank.clear();
+			auto startOverButton = new StartButton();
+			startOverButton->setGraphic(QImage(":/res/start_over_button.png"));
+			addGameObjectToScene(startOverButton, false);
 			quests.push(new End());
 			break;
 		}
