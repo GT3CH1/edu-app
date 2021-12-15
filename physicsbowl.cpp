@@ -59,7 +59,7 @@ void Bowl::drawWater()
 	water.fill(Qt::transparent);
 	QPainter painter(&water);
 	painter.setBrush(QColor(0,75,225,225));
-	painter.drawEllipse(0 + emptyBucket.width()*0.075,-emptyBucket.height(),emptyBucket.width()*0.85,emptyBucket.height()*2);
+	painter.drawEllipse(0 + emptyBucket.width()*0.075,-emptyBucket.height(),emptyBucket.width()*0.85,emptyBucket.height()*1.95);
 	QBrush transparentBrush;
 	transparentBrush.setStyle(Qt::BrushStyle::SolidPattern);
 	transparentBrush.setColor(Qt::transparent);

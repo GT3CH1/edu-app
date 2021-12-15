@@ -16,4 +16,5 @@ private:
 	void drawClock();
 	GameObject* hourHand;
 	GameObject* minuteHand;
+	GameObject* sky;
 };

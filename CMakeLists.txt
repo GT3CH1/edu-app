@@ -82,6 +82,8 @@ set(PROJECT_SOURCES
         physicstank.h
         physicscountertop.cpp
         physicscountertop.h
+								physicswall.h
+								physicswall.cpp
         questremovefishfrombag.cpp
         questremovefishfrombag.h
         scenestate.h

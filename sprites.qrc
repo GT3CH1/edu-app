@@ -31,5 +31,7 @@
         <file>res/moorish_idol_bag.png</file>
         <file>res/start_background.png</file>
         <file>res/start_button.png</file>
+        <file>res/sky_wheel.png</file>
+        <file>res/transparent.png</file>
     </qresource>
 </RCC>

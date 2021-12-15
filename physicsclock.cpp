@@ -13,6 +13,8 @@ Clock::Clock() :
 
 void Clock::start()
 {
+	sky = (GameObject*) callbackOptions.getGameObject("sky");
+
 	hourHand = new GameObject("hour hand", QPointF(position.x, position.y), rotation, QPointF(scale.x, scale.y),QImage(":/res/hour_hand.png"), 2);
 	callbackOptions.addGameObject(hourHand);
 
@@ -56,6 +58,8 @@ void Clock::onMouseHold(QPointF position){
 
 void Clock::drawClock(){
 	QTransform rotationT;
-	hourHand->setRotation(-time/24*360);
+	hourHand->setRotation(-time/12*360);
 	minuteHand->setRotation(-time*360);
+	if (sky != nullptr)
+		sky->setRotation(180 - time/24*360);
 }

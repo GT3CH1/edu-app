@@ -17,9 +17,9 @@ protected:
 	b2Vec2 scale;
 	double rotation;
 	std::string name;
-protected:
 	QImage graphic;
 	int renderLayer;
+	bool render = true;
 	CallbackOptions callbackOptions;
 public:
 	GameObject();
@@ -29,6 +29,7 @@ public:
 	double getRotation();
 	QPointF getScale();
 	QImage getGraphic();
+	bool getToRender();
 	void setName(const std::string &name);
 	void setGraphic(const QImage &graphic);
 	void setLocation(QPointF location);

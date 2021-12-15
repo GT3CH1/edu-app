@@ -41,7 +41,7 @@ private:
 	std::vector<Fish> fishInTank;
 	void createQuests();
 
-	bool debug = true;
+	bool debug = false;
 
 	QImage getColliderShape(b2Shape *shape, QColor penColor, QPointF &translation);
 	// The current scene to draw

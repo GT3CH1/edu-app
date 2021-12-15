@@ -263,10 +263,14 @@ void FishModel::updateGameObjects(){
 		//Update all GameObjects once per frame.
 		gameObject->updateObject(deltaTime);
 
-		int hashCode = std::hash<std::string>()(gameObject->getName());
+		if (gameObject->getToRender())
+		{
+			int hashCode = std::hash<std::string>()(gameObject->getName());
 
-		ObjectRenderInformation renderInfo {gameObject->getLocation(), gameObject->getRotation(), gameObject->getScale(), gameObject->getGraphic(), gameObject->getLayer(), hashCode};
-		renderables.push(renderInfo);
+			ObjectRenderInformation renderInfo {gameObject->getLocation(), gameObject->getRotation(), gameObject->getScale(), gameObject->getGraphic(), gameObject->getLayer(), hashCode};
+			renderables.push(renderInfo);
+		}
+
 		auto* toPhysics = dynamic_cast<PhysicsGameObject*>(gameObject);
 
 		//If we're debugging we want to render fixtures.
@@ -481,15 +485,20 @@ void FishModel::setScene(SCENE_STATE scene)
 
 	if (currentScene != START && currentScene != END)
 	{
-		background = new GameObject("background",QPointF(0,0),0,QPointF(20,14),QImage(":/res/background.png"),0);
-		addGameObjectToScene(new Countertop(0), false);
+		background = new GameObject("background",QPointF(0,0),0,QPointF(26,15),QImage(":/res/background.png"),-1);
+		GameObject* sky = new GameObject("sky", QPointF(5.3, -1), 180, QPointF(13,13), QImage(":/res/sky_wheel.png"), -2);
+		addGameObjectToScene(sky, false);
+		addGameObjectToScene(new Countertop(QPointF(0,-7), QPointF(20,4.7)), false);
+		addGameObjectToScene(new Wall("left wall", QPointF(-22.5, 0),QPointF(25, 14.5)), false);
+		addGameObjectToScene(new Wall("right wall", QPointF(22.5, 0),QPointF(25, 14.5)), false);
+		addGameObjectToScene(new Wall("ceiling", QPointF(0, 19.5),QPointF(25, 25)), false);
 		addGameObjectToScene(new Filter(), false);
 		addGameObjectToScene(new WaterPump(), false);
 		addGameObjectToScene(tank, false);
 	}
 	else
 	{
-		background = new GameObject("background",QPointF(0,0),0,QPointF(20,14),QImage(":/res/start_background.png"),0);
+		background = new GameObject("background",QPointF(0,0),0,QPointF(20.7,14.5),QImage(":/res/start_background.png"),-1);
 	}
 
 	addGameObjectToScene(background, false);

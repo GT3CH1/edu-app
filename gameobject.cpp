@@ -1,6 +1,6 @@
 /**
  * Authors - Alex Richins, William Erignac
- * Last Modified - 12/8/2021
+ * Last Modified - 12/14/2021
  *
  * A standard object in the game engine. A GameObject
  * always has at least a transformation (loc,rot,scale)
@@ -92,6 +92,14 @@ int GameObject::getLayer()
 std::string GameObject::getName() const
 {
 	return name;
+}
+
+/**
+ * @brief Returns whether this object should be rendered.
+ */
+bool GameObject::getToRender()
+{
+	return render;
 }
 
 /**
