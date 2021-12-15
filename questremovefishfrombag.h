@@ -10,6 +10,7 @@ class RemoveFishFromBag : public Quest
 {
 	Q_OBJECT
 public:
+	RemoveFishFromBag();
 	void listener(const CallbackOptions &callback);
 	void reset(const CallbackOptions &callback);
 	void showText(const CallbackOptions &callback);

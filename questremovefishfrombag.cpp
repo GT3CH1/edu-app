@@ -5,6 +5,9 @@
 
 #include "questremovefishfrombag.h"
 
+RemoveFishFromBag::RemoveFishFromBag(){
+	callShowText = true;
+}
 void RemoveFishFromBag::listener(const CallbackOptions &callback)
 {
 	auto pleco = (Fish *) callback.getGameObject("pleco");
@@ -19,6 +22,7 @@ void RemoveFishFromBag::listener(const CallbackOptions &callback)
 			theFish->setScale(b2Vec2(2,1));
 		emit fishRemovedFromBag(theFish);
 		emit Quest::pass();
+		callback.deleteGameObject("unBagFishinstructions");
 	}
 }
 
@@ -29,5 +33,6 @@ void RemoveFishFromBag::reset(const CallbackOptions &callback)
 
 void RemoveFishFromBag::showText(const CallbackOptions &callback)
 {
-
+	GameObject* instructionText = createTextImage("unBagFishinstructions", "Now that the fish has acclimated to the tank\nclick the bag to release the fish into the tank", QPointF(4, 1), QPointF(15,3), 100);
+	callback.addGameObject(instructionText);
 }
