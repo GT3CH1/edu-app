@@ -14,7 +14,7 @@ public:
 	void reset(const CallbackOptions &callback);
 	void showText(const CallbackOptions &callback);
 signals:
-	void fishRemovedFromBag(Fish* f);
+	void fishRemovedFromBag(AnimatedFish* f);
 };
 
 #endif //FISHTUTORIAL_QUESTREMOVEFISHFROMBAG_H

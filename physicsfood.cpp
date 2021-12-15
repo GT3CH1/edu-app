@@ -1,6 +1,9 @@
 /**
  * Authors - Kenzie Evans, Gavin Pease
  * Last Modified - 12/12/2021
+ *
+ * A food particulate. The tank counts how
+ * many of these are in it.
  */
 #include "physicsfood.h"
 int Food::foodGenerated = 0;
@@ -11,6 +14,10 @@ Food::Food(std::string name, QPointF position, double rotation, QPointF scale, b
 	auto newName = QString("food-%1").arg(foodGenerated++).toStdString();
 	setName(newName);
 }
+
+/**
+ * @brief Choose one of three ransom food sprites.
+ */
 QImage Food::generateFood()
 {
 	int food = ((int)rand()%3) +1;

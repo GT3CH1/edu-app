@@ -1,6 +1,6 @@
 /**
- * Authors - Alex Richins, Kenzie Evans, Gavin Pease
- * Last Modified - 12/12/2021
+ * Authors - Alex Richins, Kenzie Evans, Gavin Pease, William Erignac
+ * Last Modified - 12/13/2021
  */
 
 #include "questchoosefish.h"
@@ -13,29 +13,15 @@ ChooseFish::ChooseFish(){
 
 void ChooseFish::listener(const CallbackOptions &callback)
 {
-
+	//Get whether a fish was clicked.
 	auto pleco = (Fish *) callback.getGameObject("pleco");
 	auto goldfish = (Fish *) callback.getGameObject("goldfish");
 	auto moorish = (Fish *) callback.getGameObject("moorish");
 	bool fishSelected = (pleco->isSelected() || goldfish->isSelected() || moorish->isSelected());
+
 	if (fishSelected)
 	{
-/*
-		if (pleco->isSelected())
-		{
-			goldfish->setClickable(false);
-			moorish->setClickable(false);
-		}
-		if (goldfish->isSelected())
-		{
-			pleco->setClickable(false);
-			moorish->setClickable(false);
-		}
-		if (moorish->isSelected())
-		{
-			goldfish->setClickable(false);
-			pleco->setClickable(false);
-		}*/
+		//Remove the last quest's instructions.
 		callback.deleteGameObject("ChooseFishinstructions");
 		emit Quest::pass();
 	}

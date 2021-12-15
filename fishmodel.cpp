@@ -33,53 +33,19 @@ FishModel::FishModel(float _deltaTime) : deltaTime(_deltaTime), physicsWorld(b2V
 	setScene(START);
 }
 
-
 /**
- * @brief Creates the quests linked list
+ * @brief Creates a set of methods that can be used by
+ * GameObjects and Quests to modify the model.
  */
-void FishModel::createQuests()
-{
-	// Task 3
-	/*
-	AddFood* addFood3 = new AddFood();
-
-	quests.push(addFood3);
-
-	// Task 4
-	TurnOffWaterPump* turnOffWaterPump4 = new TurnOffWaterPump();
-	SwitchFilter* switchFilter4 = new SwitchFilter();
-	TurnOnWaterPump* turnOnWaterPump4 = new TurnOnWaterPump();
-
-	quests.push(turnOffWaterPump4);
-	quests.push(switchFilter4);
-	quests.push(turnOnWaterPump4);
-
-	// Task 5
-	ChooseFish* chooseFish5 = new ChooseFish();
-	AddFish* addFish5 = new AddFish();
-
-	quests.push(chooseFish5);
-	quests.push(addFish5);
-
-	// Task 6
-	FillBowl* fillBowl6 = new FillBowl();
-	Wait* ageWater6 = new Wait();
-	SiphonOldWater* siphon6 = new SiphonOldWater();
-	FillTank* fillTank6 = new FillTank();
-
-	quests.push(fillBowl6);
-	quests.push(ageWater6);
-	quests.push(siphon6);
-	quests.push(fillTank6);
-	 */
-}
-
 CallbackOptions FishModel::constructCallbackOptions()
 {
 	CallbackOptions options(getGameObjectLambda, addGameObjectLambda, deleteGameObjectLambda, addJointLambda, destroyJointLambda, getDeltaTimeLambda);
 	return options;
 }
 
+/**
+ * @brief Returns the time between frames (used in CallbackOptions)
+ */
 float FishModel::getDeltaTime()
 {
 	return deltaTime;
@@ -87,15 +53,22 @@ float FishModel::getDeltaTime()
 
 /**
  * @brief Adds a GameObject to the active scene.
+ * @param runStart Whether this method is being run
+ * at the start of a new scene (we want to wait until
+ * all GameObjects have been instantiated before
+ * running start() at the start of a scene).
  */
 void FishModel::addGameObjectToScene(GameObject *toAdd, bool runStart)
 {
+	//All GameObjects are in the vector and map.
 	gameObjects.push_back(toAdd);
 	gameObjectMap.emplace(toAdd->getName(), toAdd);
 
+	//GameObjects need ways to affect the model.
 	CallbackOptions options = constructCallbackOptions();
 	toAdd->setCallbacks(options);
 
+	//PhysicsGameObjects need to have their bodies instantiated.
 	auto* toAddPhysics = dynamic_cast<PhysicsGameObject*>(toAdd);
 	if (toAddPhysics != nullptr)
 		addBodyToWorld(toAddPhysics);
@@ -122,9 +95,12 @@ GameObject* FishModel::getGameObject(std::string objectName)
  */
 void FishModel::deleteGameObject(std::string objectName)
 {
-	if(!gameObjectMap[objectName])
+	//If the GameObject is not in the map, dont delete it.
+	if(gameObjectMap.count(objectName) == 0)
 		return;
 	GameObject *objectPtr = gameObjectMap.at(objectName);
+
+	//If the GameObject is a PhysicsGameObject, its body needs to be removed from the world.
 	PhysicsGameObject* gameObject = dynamic_cast<PhysicsGameObject*>(objectPtr);
 	if(gameObject)
 	{
@@ -132,6 +108,7 @@ void FishModel::deleteGameObject(std::string objectName)
 		if (gameObject == holdObject)
 			holdObject = nullptr;
 	}
+
 	gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), objectPtr), gameObjects.end());
 	gameObjectMap.erase(objectName);
 
@@ -148,11 +125,19 @@ void FishModel::addBodyToWorld(PhysicsGameObject* objectToAdd)
 	objectToAdd->setBody(body);
 }
 
+/**
+ * @brief Adds a Joint to the active physics world. To
+ * be used in CallbackOptions.
+ */
 b2Joint* FishModel::addJoint(b2JointDef *jointDefinition)
 {
 	return physicsWorld.CreateJoint(jointDefinition);
 }
 
+/**
+ * @brief Removes a Joint from the active physics world.
+ * To be used in CallbackOptions.
+ */
 void FishModel::destroyJoint(b2Joint *toDestory)
 {
 	physicsWorld.DestroyJoint(toDestory);
@@ -166,6 +151,22 @@ FishModel::CollisionEntry::CollisionEntry(PhysicsGameObject* first, PhysicsGameO
 	: CollisionEntry(first, second, false)
 {}
 
+/**
+ * @brief Collision entries are used to tell whether two
+ * objects have already collided.
+ * @param forcePosition
+ * If this is true, the object with the larger ascii name will
+ * be put in the a slot (this is used when two objects have
+ * collided normally).
+ * If this is false, the "first" object will be put into the
+ * a slot (this is used when one object has "sensed" another
+ * through a sensor).
+ *
+ * These two forms of construction exist prevent duplicate calls
+ * with the unordered sets of CollisionEntries; normal collisions
+ * are always called on both objects, while sensor collisions can
+ * be called on one object.
+ */
 FishModel::CollisionEntry::CollisionEntry(PhysicsGameObject* first, PhysicsGameObject* second, bool forcePosition)
 {
 	if (forcePosition)
@@ -216,6 +217,10 @@ void FishModel::updateGameObjects(){
 	b2Contact* contact =  physicsWorld.GetContactList();
 	int contactCount = physicsWorld.GetContactCount();
 
+	/*
+	 * Keep track of what collisions have already occurred.,
+	 * and prevent duplicate collision calls.
+	 */
 	std::unordered_set<CollisionEntry> entries;
 	std::unordered_set<CollisionEntry> sensorEntries;
 
@@ -256,6 +261,10 @@ void FishModel::updateGameObjects(){
 	//Hitboxes collects the render data of all fixtures (only used when debug is true).
 	std::vector<ObjectRenderInformation> hitBoxes;
 
+	/*
+	 * We duplicate the list of objects to iterate over because
+	 * some GameObjects instantiate new objects in their update methods.
+	 */
 	std::vector<GameObject*> toIterate (gameObjects);
 
 	for(GameObject* gameObject : toIterate)
@@ -307,38 +316,12 @@ void FishModel::updateGameObjects(){
 			}
 		}
 
-	b2Joint* joint = physicsWorld.GetJointList();
-
-	while(debug && joint != nullptr)
-	{
-		b2DistanceJoint* spring = dynamic_cast<b2DistanceJoint*>(joint);
-		if (spring)
-		{
-			b2Vec2 coordinateA(spring->GetLocalAnchorA().x * cos(spring->GetBodyA()->GetAngle()) - spring->GetLocalAnchorA().y * sin(spring->GetBodyA()->GetAngle()),
-							   spring->GetLocalAnchorA().x * cos(spring->GetBodyA()->GetAngle()) + spring->GetLocalAnchorA().y * sin(spring->GetBodyA()->GetAngle()));
-			coordinateA += spring->GetBodyA()->GetPosition();
-			b2Vec2 coordinateB = spring->GetLocalAnchorB() + spring->GetBodyB()->GetPosition();
-			b2Vec2 dimensions(abs(coordinateA.x - coordinateB.x), abs(coordinateA.y - coordinateB.y));
-			b2Vec2 center((coordinateA.x + coordinateB.x)/2, (coordinateA.y + coordinateB.y)/2);
-
-			QImage image(dimensions.x*20+1, dimensions.y*20+1, QImage::Format::Format_RGBA64);
-			image.fill(Qt::transparent);
-			QPainter painter(&image);
-			painter.setPen(Qt::yellow);
-			painter.drawLine((coordinateA.x - center.x)*20 + image.width()/2
-							 , -(coordinateA.y - center.y)*20 + image.height()/2
-							 , (coordinateB.x - center.x)*20 + image.width()/2,
-							 -(coordinateB.y - center.y)*20 + image.height()/2);
-			painter.end();
-			ObjectRenderInformation info {QPointF(center.x, center.y), 0, QPointF(dimensions.x, dimensions.y), image};
-			hitBoxes.push_back(info);
-		}
-		joint = joint->GetNext();
-	}
-
 	std::vector<ObjectRenderInformation> allRenderables;
 
-	//Compiles all things to render together (on release, this loop will be ignored).
+	/*
+	 * Compiles all things to render together (on release, the hitbox loop will be ignored),
+	 * in the order they should be rendered in.
+	 */
 	while(!renderables.empty())
 	{
 		allRenderables.push_back(renderables.top());
@@ -348,10 +331,10 @@ void FishModel::updateGameObjects(){
 	for(ObjectRenderInformation hitBox : hitBoxes)
 		allRenderables.push_back(hitBox);
 
-
-
+	//Update the quests to see if the current quest requirements have been satisfied.
 	if(quests.front() != nullptr && quests.size() > 0)
 		quests.front()->listener(constructCallbackOptions());
+
 	emit renderGameObjects(allRenderables);
 }
 
@@ -442,6 +425,8 @@ QImage FishModel::getColliderShape(b2Shape* shape, QColor penColor, QPointF& tra
  */
 FishModel::~FishModel() {
 	removeAllGameObjects();
+	if (fishInTank)
+		delete fishInTank;
 }
 
 /**
@@ -482,6 +467,7 @@ void FishModel::setScene(SCENE_STATE scene)
 	auto tank = new Tank();
 	GameObject* background;
 
+	//If we are in the game (not a menu) there are a list of objects that are always there.
 	if (currentScene != START && currentScene != END)
 	{
 		background = new GameObject("background",QPointF(0,0),0,QPointF(26,15),QImage(":/res/background.png"),-1);
@@ -502,7 +488,7 @@ void FishModel::setScene(SCENE_STATE scene)
 
 	addGameObjectToScene(background, false);
 
-
+	//Remove all quests so that the quests for this scene can be added.
 	while(!quests.empty()) {
 		delete quests.front();
 		quests.pop();
@@ -510,36 +496,57 @@ void FishModel::setScene(SCENE_STATE scene)
 
 	switch (currentScene)
 	{
-		case START: {
+		case START:
+		{
 			addGameObjectToScene(new StartButton(), false);
 			quests.push(new Start());
 			break;
-	}
-		case WATER_CHANGE : {
+		}
+		case PREPARE_TANK :
+		{
 			addGameObjectToScene(new Clock(), false);
-			addGameObjectToScene(new Bowl(QPointF(-5,-3)), false);
-			addGameObjectToScene(new Fish(), false);
-			//TODO: spigot
-			addGameObjectToScene(new Siphon(), false);
-
+			addGameObjectToScene(new Bowl(QPointF(-5, -3)), false);
+			addGameObjectToScene(new Spigot(QPointF(-5, 2)), false);
+			quests.push(new FillBowl());
+			quests.push(new Wait());
+			quests.push(new FillTank());
 			break;
 		}
-		case FILTER_CHANGE :
-			for(auto fish : fishInTank)
-			{
-				fish.setClickable(false);
-				addGameObjectToScene(new Fish(fish), false);
-			}
-			break;
+		case ADD_FISH :
+		{
+			auto pleco = new Fish();
+			pleco->setFishType(Fish::PLECO);
+			pleco->setName("pleco");
+			pleco->setLocation(QPointF(-8, -3.5));
 
+			auto moorish = new Fish();
+			moorish->setFishType(Fish::SIMPLE);
+			moorish->setName("moorish");
+			moorish->setLocation(QPointF(-5.5, -3.5));
+
+			auto goldfish = new Fish();
+			goldfish->setFishType(Fish::GOLDFISH);
+			goldfish->setName("goldfish");
+			goldfish->setLocation(QPointF(-3, -3.5));
+			tank->setWaterLevel(100);
+			addGameObjectToScene(pleco, false);
+			addGameObjectToScene(moorish, false);
+			addGameObjectToScene(goldfish, false);
+			addGameObjectToScene(new Clock(), false);
+
+			quests.push(new ChooseFish());
+			quests.push(new AddFish());
+			quests.push(new Wait());
+			auto removeBagQuest = new RemoveFishFromBag();
+			quests.push(removeBagQuest);
+			connect((RemoveFishFromBag *) removeBagQuest, &RemoveFishFromBag::fishRemovedFromBag, this,
+			        &FishModel::addFishToTank);
+			break;
+		}
 		case FEEDING :
 		{
-			for (auto fish: fishInTank)
-			{
-				fish.setClickable(false);
-				fish.setLocation(QPointF(5,-2));
-				addGameObjectToScene(new Fish(fish), false);
-			}
+			fishInTank->setLocation(QPointF(5, -2));
+			addGameObjectToScene(fishInTank, false);
 			auto foodContainer = new FoodContainer();
 			foodContainer->setLocation(QPointF(-4, -2.75));
 			foodContainer->setScale(b2Vec2(2, 4));
@@ -548,49 +555,8 @@ void FishModel::setScene(SCENE_STATE scene)
 			quests.push(new AddFood());
 			break;
 		}
-		case ADD_FISH :
+		case END:
 		{
-			auto pleco = new Fish();
-			pleco->setFishType(Fish::PLECO);
-			pleco->setName("pleco");
-			pleco->setLocation(QPointF(-8,-3.5));
-
-			auto moorish = new Fish();
-			moorish->setFishType(Fish::SIMPLE);
-			moorish->setName("moorish");
-			moorish->setLocation(QPointF(-5.5,-3.5));
-
-			auto goldfish = new Fish();
-			goldfish->setFishType(Fish::GOLDFISH);
-			goldfish->setName("goldfish");
-			goldfish->setLocation(QPointF(-3,-3.5));
-			tank->setWaterLevel(100);
-			addGameObjectToScene(pleco, false);
-			addGameObjectToScene(moorish, false);
-			addGameObjectToScene(goldfish, false);
-			addGameObjectToScene(new Clock(), false);
-
-			// Task 2
-			quests.push(new ChooseFish());
-			quests.push(new AddFish());
-			quests.push(new Wait());
-			auto removeBagQuest = new RemoveFishFromBag();
-			quests.push(removeBagQuest);
-			connect((RemoveFishFromBag*)removeBagQuest, &RemoveFishFromBag::fishRemovedFromBag, this,&FishModel::addFishToTank);
-			break;
-		}
-		case PREPARE_TANK :
-		{
-			addGameObjectToScene(new Clock(), false);
-			addGameObjectToScene(new Bowl(QPointF(-5,-3)), false);
-			addGameObjectToScene(new Spigot(QPointF(-5,2)), false);
-			quests.push(new FillBowl());
-			quests.push(new Wait());
-			quests.push(new FillTank());
-			break;
-		}
-		case END: {
-			fishInTank.clear();
 			auto startOverButton = new StartButton();
 			startOverButton->setGraphic(QImage(":/res/start_over_button.png"));
 			addGameObjectToScene(startOverButton, false);
@@ -598,12 +564,10 @@ void FishModel::setScene(SCENE_STATE scene)
 			break;
 		}
 		default:
-			// tank
-			// game object water pump
-			// game object filter
 			break;
 	}
-	//connect quests with gameObject
+
+	//Connect quests to the model, so that the model knows when quests are completed.
 	for(int i = 0; i < quests.size(); i++){
 		Quest* qRef = quests.front();
 		connect(qRef, &Quest::pass, this, &FishModel::nextQuest);
@@ -611,6 +575,7 @@ void FishModel::setScene(SCENE_STATE scene)
 		quests.push(qRef);
 	}
 
+	//Show the instructions of the first quest for this scene.
 	if (!quests.empty())
 	{
 		Quest* qRef = quests.front();
@@ -619,12 +584,18 @@ void FishModel::setScene(SCENE_STATE scene)
 		}
 	}
 
+	//Now that all GameObjects have been instantiated, we can run their start methods.
 	std::vector<GameObject*> toStart(gameObjects);
 
 	for(GameObject* gameObject : toStart)
 		gameObject->start();
 }
 
+/**
+ * @brief Collects this GameObject under the mouse if it is the
+ * frontmost clickable object.
+ * @return Returns true to keep looping through fixtures.
+ */
 bool FishModel::MouseToPhysicsChecker::ReportFixture(b2Fixture* fixture)
 {
 	PhysicsGameObject* gameObject = (PhysicsGameObject*) fixture->GetBody()->GetUserData();
@@ -639,6 +610,11 @@ bool FishModel::MouseToPhysicsChecker::ReportFixture(b2Fixture* fixture)
 	return true;
 }
 
+/**
+ * @brief Returns the GameObject under the mouse of the
+ * frontmost clickable object. Returns nullptr if there
+ * are no clickable objects under the mouse.
+ */
 PhysicsGameObject* FishModel::MouseToPhysicsChecker::reportFrontmostObject()
 {
 	return greatestLayer;
@@ -724,6 +700,12 @@ void FishModel::removeAllGameObjects()
 		deleteGameObject(gameObject->getName());
 }
 
+
+/**
+ * @brief Moves on to the proceeding quest. If
+ * there are no ore quests to move on to, switch
+ * to the next scene.
+ */
 void FishModel::nextQuest()
 {
 	auto toDelete = quests.front();
@@ -741,10 +723,13 @@ void FishModel::nextQuest()
 }
 
 /**
- * @brief Adds a fish to the current list of fish in this tank.
+ * @brief Keeps track of the fish the player has selected.
  * @param f - The fish to add.
  */
-void FishModel::addFishToTank(Fish* f)
+void FishModel::addFishToTank(AnimatedFish* f)
 {
-	fishInTank.push_back(*f);
+	if (fishInTank)
+		delete fishInTank;
+
+	fishInTank = new AnimatedFish(*f);
 }

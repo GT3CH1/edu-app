@@ -1,5 +1,5 @@
 /**
- * Authors - Alex Richins
+ * Authors - Alex Richins, William Erignac
  * Last Modified - 12/12/2021
  */
 #include "callbackoptions.h"

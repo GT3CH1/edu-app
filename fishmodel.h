@@ -38,9 +38,9 @@ private:
 	std::function<float()> getDeltaTimeLambda;
 
 	std::queue<Quest*> quests;
-	std::vector<Fish> fishInTank;
-	void createQuests();
+	AnimatedFish* fishInTank = nullptr;
 
+	//Debug determines whether to draw object colliders.
 	bool debug = false;
 
 	QImage getColliderShape(b2Shape *shape, QColor penColor, QPointF &translation);
@@ -85,7 +85,7 @@ public slots:
 	void mouseRelease(QPointF);
 	void nextTask();
 	void nextQuest();
-	void addFishToTank(Fish *f);
+	void addFishToTank(AnimatedFish *f);
 
 signals:
 	void renderGameObjects(std::vector<ObjectRenderInformation> renderables);

@@ -39,6 +39,8 @@ set(PROJECT_SOURCES
         fishtank.h
         quest.h
         physicgameobjectsfile.h
+								animatedfish.h
+								animatedfish.cpp
         questsfile.h
         questfillbowl.h
         questfillbowl.cpp

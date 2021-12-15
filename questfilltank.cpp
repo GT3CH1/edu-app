@@ -10,9 +10,7 @@ void FillTank::listener(const CallbackOptions &callback)
 {
 	Tank* fishTank = (Tank*)callback.getGameObject("tank");
 	int waterLevel = fishTank->getWaterLevel();
-	/*if (waterLevel > 300){
-		emit Quest::fail();
-	}else */ if (waterLevel > 400){
+	if (waterLevel > 400){
 		emit Quest::pass();
 	}
 }

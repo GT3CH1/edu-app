@@ -1,3 +1,11 @@
+/**
+ * Authors - William Erignac
+ * Last Modified - 12/14/2021
+ *
+ * The large colliders that keep GameObjects
+ * in bounds.
+ */
+
 #include "physicswall.h"
 
 Wall::Wall(std::string name, QPointF position, QPointF scale)

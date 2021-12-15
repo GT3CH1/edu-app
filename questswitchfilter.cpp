@@ -11,9 +11,7 @@ void SwitchFilter::listener(const CallbackOptions &callback)
 	bool filterOld = waterFilter->getOldFilter();
 	if(!filterOld){
 		emit Quest::pass();
-	} /*else{
-		emit Quest::fail();
-	}*/
+	}
 }
 
 void SwitchFilter::reset(const CallbackOptions &callback)

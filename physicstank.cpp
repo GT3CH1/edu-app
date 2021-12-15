@@ -1,6 +1,11 @@
 /**
  * Authors - William Erginac, Kenzie Evans, Alex Richins, Gavin Pease
  * Last Modified - 12/12/2021
+ *
+ * The aquarium used in all levels. Keeps track of or detect:
+ * - Water level
+ * - Food
+ * - Fish
  */
 
 #include "physicstank.h"
@@ -107,11 +112,16 @@ void Tank::setWaterLevel(int newWaterLevel)
  */
 void Tank::drawWater()
 {
+	//Start with an empty canvas.
 	QImage water(emptyTank.width(), emptyTank.height(), QImage::Format::Format_RGBA64);
 	water.fill(Qt::transparent);
 	QPainter painter(&water);
+
+	//Draw the water as a rectangle behind the tank.
 	painter.setBrush(QColor(0,75,225,225));
 	painter.drawRect(0, emptyTank.height() - waterLevel*emptyTank.height()/100, emptyTank.width()-2, waterLevel*emptyTank.height()/100);
+
+	//Draw the tank.
 	painter.drawImage(QPointF(0,0), emptyTank);
 	painter.end();
 	graphic = water;
@@ -119,9 +129,11 @@ void Tank::drawWater()
 
 void Tank::onSensorEnter(b2Contact *collision, bool isA, PhysicsGameObject *other)
 {
+	//Apply drag to submerged objects
 	other->getBody()->SetLinearDamping(other->getBody()->GetLinearDamping()*5);
 	other->getBody()->SetAngularDamping(other->getBody()->GetAngularDamping()*5);
 
+	//Check for important objects that have entered the tank.
 	auto fish = dynamic_cast<Fish*>(other);
 	auto food = dynamic_cast<Food*>(other);
 	if(fish)
@@ -132,6 +144,7 @@ void Tank::onSensorEnter(b2Contact *collision, bool isA, PhysicsGameObject *othe
 
 void Tank::onSensorExit(PhysicsGameObject *other)
 {
+	//Get rid of the drag caused by being in water.
 	other->getBody()->SetLinearDamping(other->getBody()->GetLinearDamping()/5);
 	other->getBody()->SetAngularDamping(other->getBody()->GetAngularDamping()/5);
 }

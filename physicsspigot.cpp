@@ -1,6 +1,8 @@
 /**
  * Authors - Alex Richins, Gavin Pease
  * Last Modified - 12/12/2021
+ *
+ * Fills the bowl with water.
  */
 
 #include "physicsspigot.h"
@@ -42,6 +44,10 @@ void Spigot::setBody(b2Body* newBody)
 	PhysicsGameObject::setBody(newBody);
 }
 
+/**
+ * @brief As the spigot is being held, it should fill
+ * the bowl.
+ */
 void Spigot::onMouseHold(QPointF position)
 {
 	Bowl* bowl = (Bowl*)callbackOptions.getGameObject("bowl");

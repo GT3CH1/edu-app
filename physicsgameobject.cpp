@@ -64,6 +64,9 @@ bool PhysicsGameObject::isClickable()
 	return clickable;
 }
 
+/**
+ * @brief Sets whether this object does something when clicked on.
+ */
 void PhysicsGameObject::setClickable(bool setClickable)
 {
 	clickable = setClickable;
@@ -91,7 +94,6 @@ void PhysicsGameObject::onMouseClick(QPointF mousePosition)
  */
 void PhysicsGameObject::onMouseHold(QPointF mousePosition)
 {
-	//qDebug() << QString::fromStdString(name) << " was held at (" << position.x() << ", " << position.y() << ").";
 }
 
 /**
@@ -104,7 +106,6 @@ void PhysicsGameObject::onMouseHold(QPointF mousePosition)
  */
 void PhysicsGameObject::onMouseRelease(QPointF mousePosition)
 {
-	//qDebug() << QString::fromStdString(name) << " was released at (" << position.x() << ", " << position.y() << ").";
 }
 
 /**
@@ -143,7 +144,8 @@ void PhysicsGameObject::updateObject(float deltaTime)
 		if(contacts.count(name) == 0)
 		{
 			PhysicsGameObject* object = (PhysicsGameObject*) getGameObject(name);
-			onCollisionExit(object);
+			if (object != nullptr)
+				onCollisionExit(object);
 		}
 	}
 
@@ -153,7 +155,8 @@ void PhysicsGameObject::updateObject(float deltaTime)
 		if(sensorContacts.count(name) == 0)
 		{
 			PhysicsGameObject* object = (PhysicsGameObject*) getGameObject(name);
-			onSensorExit(object);
+			if (object != nullptr)
+				onSensorExit(object);
 		}
 	}
 
@@ -191,29 +194,62 @@ void PhysicsGameObject::onSensor(b2Contact* collision, bool isA, PhysicsGameObje
 		onSensorStay(collision, isA, other);
 }
 
+/**
+ * @brief Called whenever a new collision occurs between this object and another.
+ * Override this to do things on collisions.
+ * @param isA Whether this is the A or B object in the collision parameter.
+ * @param other The object that collided with this object.
+ */
 void PhysicsGameObject::onCollisionEnter(b2Contact *collision, bool isA, PhysicsGameObject *other)
 {
-	//qDebug() << "Entered a Collision with: " << QString::fromStdString(other->getName());
-}
-void PhysicsGameObject::onCollisionStay(b2Contact *collision, bool isA, PhysicsGameObject *other)
-{
-	//qDebug() << "Stayed a Collision with: " << QString::fromStdString(other->getName());
-}
-void PhysicsGameObject::onCollisionExit(PhysicsGameObject *other)
-{
-	//qDebug() << "Exited a Collision with: " << QString::fromStdString(other->getName());
 }
 
+/**
+ * @brief Called whilst an object is resting on this one.
+ * Override this to do things on collisions.
+ * @param isA Whether this is the A or B object in the collision parameter.
+ * @param other The object that is resting on this object.
+ */
+void PhysicsGameObject::onCollisionStay(b2Contact *collision, bool isA, PhysicsGameObject *other)
+{
+}
+
+/**
+ * @brief Called whenever an object stops contact with (leaves) this object.
+ * Override this to do things on collisions.
+ * @param other The object left this object.
+ */
+void PhysicsGameObject::onCollisionExit(PhysicsGameObject *other)
+{
+}
+
+/**
+ * @brief Called whenever an object just enters one of this object's sensors.
+ * Override this to do things on senses.
+ * @param isA Whether this is the A or B object in the collision parameter.
+ * @param other The object that this was sensed.
+ */
 void PhysicsGameObject::onSensorEnter(b2Contact *collision, bool isA, PhysicsGameObject *other)
 {
-	//qDebug() << "Entered a Sense with: " << QString::fromStdString(other->getName());
 }
+
+/**
+ * @brief Called whenever an object stays in one of this object's sensors.
+ * Override this to do things on senses.
+ * @param isA Whether this is the A or B object in the collision parameter.
+ * @param other The object that is still in this object's sensor.
+ */
 void PhysicsGameObject::onSensorStay(b2Contact *collision, bool isA, PhysicsGameObject *other)
 {
-	//qDebug() << "Stayed a Sense with: " << QString::fromStdString(other->getName());
 }
+
+/**
+ * @brief Called whenever an object leaves this object's sensors.
+ * Override this to do things on senses.
+ * @param isA Whether this is the A or B object in the collision parameter.
+ * @param other The object that left this object's sensors.
+ */
 void PhysicsGameObject::onSensorExit(PhysicsGameObject *other)
 {
-	//qDebug() << "Exit a Sense with: " << QString::fromStdString(other->getName());
 }
 

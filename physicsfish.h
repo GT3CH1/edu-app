@@ -1,3 +1,6 @@
+#ifndef FISH_H
+#define FISH_H
+
 #include "physicsgameobject.h"
 #include "dragable.h"
 class Fish : public Dragable {
@@ -27,3 +30,5 @@ private:
 	void putFishInBag();
 	void removeFishFromBag();
 };
+
+#endif

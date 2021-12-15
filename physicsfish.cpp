@@ -1,6 +1,8 @@
 /**
  * Authors - Kenzie Evans, Gavin Pease
  * Last Modified - 12/12/2021
+ *
+ * The fish in a bag.
  */
 #include "physicsfish.h"
 
@@ -106,6 +108,9 @@ void Fish::setBody(b2Body *newBody)
 
 	newBody->CreateFixture(&mainFixtureDef);
 	newBody->SetFixedRotation(true);
+
+	newBody->SetLinearDamping(0.75);
+
 	PhysicsGameObject::setBody(newBody);
 }
 

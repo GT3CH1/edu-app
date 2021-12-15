@@ -15,5 +15,6 @@
 #include "physicswaterpump.h"
 #include "physicsstartbutton.h"
 #include "physicswall.h"
+#include "animatedfish.h"
 
 #endif // PHYSICGAMEOBJECTSFILE_H

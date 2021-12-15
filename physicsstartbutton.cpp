@@ -1,3 +1,10 @@
+/**
+ * Authors - Kenzie Evans
+ * Last Modified - 12/15/2021
+ *
+ * The star button on the starting screen.
+ */
+
 #include "physicsstartbutton.h"
 
 StartButton::StartButton()

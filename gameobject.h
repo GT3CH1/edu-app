@@ -38,7 +38,6 @@ public:
 	std::string getName() const;
 	virtual void start();
 	virtual void updateObject(float);
-	~GameObject();
 };
 
 #endif // GAMEOBJECT_H

@@ -111,13 +111,13 @@ bool GameObject::getToRender()
 void GameObject::updateObject(float deltaTime)
 {}
 
+/**
+ * @brief Called once this object is instantiated. Override
+ * this to make objects that do things once they're instantiated
+ * in the model.
+ */
 void GameObject::start()
 {}
-
-GameObject::~GameObject()
-{
-	//delete callbackOptions;
-}
 
 /**
  * @brief Sets the name of the game object.

@@ -10,9 +10,7 @@ void FillBowl::listener(const CallbackOptions &callback)
 {
 	Bowl* bowl = (Bowl*)callback.getGameObject("bowl");
 	int waterLevel = bowl->getWaterLevel();
-	/*if (waterLevel > 300){
-		emit Quest::fail();
-	}else */ if (waterLevel > 75){
+	if (waterLevel > 75){
 		emit Quest::pass();
 		Spigot* spigot = (Spigot*)callback.getGameObject("spigot");
 		Clock* clock = (Clock*)callback.getGameObject("clock");
