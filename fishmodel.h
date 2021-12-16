@@ -12,9 +12,10 @@
 #include <functional>
 #include "questsfile.h"
 #include "scenestate.h"
-class FishModel : public QObject {
+class FishModel : public QObject
+{
 
-    Q_OBJECT
+	Q_OBJECT
 private:
 	std::vector<GameObject*> gameObjects;
 	std::map<std::string, GameObject*> gameObjectMap;
@@ -38,12 +39,11 @@ private:
 	std::function<float()> getDeltaTimeLambda;
 
 	std::queue<Quest*> quests;
-	AnimatedFish* fishInTank = nullptr;
+	AnimatedFish fishInTank;
 
 	//Debug determines whether to draw object colliders.
 	bool debug = false;
 
-	QImage getColliderShape(b2Shape *shape, QColor penColor, QPointF &translation);
 	// The current scene to draw
 	SCENE_STATE currentScene = START;
 	void setScene(SCENE_STATE currentScene);
@@ -55,7 +55,7 @@ private:
 	private:
 		PhysicsGameObject* greatestLayer = nullptr;
 	public:
-		virtual bool ReportFixture(b2Fixture* hit);
+		bool ReportFixture(b2Fixture* hit) override;
 		PhysicsGameObject* reportFrontmostObject();
 	};
 
@@ -63,8 +63,8 @@ private:
 	void removeAllGameObjects();
 
 public:
-	FishModel(float deltaTime);
-	~FishModel();
+	explicit FishModel(float deltaTime);
+	~FishModel() override;
 
 	struct CollisionEntry
 	{
@@ -91,19 +91,19 @@ signals:
 	void renderGameObjects(std::vector<ObjectRenderInformation> renderables);
 };
 
-namespace std {
-template<>
-/**
- * @brief Needed for unordered_set of CollisionEntries.
- */
-struct hash<FishModel::CollisionEntry>
+namespace std
 {
-public:
-	size_t operator()(const FishModel::CollisionEntry& toHash) const
+	template<>
+	/**
+	 * @brief Needed for unordered_set of CollisionEntries.
+	 */
+	struct hash<FishModel::CollisionEntry>
 	{
-		return toHash.hashCode();
-	}
-};
+	public:
+		size_t operator()(const FishModel::CollisionEntry& toHash) const
+		{
+			return toHash.hashCode();
+		}
+	};
 }
-
 #endif // FISHMODEL_H

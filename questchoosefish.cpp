@@ -1,12 +1,14 @@
 /**
  * Authors - Alex Richins, Kenzie Evans, Gavin Pease, William Erignac
- * Last Modified - 12/15/2021
  */
 
 #include "questchoosefish.h"
 #include <QDebug>
 #include <QPainter>
 
+/**
+ * @brief Determines when the quest is passed
+ */
 void ChooseFish::listener(const CallbackOptions &callback)
 {
 	//Get whether a fish was clicked.
@@ -23,13 +25,11 @@ void ChooseFish::listener(const CallbackOptions &callback)
 	}
 }
 
-void ChooseFish::reset(const CallbackOptions &callback)
-{
-
-}
-
+/**
+ * @brief Shows the text for the quest
+ */
 void ChooseFish::showText(const CallbackOptions &callback)
 {
-		GameObject* instructionText = createTextImage("ChooseFishinstructions", "Please click the fish\nyou'd like to care for", QPointF(-5, -2), QPointF(12,3), 100);
-		callback.addGameObject(instructionText);
+	GameObject* instructionText = createTextImage("ChooseFishinstructions", "Please click the fish\nyou'd like to care for", QPointF(-5, -2), QPointF(12, 3), 100);
+	callback.addGameObject(instructionText);
 }

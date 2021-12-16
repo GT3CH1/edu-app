@@ -6,9 +6,8 @@
 class Start : public Quest
 {
 public:
-	void listener(const CallbackOptions &callback);
-	void reset(const CallbackOptions &callback);
-	void showText(const CallbackOptions &callback);
+	void listener(const CallbackOptions &callback) override;
+	void showText(const CallbackOptions &callback) override;
 };
 
 #endif // START_H

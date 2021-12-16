@@ -10,7 +10,10 @@
 #include <ui_fishvc.h>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class FishVC; }
+namespace Ui
+{
+	class FishVC;
+}
 QT_END_NAMESPACE
 
 class FishVC : public QMainWindow
@@ -36,7 +39,7 @@ private:
 	void resizeEvent(QResizeEvent*) override;
 
 public slots:
-	void renderGameObjects(std::vector<ObjectRenderInformation> renderables);
+	void renderGameObjects(const std::vector<ObjectRenderInformation>& renderables);
 	void mouseClick(QPointF);
 	void mouseMove(QPointF);
 	void mouseRelease(QPointF);

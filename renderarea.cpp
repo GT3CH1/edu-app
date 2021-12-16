@@ -1,6 +1,5 @@
 /**
  * Authors - Jonathan Vielstich
- * Last Modified - 12/01/2021
  */
 #include "renderarea.h"
 
@@ -43,9 +42,8 @@ void RenderArea::setImage(QPixmap &toRender)
  */
 void RenderArea::mouseMoveEvent(QMouseEvent *e)
 {
-	if (e->buttons() == Qt::LeftButton) {
+	if (e->buttons() == Qt::LeftButton)
 		emit mouseLocation(e->pos());
-	}
 }
 
 /**
@@ -56,9 +54,8 @@ void RenderArea::mouseMoveEvent(QMouseEvent *e)
  */
 void RenderArea::mousePressEvent(QMouseEvent *e)
 {
-	if (e->button() == Qt::LeftButton) {
+	if (e->button() == Qt::LeftButton)
 		emit mousePressed(e->pos());
-	}
 }
 
 /**
@@ -69,9 +66,8 @@ void RenderArea::mousePressEvent(QMouseEvent *e)
  */
 void RenderArea::mouseReleaseEvent(QMouseEvent *e)
 {
-	if (e->button() == Qt::LeftButton) {
+	if (e->button() == Qt::LeftButton)
 		emit mouseReleased(e->pos());
-	}
 }
 
 /**

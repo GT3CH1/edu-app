@@ -1,45 +1,33 @@
 /**
- * Authors - Alex Richins, Gavin Pease
- * Last Modified - 12/12/2021
+ * Authors - Alex Richins, Gavin Pease, Kenzie Evans, William Erignac
  *
  * Fills the bowl with water.
  */
 
 #include "physicsspigot.h"
 #include "physicsbowl.h"
-// Spigot
-Spigot::Spigot(QPointF position) : PhysicsGameObject("spigot", position, 0, QPointF(1.5,2.25), PhysicsGameObject::createBodyDef(b2_staticBody), QImage(":/res/spigot.png"))
+
+/**
+ * @brief Creates a spigot game object
+ */
+Spigot::Spigot(QPointF position) :
+	PhysicsGameObject("spigot", position, 0, QPointF(1.5, 2.25), PhysicsGameObject::createBodyDef(b2_staticBody), QImage(":/res/spigot.png"))
 {
-	power = false;
 	setClickable(true);
 }
 
-Spigot::Spigot(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef body, QImage image) :
-		PhysicsGameObject(name, position, rotation, scale, body, image)
-{
-	power = false;
-}
-
-bool Spigot::getPower()
-{
-	return power;
-}
-
-void Spigot::setPower(bool newPower)
-{
-	power = newPower;
-}
-
+/**
+ * @brief Sets the body of this game object
+ * @param newBody - the body to be set to
+ */
 void Spigot::setBody(b2Body* newBody)
 {
 	// Make the sensor...
 	b2PolygonShape sensorShape;
 	sensorShape.SetAsBox(scale.x / 2, scale.y / 2);
-
 	b2FixtureDef hitBoxDefinition;
 	hitBoxDefinition.shape = &sensorShape;
 	hitBoxDefinition.isSensor = true;
-
 	newBody->CreateFixture(&hitBoxDefinition);
 	PhysicsGameObject::setBody(newBody);
 }

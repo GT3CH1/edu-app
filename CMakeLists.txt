@@ -30,17 +30,16 @@ set(PROJECT_SOURCES
         objectrenderinformation.cpp
         callbackoptions.h
         callbackoptions.cpp
-        dialogue.h
         physicsgameobject.h
         physicsgameobject.cpp
-        dragable.h
-        dragable.cpp
+        draggable.h
+        draggable.cpp
         fishtank.cpp
         fishtank.h
         quest.h
         physicgameobjectsfile.h
-								animatedfish.h
-								animatedfish.cpp
+        animatedfish.h
+        animatedfish.cpp
         questsfile.h
         questfillbowl.h
         questfillbowl.cpp
@@ -54,14 +53,6 @@ set(PROJECT_SOURCES
         questwait.h
         questaddfood.cpp
         questaddfood.h
-        questturnoffpump.cpp
-        questturnoffpump.h
-        questturnonpump.cpp
-        questturnonpump.h
-        questswitchfilter.cpp
-        questswitchfilter.h
-        questsiphonwater.cpp
-        questsiphonwater.h
         physicsbowl.cpp
         physicsbowl.h
         physicsclock.cpp
@@ -72,20 +63,14 @@ set(PROJECT_SOURCES
         physicsfoodcontainer.h
         physicsspigot.cpp
         physicsspigot.h
-        physicswaterpump.cpp
-        physicswaterpump.h
-        physicsfilter.cpp
-        physicsfilter.h
-        physicssiphon.cpp
-        physicssiphon.h
         physicsfish.cpp
         physicsfish.h
         physicstank.cpp
         physicstank.h
         physicscountertop.cpp
         physicscountertop.h
-								physicswall.h
-								physicswall.cpp
+        physicswall.h
+        physicswall.cpp
         questremovefishfrombag.cpp
         questremovefishfrombag.h
         scenestate.h

@@ -1,9 +1,13 @@
+#ifndef PHYSICSBOWL_H
+#define PHYSICSBOWL_H
+
 #include "physicsgameobject.h"
+
 class Bowl : public PhysicsGameObject
 {
 public:
 	Bowl(QPointF position);
-	int getWaterLevel();
+	int getWaterLevel() const;
 	void setWaterLevel(int newWaterLevel);
 	void raiseWaterLevel();
 	virtual void setBody(b2Body* newBody);
@@ -13,3 +17,5 @@ private:
 	void drawWater();
 	QImage emptyBucket;
 };
+
+#endif // PHYSICSBOWL_H

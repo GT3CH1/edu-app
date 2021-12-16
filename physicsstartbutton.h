@@ -7,9 +7,9 @@ class StartButton : public PhysicsGameObject
 {
 public:
 	StartButton();
-	virtual void setBody(b2Body* newBody);
-	void onMouseClick(QPointF position);
-	bool getClicked();
+	void setBody(b2Body* newBody) override;
+	void onMouseClick(QPointF position) override;
+	bool getClicked() const;
 private:
 	bool clicked;
 };

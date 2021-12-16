@@ -1,6 +1,5 @@
 /**
  * Authors - Alex Richins, William Erignac
- * Last Modified - 12/14/2021
  *
  * A standard object in the game engine. A GameObject
  * always has at least a transformation (loc,rot,scale)
@@ -9,10 +8,16 @@
 
 #include "gameobject.h"
 
+#include <utility>
+
 /**
  * @brief Constructs a default monkey GameObject.
  */
-GameObject::GameObject() : name("default"), graphic(QImage(":/res/stinkyMonkey.png")), scale(1, 1)
+GameObject::GameObject() : name("default"),
+	graphic(QImage(":/res/stinkyMonkey.png")),
+	scale(1, 1),
+	rotation(0),
+	renderLayer(-1)
 {}
 
 /**
@@ -21,13 +26,13 @@ GameObject::GameObject() : name("default"), graphic(QImage(":/res/stinkyMonkey.p
  * @param _rotation The rotation of the object in degrees.
  */
 GameObject::GameObject(std::string name, QPointF _position, double _rotation, QPointF _scale, QImage graphic, int layer)
-		:
-		name(name),
-		position(_position.x(), _position.y()),
-		rotation(_rotation),
-		scale(_scale.x(), _scale.y()),
-		graphic(graphic),
-		renderLayer(layer)
+	:
+	name(std::move(name)),
+	position(_position.x(), _position.y()),
+	rotation(_rotation),
+	scale(_scale.x(), _scale.y()),
+	graphic(std::move(graphic)),
+	renderLayer(layer)
 {}
 
 /**
@@ -37,7 +42,7 @@ GameObject::GameObject(std::string name, QPointF _position, double _rotation, QP
  */
 void GameObject::setCallbacks(CallbackOptions _callbackOptions)
 {
-	this->callbackOptions = _callbackOptions;
+	this->callbackOptions = std::move(_callbackOptions);
 }
 
 /**
@@ -46,15 +51,15 @@ void GameObject::setCallbacks(CallbackOptions _callbackOptions)
  * NOTE: The origin of the scene is at (0,0) at the center of
  * the screen. y+ is up and x+ is right.
  */
-QPointF GameObject::getLocation()
+QPointF GameObject::getLocation() const
 {
-	return QPointF(position.x, position.y);
+	return {position.x, position.y};
 }
 
 /**
  * @brief Returns the rotation of the object in degrees.
  */
-double GameObject::getRotation()
+double GameObject::getRotation() const
 {
 	return rotation;
 }
@@ -65,9 +70,9 @@ double GameObject::getRotation()
  * the GameObject, no other qualities of the GameObject
  * (including physics bodies) are affected by scale.
  */
-QPointF GameObject::getScale()
+QPointF GameObject::getScale() const
 {
-	return QPointF(scale.x, scale.y);
+	return {scale.x, scale.y};
 }
 
 /**
@@ -81,7 +86,7 @@ QImage GameObject::getGraphic()
 /**
  * @brief Returns the order that this object should be rendered int.
  */
-int GameObject::getLayer()
+int GameObject::getLayer() const
 {
 	return renderLayer;
 }
@@ -97,7 +102,7 @@ std::string GameObject::getName() const
 /**
  * @brief Returns whether this object should be rendered.
  */
-bool GameObject::getToRender()
+bool GameObject::getToRender() const
 {
 	return render;
 }
@@ -123,18 +128,18 @@ void GameObject::start()
  * @brief Sets the name of the game object.
  * @param name - The name of this game object.
  */
-void GameObject::setName(const std::string &name)
+void GameObject::setName(const std::string &newName)
 {
-	GameObject::name = name;
+	GameObject::name = newName;
 }
 
 /**
  * @brief Sets the graphic of the game object.
  * @param graphic - The graphic/image we want now rendered.
  */
-void GameObject::setGraphic(const QImage &graphic)
+void GameObject::setGraphic(const QImage &newGraphic)
 {
-	GameObject::graphic = graphic;
+	GameObject::graphic = newGraphic;
 }
 
 /**
@@ -146,13 +151,20 @@ void GameObject::setLocation(QPointF location)
 	GameObject::position = b2Vec2((float) location.x(), (float) location.y());
 }
 
+/**
+ * @brief Sets the new rotation of this game object
+ * @param newRotation - The new rotation we want this object to have
+ */
 void GameObject::setRotation(double newRotation)
 {
 	GameObject::rotation = newRotation;
-
 }
 
-void GameObject::setScale(const b2Vec2 &scale)
+/**
+ * @brief Sets the new scale of this game object
+ * @param scale - The new scale we want this object to have
+ */
+void GameObject::setScale(const b2Vec2 &newScale)
 {
-	GameObject::scale = scale;
+	GameObject::scale = newScale;
 }

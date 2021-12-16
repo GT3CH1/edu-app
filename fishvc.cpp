@@ -1,6 +1,5 @@
 /**
  * Authors - Alex Richins, William Erignac, Jonathan Vielstich
- * Last Modified - 12/9/2021
  *
  * The view / controller of the fish training application.
  */
@@ -10,7 +9,6 @@
 #include <QTransform>
 #include <QTimer>
 #include <QPushButton>
-#include <iostream>
 
 /**
  * @brief Constructs a view/controller with a model.
@@ -19,23 +17,19 @@ FishVC::FishVC(QWidget *parent)
 	: QMainWindow(parent)
 	, ui(new Ui::FishVC)
 	, tutorialModel(0.1666f)
+	, modelRatio(1)
 {
 	ui->setupUi(this);
-
 	ui->centralwidget->setMinimumSize(WINDOW_MIN);
 	ui->mainCanvas->setMinimumSize(CANVAS_MIN);
-
 	connect(&tutorialModel, &FishModel::renderGameObjects, this, &FishVC::renderGameObjects);
-
 	//Update the model every 0.1666 seconds (60 fps).
-	QTimer *timer = new QTimer(this);
+	auto timer = new QTimer(this);
 	connect(timer, &QTimer::timeout, &tutorialModel, &FishModel::updateGameObjects);
 	timer->start(FPS);
-
 	mouseTimer = new QTimer(this);
 	mouseTimer->setInterval(FPS);
 	connect(mouseTimer, &QTimer::timeout, this, &FishVC::mouseHold);
-
 	// Connect mouse controls
 	connect(ui->mainCanvas, &RenderArea::mousePressed, this, &FishVC::mouseClick);
 	connect(ui->mainCanvas, &RenderArea::mouseLocation, this, &FishVC::mouseMove);
@@ -43,8 +37,13 @@ FishVC::FishVC(QWidget *parent)
 	connect(this, &FishVC::mouseClickSignal, &tutorialModel, &FishModel::mouseClick);
 	connect(this, &FishVC::mouseHoldSignal, &tutorialModel, &FishModel::mouseHold);
 	connect(this, &FishVC::mouseReleaseSignal, &tutorialModel, &FishModel::mouseRelease);
+	setWindowTitle("Baba Ghanoush Fish Tutorial");
+	setWindowIcon(QIcon(":/res/jim_carrey_bag.png"));
 }
 
+/**
+ * @brief Deconstructs the UI
+ */
 FishVC::~FishVC()
 {
 	delete ui;
@@ -53,14 +52,14 @@ FishVC::~FishVC()
 /**
  * @brief Renders the images with the provided transformations in renderables.
  */
-void FishVC::renderGameObjects(std::vector<ObjectRenderInformation> renderables)
+void FishVC::renderGameObjects(const std::vector<ObjectRenderInformation>& renderables)
 {
-	QPixmap composite(ui->mainCanvas->width(),ui->mainCanvas->height());
+	QPixmap composite(ui->mainCanvas->width(), ui->mainCanvas->height());
 	QPainter objectRenderer(&composite);
 	float ratio = (float)ui->mainCanvas->width() / MODEL_SCALE;
 
 	//Paint the renderables one by one onto the composite.
-	for (ObjectRenderInformation& renderable : renderables)
+	for (const auto& renderable : renderables)
 	{
 		//Rotation and scaling transformations.
 		QPixmap rotatedImage = QPixmap::fromImage(renderable.toRender);
@@ -69,13 +68,11 @@ void FishVC::renderGameObjects(std::vector<ObjectRenderInformation> renderables)
 		QTransform rotation;
 		rotation.rotate(-renderable.rotation);
 		rotatedImage = rotatedImage.transformed(scale).transformed(rotation);
-
 		//Perform model-to-view space transformations.
 		QPointF spriteCenter((float)-rotatedImage.width() / 2.0f, (float)-rotatedImage.height() / 2.0f);
 		QPointF upperLeft = modelToView(renderable.position) + spriteCenter;
-
 		//Draw the renderable
-		objectRenderer.drawImage(upperLeft, rotatedImage.toImage(), QRect(0,0,rotatedImage.width(), rotatedImage.height()));
+		objectRenderer.drawImage(upperLeft, rotatedImage.toImage(), QRect(0, 0, rotatedImage.width(), rotatedImage.height()));
 	}
 
 	ui->mainCanvas->setImage(composite);
@@ -158,7 +155,6 @@ void FishVC::resizeEvent(QResizeEvent *event)
 	int windowHeight = ui->centralwidget->height();
 	double aspectRatio = windowWidth / (double)windowHeight;
 	double windowRatio = (WINDOW_MIN.width() / (double)WINDOW_MIN.height());
-
 	// Find new canvas dimensions
 	int canvasWidth = (int)(windowWidth * (CANVAS_MIN.width() / (double)WINDOW_MIN.width()));
 	int canvasHeight = (int)(windowHeight * (CANVAS_MIN.height() / (double)WINDOW_MIN.height()));
@@ -166,17 +162,16 @@ void FishVC::resizeEvent(QResizeEvent *event)
 	// Adjust canvas to maintain aspect ratio
 	if (aspectRatio < windowRatio)		// Window is taller than normal, set based on width
 		canvasHeight = (int)(canvasWidth * (CANVAS_MIN.height() / (double)CANVAS_MIN.width()));
+
 	else if (aspectRatio > windowRatio)	// Window is wider than normal, set based on height
 		canvasWidth = (int)(canvasHeight * (CANVAS_MIN.width() / (double)CANVAS_MIN.height()));
 
 	// Find new canvas position
 	int canvasX = (windowWidth - canvasWidth) / 2;
 	int canvasY = (windowHeight - canvasHeight) / 2;
-
 	// Scale and move canvas
 	ui->mainCanvas->resize(canvasWidth, canvasHeight);
 	ui->mainCanvas->move(canvasX, canvasY);
-
 	// Redefine modelRatio
 	modelRatio = MODEL_SCALE / (float)ui->mainCanvas->width();
 }

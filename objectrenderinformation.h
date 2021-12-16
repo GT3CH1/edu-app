@@ -1,6 +1,5 @@
 /**
  * Authors - William Erignac
- * Last Modified - 12/2/2021
  *
  * All the information the VC needs to know
  * about an object to render it.

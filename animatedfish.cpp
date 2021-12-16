@@ -1,6 +1,5 @@
 /**
  * Authors - William Erignac
- * Last Modified - 12/15/2021
  *
  * The Animated Fish is the fish that appears in the
  * tank after its been removed from a bag. It has a
@@ -19,7 +18,7 @@
  * horizontally as if it were turning around.
  */
 AnimatedFish::AnimatedFish(Fish::FISH_TYPE fishType, QPointF position, float horizontalRadius, float verticalRadius, bool scaleAnimation)
-	: GameObject("animated fish", position, 0, QPointF(aspecRatioFromType(fishType).x*2,aspecRatioFromType(fishType).y*2),imageFromType(fishType), 4), startPos(position.x(), position.y()),
+	: GameObject("animatedfish", position, 0, QPointF(aspecRatioFromType(fishType).x*2, aspecRatioFromType(fishType).y*2), imageFromType(fishType), 4), startPos(position.x(), position.y()),
 	  horizontalDistance(horizontalRadius), verticalDistance(verticalRadius), faceRight(faceDirectionFromType(fishType)), startWidth(scale.x), scaleAnimation(scaleAnimation)
 {
 	this->fishType = fishType;
@@ -52,9 +51,7 @@ void AnimatedFish::updateObject(float deltaTime)
 	//Make the infinity path...
 	float horizontalAddition = horizontalDistance * sin(horizontalProgress / horizontalPeriod * 2 * M_PI);
 	float verticalAddition = verticalDistance * sin(verticalProgress / verticalPeriod * 2 * M_PI);
-
 	setLocation(QPointF(startPos.x + horizontalAddition, startPos.y + verticalAddition));
-
 	//Set the scale of the fish...
 	float horizontalSlope = cos(horizontalProgress / horizontalPeriod * 2 * M_PI);
 	float flipMultiplier = 1;
@@ -68,7 +65,6 @@ void AnimatedFish::updateObject(float deltaTime)
 		flipMultiplier *= abs(horizontalSlope);
 
 	setScale(b2Vec2(startWidth * flipMultiplier, scale.y));
-
 	//Rotate the fish so that it looks somewhat in the direction that it's moving...
 	float verticalSlope = (horizontalSlope / abs(horizontalSlope)) * verticalDistance * cos(verticalProgress / verticalPeriod * 2 * M_PI);
 	setRotation(atan(verticalSlope) * 180 / M_PI);
@@ -82,11 +78,14 @@ QImage AnimatedFish::imageFromType(Fish::FISH_TYPE type)
 	if ((double)rand() / (double) RAND_MAX < 0.01)
 		return QImage(":/res/stinkyMonkey.png");
 
-	switch (type) {
+	switch (type)
+	{
 		case (Fish::FISH_TYPE::GOLDFISH) :
 			return QImage(":/res/jim_carrey.png");
+
 		case (Fish::FISH_TYPE::PLECO) :
 			return QImage(":/res/ghanoush_fish.png");
+
 		case (Fish::FISH_TYPE::SIMPLE) :
 			return QImage(":/res/moorish_idol.png");
 	}
@@ -100,11 +99,14 @@ QImage AnimatedFish::imageFromType(Fish::FISH_TYPE type)
  */
 bool AnimatedFish::faceDirectionFromType(Fish::FISH_TYPE type)
 {
-	switch (type) {
+	switch (type)
+	{
 		case (Fish::FISH_TYPE::GOLDFISH) :
 			return false;
+
 		case (Fish::FISH_TYPE::PLECO) :
 			return false;
+
 		case (Fish::FISH_TYPE::SIMPLE) :
 			return true;
 	}
@@ -118,13 +120,16 @@ bool AnimatedFish::faceDirectionFromType(Fish::FISH_TYPE type)
  */
 b2Vec2 AnimatedFish::aspecRatioFromType(Fish::FISH_TYPE type)
 {
-	switch (type) {
+	switch (type)
+	{
 		case (Fish::FISH_TYPE::GOLDFISH) :
 			return b2Vec2(1, 0.531);
+
 		case (Fish::FISH_TYPE::PLECO) :
-			return b2Vec2(1,0.297);
+			return b2Vec2(1, 0.297);
+
 		case (Fish::FISH_TYPE::SIMPLE) :
-			return b2Vec2(0.929,1);
+			return b2Vec2(0.929, 1);
 	}
 
 	//Never called. Set here to prevent warnings.

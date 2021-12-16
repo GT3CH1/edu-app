@@ -1,63 +1,58 @@
 /**
- * Authors - Kenzie Evans, Gavin Pease
+ * Authors - Kenzie Evans, Gavin Pease, William Erignac
  * Last Modified - 12/12/2021
  *
  * The fish in a bag.
  */
 #include "physicsfish.h"
 
-// Fish
+#include <utility>
+
+/**
+ * @brief Constructs the fish game object
+ * @param name - name of the fish
+ * @param position - position of the fish in the world
+ * @param rotation - rotation of the fish
+ * @param scale - scale of the fish
+ * @param image - image used for the fish
+ * @param fishType - the type of fish
+ */
 Fish::Fish(std::string name, QPointF position, double rotation, QPointF scale, QImage image, FISH_TYPE fishType) :
-		Dragable(name, position, rotation, scale, createBodyDef(b2_dynamicBody), image, 10) {
+	Draggable(std::move(name), position, rotation, scale, createBodyDef(b2_dynamicBody), std::move(image), 10)
+{
 	setInTank(false);
 	setClickable(true);
-	setFishType(type);
+	setFishType(fishType);
 }
 
-bool Fish::isInTank()
+/**
+ * @brief Returns if the fish is in the tank
+ */
+bool Fish::isInTank() const
 {
 	return inTank;
 }
 
+/**
+ * @brief Drags the fish if the fish is clickable
+ * @param position - the position that the mouse is clicked
+ */
 void Fish::onMouseClick(QPointF position)
 {
 	if(isClickable())
 		selected = true;
-	Dragable::onMouseClick(position);
-}
 
-void Fish::setInTank(bool state)
-{
-	inTank = state;
-	if(isInTank())
-		setClickable(false);
-	else
-		setClickable(true);
+	Draggable::onMouseClick(position);
 }
 
 /**
- * @brief "Removes" the fish from bag (draws the fish without the bag)
+ * @brief Sets the fish in the tank
+ * @param state - current state of the fish
  */
-void Fish::removeFishFromBag()
+void Fish::setInTank(bool state)
 {
-	switch (type)
-	{
-		case GOLDFISH :
-		{
-			setGraphic(QImage(":/res/jim_carrey.png"));
-			break;
-		}
-		case PLECO :
-		{
-			setGraphic(QImage(":/res/ghanoush_fish.png"));
-			break;
-		}
-		case SIMPLE :
-		{
-			setGraphic(QImage(":/res/moorish_idol.png"));
-			break;
-		}
-	}
+	inTank = state;
+	setClickable(!state);
 }
 
 /**
@@ -73,7 +68,8 @@ void Fish::setFishType(Fish::FISH_TYPE fishType)
 /**
  * @brief "Puts" the fish in the bag (draws fish in bag)
  */
-void Fish::putFishInBag() {
+void Fish::putFishInBag()
+{
 	switch (type)
 	{
 		case GOLDFISH :
@@ -81,11 +77,13 @@ void Fish::putFishInBag() {
 			graphic = QImage(":/res/jim_carrey_bag.png");
 			break;
 		}
+
 		case PLECO :
 		{
 			graphic = QImage(":/res/ghanoush_fish_bag.png");
 			break;
 		}
+
 		case SIMPLE :
 		{
 			graphic = QImage(":/res/moorish_idol_bag.png");
@@ -94,23 +92,23 @@ void Fish::putFishInBag() {
 	}
 }
 
+/**
+ * @brief Sets the body of the game object
+ * @param newBody - the body to set it to
+ */
 void Fish::setBody(b2Body *newBody)
 {
 	b2PolygonShape square;
-	square.SetAsBox(1,1);
-
+	square.SetAsBox(1, 1);
 	b2FixtureDef mainFixtureDef;
 	mainFixtureDef.shape = &square;
 	mainFixtureDef.density = 10;
 	mainFixtureDef.friction = 0.1;
 	mainFixtureDef.restitution = 0.2;
 	mainFixtureDef.isSensor = false;
-
 	newBody->CreateFixture(&mainFixtureDef);
 	newBody->SetFixedRotation(true);
-
 	newBody->SetLinearDamping(0.75);
-
 	PhysicsGameObject::setBody(newBody);
 }
 
@@ -121,28 +119,6 @@ void Fish::setBody(b2Body *newBody)
 bool Fish::isSelected() const
 {
 	return selected;
-}
-
-/**
- * @brief Gets whether or not this fish is in a bag.
- * @return True if the fish is in a bag.
- */
-bool Fish::isInBag() const
-{
-	return inBag;
-}
-
-/**
- * @brief Sets whether or not this fish is in a bag. Updates the sprite to match.
- * @param inBag - Flag representing if the fish is in a bag (true) or not (false).
- */
-void Fish::setInBag(bool inBag)
-{
-	Fish::inBag = inBag;
-	if(inBag)
-		putFishInBag();
-	else
-		removeFishFromBag();
 }
 
 /**

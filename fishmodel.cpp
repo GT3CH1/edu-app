@@ -1,6 +1,5 @@
 /**
- * Authors - Alex Richins, William Erignac, Gavin Pease
- * Last Modified - 12/3/2021
+ * Authors - Alex Richins, William Erignac, Gavin Pease, Kenzie Evans
  *
  * The game engine of the fish training application.
  */
@@ -24,12 +23,30 @@
  */
 FishModel::FishModel(float _deltaTime) : deltaTime(_deltaTime), physicsWorld(b2Vec2(0.0f, -10.0f / 10))
 {
-	getGameObjectLambda = [=](std::string name) {return this->getGameObject(name);};
-	addGameObjectLambda = [=](void* toAdd) {this->addGameObjectToScene((GameObject*)toAdd, true);};
-	deleteGameObjectLambda = [=](std::string name) {this->deleteGameObject(name);};
-	addJointLambda = [=](b2JointDef* def) {return this->addJoint(def);};
-	destroyJointLambda = [=](b2Joint* joint) {this->destroyJoint(joint);};
-	getDeltaTimeLambda = [=]() {return this->getDeltaTime();};
+	getGameObjectLambda = [=](std::string name)
+	{
+		return this->getGameObject(name);
+	};
+	addGameObjectLambda = [=](void* toAdd)
+	{
+		this->addGameObjectToScene((GameObject*)toAdd, true);
+	};
+	deleteGameObjectLambda = [=](std::string name)
+	{
+		this->deleteGameObject(name);
+	};
+	addJointLambda = [=](b2JointDef* def)
+	{
+		return this->addJoint(def);
+	};
+	destroyJointLambda = [=](b2Joint* joint)
+	{
+		this->destroyJoint(joint);
+	};
+	getDeltaTimeLambda = [=]()
+	{
+		return this->getDeltaTime();
+	};
 	setScene(START);
 }
 
@@ -63,13 +80,12 @@ void FishModel::addGameObjectToScene(GameObject *toAdd, bool runStart)
 	//All GameObjects are in the vector and map.
 	gameObjects.push_back(toAdd);
 	gameObjectMap.emplace(toAdd->getName(), toAdd);
-
 	//GameObjects need ways to affect the model.
 	CallbackOptions options = constructCallbackOptions();
 	toAdd->setCallbacks(options);
-
 	//PhysicsGameObjects need to have their bodies instantiated.
 	auto* toAddPhysics = dynamic_cast<PhysicsGameObject*>(toAdd);
+
 	if (toAddPhysics != nullptr)
 		addBodyToWorld(toAddPhysics);
 
@@ -86,6 +102,7 @@ GameObject* FishModel::getGameObject(std::string objectName)
 {
 	if (gameObjectMap.count(objectName) < 1)
 		return nullptr;
+
 	return gameObjectMap.at(objectName);
 }
 
@@ -98,20 +115,21 @@ void FishModel::deleteGameObject(std::string objectName)
 	//If the GameObject is not in the map, dont delete it.
 	if(gameObjectMap.count(objectName) == 0)
 		return;
-	GameObject *objectPtr = gameObjectMap.at(objectName);
 
+	GameObject *objectPtr = gameObjectMap.at(objectName);
 	//If the GameObject is a PhysicsGameObject, its body needs to be removed from the world.
 	PhysicsGameObject* gameObject = dynamic_cast<PhysicsGameObject*>(objectPtr);
+
 	if(gameObject)
 	{
 		physicsWorld.DestroyBody(gameObject->getBody());
+
 		if (gameObject == holdObject)
 			holdObject = nullptr;
 	}
 
 	gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), objectPtr), gameObjects.end());
 	gameObjectMap.erase(objectName);
-
 	delete objectPtr;
 }
 
@@ -174,6 +192,7 @@ FishModel::CollisionEntry::CollisionEntry(PhysicsGameObject* first, PhysicsGameO
 		a = first;
 		b = second;
 	}
+
 	else
 	{
 		if (first->getName() > second->getName())
@@ -181,6 +200,7 @@ FishModel::CollisionEntry::CollisionEntry(PhysicsGameObject* first, PhysicsGameO
 			a = first;
 			b = second;
 		}
+
 		else
 		{
 			a = second;
@@ -188,7 +208,6 @@ FishModel::CollisionEntry::CollisionEntry(PhysicsGameObject* first, PhysicsGameO
 		}
 	}
 }
-
 /**
  * @brief Used for unordered_set of CollisionEntries.
  */
@@ -209,14 +228,13 @@ bool FishModel::CollisionEntry::operator==(const CollisionEntry& other) const
  * @brief Updates the active scene and sends all the objects
  * that need to be rendered at the end.
  */
-void FishModel::updateGameObjects(){
+void FishModel::updateGameObjects()
+{
 	//Update the physics world.
 	physicsWorld.Step(deltaTime, 6, 6);
-
 	//Manage collisions from the physics world.
 	b2Contact* contact =  physicsWorld.GetContactList();
 	int contactCount = physicsWorld.GetContactCount();
-
 	/*
 	 * Keep track of what collisions have already occurred.,
 	 * and prevent duplicate collision calls.
@@ -228,10 +246,8 @@ void FishModel::updateGameObjects(){
 	{
 		b2Fixture* fixtureA = contact->GetFixtureA();
 		b2Fixture* fixtureB = contact->GetFixtureB();
-
 		auto* gameObjectA = (PhysicsGameObject*) fixtureA->GetBody()->GetUserData();
 		auto* gameObjectB = (PhysicsGameObject*) fixtureB->GetBody()->GetUserData();
-
 		CollisionEntry entry(gameObjectA, gameObjectB);
 		CollisionEntry sensorEntryA(gameObjectA, gameObjectB, true);
 		CollisionEntry sensorEntryB(gameObjectB, gameObjectA, true);
@@ -241,11 +257,13 @@ void FishModel::updateGameObjects(){
 			gameObjectA->onSensor(contact, true, gameObjectB);
 			sensorEntries.insert(sensorEntryA);
 		}
+
 		if(sensorEntries.count(sensorEntryB) == 0 && fixtureB->IsSensor())
 		{
 			gameObjectB->onSensor(contact, false, gameObjectA);
 			sensorEntries.insert(sensorEntryB);
 		}
+
 		if(entries.count(entry) == 0 && !(fixtureA->IsSensor() || fixtureB->IsSensor()))
 		{
 			gameObjectA->onCollision(contact, true, gameObjectB);
@@ -260,7 +278,6 @@ void FishModel::updateGameObjects(){
 	std::priority_queue<ObjectRenderInformation, std::vector<ObjectRenderInformation>, std::greater<ObjectRenderInformation>> renderables;
 	//Hitboxes collects the render data of all fixtures (only used when debug is true).
 	std::vector<ObjectRenderInformation> hitBoxes;
-
 	/*
 	 * We duplicate the list of objects to iterate over because
 	 * some GameObjects instantiate new objects in their update methods.
@@ -275,7 +292,6 @@ void FishModel::updateGameObjects(){
 		if (gameObject->getToRender())
 		{
 			int hashCode = std::hash<std::string>()(gameObject->getName());
-
 			ObjectRenderInformation renderInfo {gameObject->getLocation(), gameObject->getRotation(), gameObject->getScale(), gameObject->getGraphic(), gameObject->getLayer(), hashCode};
 			renderables.push(renderInfo);
 		}
@@ -288,9 +304,10 @@ void FishModel::updateGameObjects(){
 			//Fixtures can only be in PhysicsGameObjects.
 			auto* toPhysics = dynamic_cast<PhysicsGameObject*>(gameObject);
 			b2Fixture *fixture = toPhysics->getBody()->GetFixtureList();//Render all fixtures of the current object.
-			while (fixture != nullptr) {
-				b2Shape *shape = fixture->GetShape();
 
+			while (fixture != nullptr)
+			{
+				b2Shape *shape = fixture->GetShape();
 				QColor color = Qt::red;
 
 				if (fixture->IsSensor())
@@ -301,20 +318,18 @@ void FishModel::updateGameObjects(){
 				QPointF fixtureTranslation;
 				QPointF scale(1, 1);
 				QImage fixtureImage = getColliderShape(shape, color, fixtureTranslation, scale);
-
 				QPointF pos(toPhysics->getBody()->GetPosition().x, toPhysics->getBody()->GetPosition().y);
 				float angle = toPhysics->getBody()->GetAngle();
 				QPointF rotatedTranslation(fixtureTranslation.x()*cos(angle) - fixtureTranslation.y()*sin(angle),
-										  fixtureTranslation.x()*sin(angle) + fixtureTranslation.y()*cos(angle));
+										   fixtureTranslation.x()*sin(angle) + fixtureTranslation.y()*cos(angle));
 				pos += rotatedTranslation;
 				ObjectRenderInformation hitBoxRender{pos, angle* 180 / M_PI, scale,
-				                                     fixtureImage};
+													 fixtureImage};
 				hitBoxes.push_back(hitBoxRender);
-
-					fixture = fixture->GetNext();
-				}
+				fixture = fixture->GetNext();
 			}
 		}
+	}
 
 	std::vector<ObjectRenderInformation> allRenderables;
 
@@ -347,7 +362,6 @@ void FishModel::updateGameObjects(){
 QImage FishModel::getColliderShape(b2Shape* shape, QColor penColor, QPointF& translation, QPointF& scale)
 {
 	QImage shapeImage;
-
 	auto* circle = dynamic_cast<b2CircleShape*>(shape);
 	auto* polygon = dynamic_cast<b2PolygonShape*>(shape);
 
@@ -358,17 +372,17 @@ QImage FishModel::getColliderShape(b2Shape* shape, QColor penColor, QPointF& tra
 		shapeImage.fill(Qt::transparent);
 		QPainter painter(&shapeImage);
 		painter.setPen(penColor);
-		painter.drawEllipse(0,0,shapeImage.width(), shapeImage.height());
-		painter.drawLine(shapeImage.width()/2,shapeImage.height()/2, shapeImage.width(), shapeImage.height()/2);
+		painter.drawEllipse(0, 0, shapeImage.width(), shapeImage.height());
+		painter.drawLine(shapeImage.width()/2, shapeImage.height()/2, shapeImage.width(), shapeImage.height()/2);
 		painter.end();
-		translation = QPointF(circle->m_p.x,circle->m_p.y);
+		translation = QPointF(circle->m_p.x, circle->m_p.y);
 		scale =	QPointF(circle->m_radius * 2, circle->m_radius * 2);
 	}
+
 	else if (polygon != nullptr) //If we have a polygon...
 	{
 		b2Vec2 last = polygon->m_vertices[0];
 		b2Vec2 current;
-
 		//We need to get the bounds of the polygon to make an image...
 		QRectF polygonBounds(QPointF(last.x, last.y), QPointF(last.x, last.y));
 		//And collect the edges of the polygon.
@@ -377,24 +391,26 @@ QImage FishModel::getColliderShape(b2Shape* shape, QColor penColor, QPointF& tra
 		for (int i = 1; i < polygon->m_count; i++)
 		{
 			current = polygon->m_vertices[i];
-			if(current.x < polygonBounds.left())
-				polygonBounds = QRectF(QPointF(current.x, polygonBounds.top()),QPointF(polygonBounds.right(), polygonBounds.bottom()));
-			if(current.y < polygonBounds.top())
-				polygonBounds = QRectF(QPointF(polygonBounds.left(), current.y),QPointF(polygonBounds.right(), polygonBounds.bottom()));
-			if(current.x > polygonBounds.right())
-				polygonBounds = QRectF(QPointF(polygonBounds.left(), polygonBounds.top()),QPointF(current.x, polygonBounds.bottom()));
-			if(current.y > polygonBounds.bottom())
-				polygonBounds = QRectF(QPointF(polygonBounds.left(), polygonBounds.top()),QPointF(polygonBounds.right(), current.y));
 
-			lines.emplace_back(last.x,last.y,current.x,current.y);
+			if(current.x < polygonBounds.left())
+				polygonBounds = QRectF(QPointF(current.x, polygonBounds.top()), QPointF(polygonBounds.right(), polygonBounds.bottom()));
+
+			if(current.y < polygonBounds.top())
+				polygonBounds = QRectF(QPointF(polygonBounds.left(), current.y), QPointF(polygonBounds.right(), polygonBounds.bottom()));
+
+			if(current.x > polygonBounds.right())
+				polygonBounds = QRectF(QPointF(polygonBounds.left(), polygonBounds.top()), QPointF(current.x, polygonBounds.bottom()));
+
+			if(current.y > polygonBounds.bottom())
+				polygonBounds = QRectF(QPointF(polygonBounds.left(), polygonBounds.top()), QPointF(polygonBounds.right(), current.y));
+
+			lines.emplace_back(last.x, last.y, current.x, current.y);
 			last = current;
 		}
 
 		last = polygon->m_vertices[0];
 		lines.emplace_back(last.x, last.y, current.x, current.y);
-
 		float imageScaledBy = 10;
-
 		//Create the image with the polygon's bounds.
 		qreal shapeScaleX = (polygonBounds.width()) * imageScaledBy + 1;
 		qreal shapeScaleY = (polygonBounds.height()) * imageScaledBy + 1;
@@ -402,18 +418,14 @@ QImage FishModel::getColliderShape(b2Shape* shape, QColor penColor, QPointF& tra
 		shapeImage.fill(Qt::transparent);
 		QPainter painter(&shapeImage);
 		painter.setPen(penColor);
-
 		QPoint imageCenter(shapeImage.width()/2, shapeImage.height()/2);
 		translation = polygonBounds.center();
 
 		//Draw the edges of the polygon.
 		for(QLineF line : lines)
-		{
 			painter.drawLine((line.p1() - translation)*imageScaledBy + imageCenter, (line.p2() - translation)*imageScaledBy + imageCenter);
-		}
 
 		painter.end();
-
 		scale =	QPointF(polygonBounds.width(), polygonBounds.height());
 	}
 
@@ -423,32 +435,38 @@ QImage FishModel::getColliderShape(b2Shape* shape, QColor penColor, QPointF& tra
 /**
  * @brief Destroys this FishModel and all of its objects.
  */
-FishModel::~FishModel() {
+FishModel::~FishModel()
+{
 	removeAllGameObjects();
-	if (fishInTank)
-		delete fishInTank;
 }
 
 /**
  * @brief Moves to the next task to complete.
  */
-void FishModel::nextTask() {
-	switch (currentScene) {
+void FishModel::nextTask()
+{
+	switch (currentScene)
+	{
 		case START:
 			setScene(PREPARE_TANK);
 			break;
+
 		case PREPARE_TANK:
 			setScene(ADD_FISH);
 			break;
+
 		case ADD_FISH:
 			setScene(FEEDING);
 			break;
+
 		case FEEDING:
 			setScene(END);
 			break;
+
 		case END:
 			setScene(START);
 			break;
+
 		default:
 			setScene(PREPARE_TANK);
 			break;
@@ -463,33 +481,32 @@ void FishModel::setScene(SCENE_STATE scene)
 	holdObject = nullptr;
 	removeAllGameObjects();
 	currentScene = scene;
-
 	auto tank = new Tank();
 	GameObject* background;
 
 	//If we are in the game (not a menu) there are a list of objects that are always there.
 	if (currentScene != START && currentScene != END)
 	{
-		background = new GameObject("background",QPointF(0,0),0,QPointF(26,15),QImage(":/res/background.png"),-1);
-		GameObject* sky = new GameObject("sky", QPointF(5.3, -1), 180, QPointF(13,13), QImage(":/res/sky_wheel.png"), -2);
+		background = new GameObject("background", QPointF(0, 0), 0, QPointF(26, 15), QImage(":/res/background.png"), -1);
+		GameObject* sky = new GameObject("sky", QPointF(5.3, -1), 180, QPointF(13, 13), QImage(":/res/sky_wheel.png"), -2);
 		addGameObjectToScene(sky, false);
-		addGameObjectToScene(new Countertop(QPointF(0,-7), QPointF(20,4.7)), false);
-		addGameObjectToScene(new Wall("left wall", QPointF(-22.5, 0),QPointF(25, 14.5)), false);
-		addGameObjectToScene(new Wall("right wall", QPointF(22.5, 0),QPointF(25, 14.5)), false);
-		addGameObjectToScene(new Wall("ceiling", QPointF(0, 19.5),QPointF(25, 25)), false);
-		addGameObjectToScene(new Filter(), false);
-		addGameObjectToScene(new WaterPump(), false);
+		addGameObjectToScene(new Countertop(QPointF(0, -7), QPointF(20, 4.7)), false);
+		addGameObjectToScene(new Wall("left wall", QPointF(-22.5, 0), QPointF(25, 14.5)), false);
+		addGameObjectToScene(new Wall("right wall", QPointF(22.5, 0), QPointF(25, 14.5)), false);
+		addGameObjectToScene(new Wall("ceiling", QPointF(0, 19.5), QPointF(25, 25)), false);
+		addGameObjectToScene(new GameObject("filter", QPointF(0.75, 0.25), 0, QPointF(1, 1), QImage(":/res/filter.png"), 1), false);
+		addGameObjectToScene(new GameObject("pump", QPointF(0.75, -0.25), 0, QPointF(1.25, 1.25), QImage(":/res/pump.png"), 1), false);
 		addGameObjectToScene(tank, false);
 	}
+
 	else
-	{
-		background = new GameObject("background",QPointF(0,0),0,QPointF(20.7,14.5),QImage(":/res/start_background.png"),-1);
-	}
+		background = new GameObject("background", QPointF(0, 0), 0, QPointF(20.7, 14.5), QImage(":/res/start_background.png"), -1);
 
 	addGameObjectToScene(background, false);
 
 	//Remove all quests so that the quests for this scene can be added.
-	while(!quests.empty()) {
+	while(!quests.empty())
+	{
 		delete quests.front();
 		quests.pop();
 	}
@@ -502,6 +519,7 @@ void FishModel::setScene(SCENE_STATE scene)
 			quests.push(new Start());
 			break;
 		}
+
 		case PREPARE_TANK :
 		{
 			addGameObjectToScene(new Clock(), false);
@@ -512,18 +530,17 @@ void FishModel::setScene(SCENE_STATE scene)
 			quests.push(new FillTank());
 			break;
 		}
+
 		case ADD_FISH :
 		{
 			auto pleco = new Fish();
 			pleco->setFishType(Fish::PLECO);
 			pleco->setName("pleco");
 			pleco->setLocation(QPointF(-8, -3.5));
-
 			auto moorish = new Fish();
 			moorish->setFishType(Fish::SIMPLE);
 			moorish->setName("moorish");
 			moorish->setLocation(QPointF(-5.5, -3.5));
-
 			auto goldfish = new Fish();
 			goldfish->setFishType(Fish::GOLDFISH);
 			goldfish->setName("goldfish");
@@ -533,20 +550,20 @@ void FishModel::setScene(SCENE_STATE scene)
 			addGameObjectToScene(moorish, false);
 			addGameObjectToScene(goldfish, false);
 			addGameObjectToScene(new Clock(), false);
-
 			quests.push(new ChooseFish());
 			quests.push(new AddFish());
 			quests.push(new Wait());
 			auto removeBagQuest = new RemoveFishFromBag();
 			quests.push(removeBagQuest);
 			connect((RemoveFishFromBag *) removeBagQuest, &RemoveFishFromBag::fishRemovedFromBag, this,
-			        &FishModel::addFishToTank);
+					&FishModel::addFishToTank);
 			break;
 		}
+
 		case FEEDING :
 		{
-			fishInTank->setLocation(QPointF(5, -2));
-			addGameObjectToScene(fishInTank, false);
+			fishInTank.setLocation(QPointF(5, -2));
+			addGameObjectToScene(new AnimatedFish(fishInTank), false);
 			auto foodContainer = new FoodContainer();
 			foodContainer->setLocation(QPointF(-4, -2.75));
 			foodContainer->setScale(b2Vec2(2, 4));
@@ -555,6 +572,7 @@ void FishModel::setScene(SCENE_STATE scene)
 			quests.push(new AddFood());
 			break;
 		}
+
 		case END:
 		{
 			auto startOverButton = new StartButton();
@@ -563,12 +581,14 @@ void FishModel::setScene(SCENE_STATE scene)
 			quests.push(new End());
 			break;
 		}
+
 		default:
 			break;
 	}
 
 	//Connect quests to the model, so that the model knows when quests are completed.
-	for(int i = 0; i < quests.size(); i++){
+	for(int i = 0; i < quests.size(); i++)
+	{
 		Quest* qRef = quests.front();
 		connect(qRef, &Quest::pass, this, &FishModel::nextQuest);
 		quests.pop();
@@ -597,10 +617,12 @@ void FishModel::setScene(SCENE_STATE scene)
 bool FishModel::MouseToPhysicsChecker::ReportFixture(b2Fixture* fixture)
 {
 	PhysicsGameObject* gameObject = (PhysicsGameObject*) fixture->GetBody()->GetUserData();
+
 	if (gameObject->isClickable())
 	{
 		if (greatestLayer == nullptr)
 			greatestLayer = gameObject;
+
 		else if (greatestLayer->getLayer() < gameObject->getLayer())
 			greatestLayer = gameObject;
 	}
@@ -626,16 +648,16 @@ void FishModel::mouseClick(QPointF position)
 {
 	//Set up the callback that processes detected fixtures.
 	b2Vec2 positionAsVector(position.x(), position.y());
-	std::function<bool(QPointF, PhysicsGameObject*)> callBack = [&](QPointF center, PhysicsGameObject* gameObject){return this->mouseClickProcess(center, gameObject);};
+	std::function<bool(QPointF, PhysicsGameObject*)> callBack = [&](QPointF center, PhysicsGameObject* gameObject)
+	{
+		return this->mouseClickProcess(center, gameObject);
+	};
 	MouseToPhysicsChecker checker;
-
 	//Define the area of the cursor.
 	b2AABB areaToCheck;
 	areaToCheck.upperBound.Set(position.x(), position.y());
 	areaToCheck.lowerBound.Set(position.x(), position.y());
-
 	physicsWorld.QueryAABB(&checker, areaToCheck);
-
 	PhysicsGameObject* toClick = checker.reportFrontmostObject();
 
 	if (toClick != nullptr)
@@ -666,6 +688,7 @@ void FishModel::mouseHold(QPointF position)
 	{
 		if (holdObject->isClickable())
 			holdObject->onMouseHold(position);
+
 		else
 			holdObject = nullptr;
 	}
@@ -682,6 +705,7 @@ void FishModel::mouseRelease(QPointF position)
 	{
 		if (holdObject->isClickable())
 			holdObject->onMouseRelease(position);
+
 		holdObject = nullptr;
 	}
 }
@@ -692,8 +716,10 @@ void FishModel::mouseRelease(QPointF position)
 void FishModel::removeAllGameObjects()
 {
 	auto objsToDel(gameObjectMap);
+
 	for (auto gameObject: objsToDel)
 		deleteGameObject(gameObject.first);
+
 	for (auto gameObject: gameObjects)
 		deleteGameObject(gameObject->getName());
 }
@@ -708,14 +734,17 @@ void FishModel::nextQuest()
 {
 	auto toDelete = quests.front();
 	quests.pop();
+
 	if (!quests.empty())
 	{
 		auto quest = quests.front();
 		quest->showText(constructCallbackOptions());
 	}
+
 	delete toDelete;
+
 	if(quests.empty())
-		QTimer::singleShot(1000,this, &FishModel::nextTask);
+		QTimer::singleShot(1000, this, &FishModel::nextTask);
 }
 
 /**
@@ -724,8 +753,7 @@ void FishModel::nextQuest()
  */
 void FishModel::addFishToTank(AnimatedFish* f)
 {
-	if (fishInTank)
-		delete fishInTank;
 
-	fishInTank = new AnimatedFish(*f);
+	fishInTank = *f;
 }
+

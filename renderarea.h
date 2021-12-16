@@ -6,7 +6,7 @@
 
 class RenderArea : public QLabel
 {
-Q_OBJECT
+	Q_OBJECT
 public:
 	RenderArea(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
 	void setImage(QPixmap &);

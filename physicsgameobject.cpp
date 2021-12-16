@@ -1,6 +1,5 @@
 /**
  * Authors - William Erignac
- * Last Modified - 12/9/2021
  *
  * A GameObject with a physics body.
  */
@@ -9,6 +8,7 @@
 #include <cmath>
 #include <QDebug>
 #include <QString>
+#include <utility>
 
 /**
  * @brief Constructs a PhysicsGameObject.
@@ -19,18 +19,20 @@
  * the PhysicsGameObject using bodyDef.
  */
 PhysicsGameObject::PhysicsGameObject(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef _bodyDef, QImage toRender, int layer) :
-	GameObject(name, position, rotation, scale, toRender, layer)
+	GameObject(std::move(name), position, rotation, scale, std::move(toRender), layer)
 {
 	bodyDef = _bodyDef;
 	isDynamic = bodyDef.type == b2_dynamicBody;
-	b2Vec2 initialPos(position.x(), position.y());
 }
 
 /**
  * @brief Returns the body definition of this object.
  * NOTE: This method should only be used by the FishModel.
  */
-b2BodyDef PhysicsGameObject::getBodyDef() {return bodyDef;}
+b2BodyDef PhysicsGameObject::getBodyDef()
+{
+	return bodyDef;
+}
 
 /**
  * @brief Sets the body of this object to the provided body.
@@ -54,12 +56,15 @@ void PhysicsGameObject::setBody(b2Body* newBody)
 /**
  * @brief Returns the body of this object.
  */
-b2Body* PhysicsGameObject::getBody(){return body;}
+b2Body* PhysicsGameObject::getBody()
+{
+	return body;
+}
 
 /**
  * @brief Returns whether this object does something when clicked on.
  */
-bool PhysicsGameObject::isClickable()
+bool PhysicsGameObject::isClickable() const
 {
 	return clickable;
 }
@@ -111,17 +116,22 @@ void PhysicsGameObject::onMouseRelease(QPointF mousePosition)
 /**
 * @brief Returns a body definition for the FishTank.
 */
-b2BodyDef PhysicsGameObject::createBodyDef(b2BodyType bodyType) {
-		b2BodyDef definition;
-		definition.type = bodyType;
-		return definition;
+b2BodyDef PhysicsGameObject::createBodyDef(b2BodyType bodyType)
+{
+	b2BodyDef definition;
+	definition.type = bodyType;
+	return definition;
 }
 
+/**
+ * @brief Sets the rotation of the game object
+ * @param rotation
+ */
 void PhysicsGameObject::setRotation(double rotation)
 {
 	GameObject::setRotation(rotation);
 	body->SetFixedRotation(true);
-	body->SetTransform(position,rotation);
+	body->SetTransform(position, rotation);
 }
 
 /**
@@ -139,22 +149,24 @@ void PhysicsGameObject::updateObject(float deltaTime)
 	std::function<void*(std::string)> getGameObject = callbackOptions.getGameObject;
 
 	//If we didn't collide with objects we collided with last frame, they left us.
-	for(std::string name : lastContacts)
+	for(const auto& name : lastContacts)
 	{
 		if(contacts.count(name) == 0)
 		{
 			PhysicsGameObject* object = (PhysicsGameObject*) getGameObject(name);
+
 			if (object != nullptr)
 				onCollisionExit(object);
 		}
 	}
 
 	//If we didn't sense objects we sensed last frame, they left us.
-	for(std::string name : lastSensorContacts)
+	for(auto &name : lastSensorContacts)
 	{
 		if(sensorContacts.count(name) == 0)
 		{
 			PhysicsGameObject* object = (PhysicsGameObject*) getGameObject(name);
+
 			if (object != nullptr)
 				onSensorExit(object);
 		}
@@ -176,6 +188,7 @@ void PhysicsGameObject::onCollision(b2Contact* collision, bool isA, PhysicsGameO
 
 	if(lastContacts.count(name) == 0)
 		onCollisionEnter(collision, isA, other);
+
 	else
 		onCollisionStay(collision, isA, other);
 }
@@ -190,6 +203,7 @@ void PhysicsGameObject::onSensor(b2Contact* collision, bool isA, PhysicsGameObje
 
 	if(lastSensorContacts.count(name) == 0)
 		onSensorEnter(collision, isA, other);
+
 	else
 		onSensorStay(collision, isA, other);
 }

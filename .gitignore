@@ -63,3 +63,4 @@ CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
 FishTutorial
+*.orig

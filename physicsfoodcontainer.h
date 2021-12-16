@@ -1,9 +1,9 @@
 #ifndef FOODCONTAINER_H
 #define FOODCONTAINER_H
 
-#include "dragable.h"
+#include "draggable.h"
 
-class FoodContainer : public Dragable
+class FoodContainer : public Draggable
 {
 public:
 	FoodContainer();
@@ -11,7 +11,6 @@ public:
 	void updateObject(float deltaTime) override;
 private:
 	bool shakeUp = true;
-	const float angleConstraint = M_PI/4;
 	float lastVelocity = 0;
 	const float accelerationConstraint = 50;
 };

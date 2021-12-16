@@ -1,13 +1,14 @@
+#ifndef PHYSICSSPIGOT_H
+#define PHYSICSSPIGOT_H
+
 #include "physicsgameobject.h"
+
 class Spigot : public PhysicsGameObject
 {
 public:
-	Spigot(QPointF position);
-	Spigot(std::string name, QPointF position, double rotation, QPointF scale, b2BodyDef body, QImage image);
-	bool getPower();
-	void setPower(bool newPower);
-	virtual void setBody(b2Body* newBody);
-	void onMouseHold(QPointF position);
-private:
-	bool power;
+	explicit Spigot(QPointF position);
+	void setBody(b2Body* newBody) override;
+	void onMouseHold(QPointF position) override;
 };
+
+#endif // PHYSICSSPIGOT_H

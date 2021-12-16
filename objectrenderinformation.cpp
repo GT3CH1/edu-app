@@ -1,6 +1,5 @@
 /**
  * Authors - William Erignac
- * Last Modified - 12/8/2021
  *
  * A container of all the information needed to render
  * a GameObject. ObjectRenderArea implements comparisons by renderLayer
@@ -8,7 +7,6 @@
  */
 
 #include "objectrenderinformation.h"
-#include <cmath>
 #include <QDebug>
 
 bool ObjectRenderInformation::operator==(const ObjectRenderInformation& other) const
@@ -20,6 +18,7 @@ bool ObjectRenderInformation::operator>(const ObjectRenderInformation& other) co
 {
 	if (renderLayer == other.renderLayer)
 		return (id > other.id);
+
 	return (renderLayer > other.renderLayer);
 }
 
@@ -27,5 +26,6 @@ bool ObjectRenderInformation::operator<(const ObjectRenderInformation& other) co
 {
 	if (renderLayer == other.renderLayer)
 		return (id < other.id);
+
 	return (renderLayer < other.renderLayer);
 }

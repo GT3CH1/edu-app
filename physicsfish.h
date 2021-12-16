@@ -2,33 +2,31 @@
 #define FISH_H
 
 #include "physicsgameobject.h"
-#include "dragable.h"
-class Fish : public Dragable {
+#include "draggable.h"
+
+class Fish : public Draggable
+{
 public:
-	enum FISH_TYPE {PLECO,GOLDFISH,SIMPLE};
+	enum FISH_TYPE {PLECO, GOLDFISH, SIMPLE};
 	Fish(std::string name = "Jim Carey",
-	     QPointF position = QPointF(4.5, -2),
-	     double rotation = 0,
-	     QPointF scale = QPointF(2, 2),
-	     QImage image = QImage(":/res/simple_fish.png"),
+		 QPointF position = QPointF(4.5, -2),
+		 double rotation = 0,
+		 QPointF scale = QPointF(2, 2),
+		 QImage image = QImage(":/res/simple_fish.png"),
 		 FISH_TYPE fishType = SIMPLE);
-	bool isInTank();
 	void setInTank(bool state);
 	void setFishType(FISH_TYPE fishType);
 	void setBody(b2Body* newBody) override;
-	void onMouseClick(QPointF position);
-	bool isSelected() const;
+	void onMouseClick(QPointF position) override;
 	void setSelected(bool state);
-public:
-	bool isInBag() const;
-	void setInBag(bool inBag);
+	bool isSelected() const;
+	bool isInTank() const;
 private:
 	bool inTank = false;
 	bool selected = false;
 	bool inBag = true;
-	FISH_TYPE type;
+	FISH_TYPE type = GOLDFISH;
 	void putFishInBag();
-	void removeFishFromBag();
 };
 
-#endif
+#endif // FISH_H

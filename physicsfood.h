@@ -1,3 +1,6 @@
+#ifndef PHYSICSFOOD_H
+#define PHYSICSFOOD_H
+
 #include "physicsgameobject.h"
 class Food : public PhysicsGameObject
 {
@@ -8,3 +11,5 @@ private:
 	static int foodGenerated;
 	QImage generateFood();
 };
+
+#endif // PHYSICSFOOD_H

@@ -1,15 +1,14 @@
 #ifndef FISHTUTORIAL_QUESTFILLBOWL_H
 #define FISHTUTORIAL_QUESTFILLBOWL_H
+
 #include "callbackoptions.h"
 #include "quest.h"
 
-// Fill Bowl
 class FillBowl : public Quest
 {
 public:
-	void listener(const CallbackOptions &callback);
-	void reset(const CallbackOptions &callback);
-	void showText(const CallbackOptions &callback);
+	void listener(const CallbackOptions &callback) override;
+	void showText(const CallbackOptions &callback) override;
 };
 
 

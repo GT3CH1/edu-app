@@ -1,10 +1,5 @@
-//
-// Created by gcpease on 12/11/2021.
-//
-
 #ifndef FISHTUTORIAL_QUESTWAIT_H
 #define FISHTUTORIAL_QUESTWAIT_H
-
 
 #include "quest.h"
 #include "physicgameobjectsfile.h"
@@ -12,11 +7,8 @@
 class Wait : public Quest
 {
 public:
-	void listener(const CallbackOptions &callback);
-	void reset(const CallbackOptions &callback);
-	void showText(const CallbackOptions &callback);
+	void listener(const CallbackOptions &callback) override;
+	void showText(const CallbackOptions &callback) override;
 };
-
-
 
 #endif //FISHTUTORIAL_QUESTWAIT_H
