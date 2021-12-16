@@ -46,7 +46,7 @@ void AddFish::listener(const CallbackOptions &callback)
 			callback.deleteGameObject(goldfish->getName());
 			callback.deleteGameObject(pleco->getName());
 		}
-
+		callback.deleteGameObject("addFishinstructions");
 		emit Quest::pass();
 	}
 }

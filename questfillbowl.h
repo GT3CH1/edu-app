@@ -6,6 +6,8 @@
 // Fill Bowl
 class FillBowl : public Quest
 {
+public:
+	FillBowl();
 	void listener(const CallbackOptions &callback);
 	void reset(const CallbackOptions &callback);
 	void showText(const CallbackOptions &callback);

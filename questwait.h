@@ -11,6 +11,8 @@
 // Age Water
 class Wait : public Quest
 {
+public:
+	Wait();
 	void listener(const CallbackOptions &callback);
 	void reset(const CallbackOptions &callback);
 	void showText(const CallbackOptions &callback);

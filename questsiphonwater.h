@@ -5,6 +5,7 @@
 //Siphon Old Water essentially fill bowl but with a different range
 class SiphonOldWater : public Quest
 {
+	SiphonOldWater();
 	void listener(const CallbackOptions &callback);
 	void reset(const CallbackOptions &callback);
 	void showText(const CallbackOptions &callback);

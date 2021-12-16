@@ -4,7 +4,10 @@
  */
 
 #include "questsiphonwater.h"
-// SiphonOldWater
+
+SiphonOldWater::SiphonOldWater(){
+	callShowText = true;
+}
 void SiphonOldWater::listener(const CallbackOptions &callback)
 {
 	Bowl* bowl = (Bowl*)callback.getGameObject("bowl");
@@ -23,5 +26,6 @@ void SiphonOldWater::reset(const CallbackOptions &callback)
 
 void SiphonOldWater::showText(const CallbackOptions &callback)
 {
-
+	GameObject* instructionText = createTextImage("siphonWaterinstructions", "SIPHON BABY", QPointF(4, 1), QPointF(15,3), 100);
+	callback.addGameObject(instructionText);
 }
