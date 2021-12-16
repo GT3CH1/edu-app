@@ -58,6 +58,6 @@ void AddFish::reset(const CallbackOptions &callback)
 
 void AddFish::showText(const CallbackOptions &callback)
 {
-	GameObject* instructionText = createTextImage("addFishinstructions", "Now click the bag to cut it and\nlet the fish in the tank", QPointF(4, 1), QPointF(15,3), 100);
+	GameObject* instructionText = createTextImage("addFishinstructions", "Now drag the fish below to\nput it into the tank", QPointF(-5, -1), QPointF(15,3), 100);
 	callback.addGameObject(instructionText);
 }

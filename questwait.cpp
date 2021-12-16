@@ -49,7 +49,7 @@ void Wait::showText(const CallbackOptions &callback)
 	Bowl *bowl = (Bowl *) callback.getGameObject("bowl");
 	if (bowl)
 	{
-		GameObject* instructionText = createTextImage("waitinstructions", "The water needs to wait a day to allow\nthe chlorine to evaporate.\nOtherwise your fishes gills\nwill be burned. ", QPointF(-5, 0), QPointF(15,4), 100);
+		GameObject* instructionText = createTextImage("waitinstructions", "The water needs to wait a day to allow\nthe chlorine to evaporate.\nOtherwise your fishes gills\nwill be burned. ", QPointF(-5, -0.5), QPointF(15,4), 100);
 		callback.addGameObject(instructionText);
 	}
 
@@ -58,7 +58,7 @@ void Wait::showText(const CallbackOptions &callback)
 	auto moorish = (Fish *) callback.getGameObject("moorish");
 	if (pleco != nullptr || goldfish != nullptr || moorish != nullptr)
 	{
-		GameObject* instructionText = createTextImage("waitinstructions", "The fish needs to have time to adjust to\nit's new climate slowly over a day.", QPointF(4, 1.5), QPointF(15,3), 100);
+		GameObject* instructionText = createTextImage("waitinstructions", "The fish needs to have time to adjust to\nit's new climate slowly over a day.", QPointF(-5, 0), QPointF(15,3), 100);
 		callback.addGameObject(instructionText);
 	}
 	GameObject* instructionText2 = createTextImage("waitinstructions2", "Click the clock to speed up time", QPointF(-5, 3.5), QPointF(15,1.5), 100);

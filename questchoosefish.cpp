@@ -34,6 +34,6 @@ void ChooseFish::reset(const CallbackOptions &callback)
 
 void ChooseFish::showText(const CallbackOptions &callback)
 {
-		GameObject* instructionText = createTextImage("ChooseFishinstructions", "Please click and drag one of the\nfish below to put it into the tank", QPointF(-5, -2), QPointF(12,3), 100);
+		GameObject* instructionText = createTextImage("ChooseFishinstructions", "Please click the fish\nyou'd like to care for", QPointF(-5, -2), QPointF(12,3), 100);
 		callback.addGameObject(instructionText);
 }

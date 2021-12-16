@@ -12,7 +12,7 @@ public:
 	void onMouseHold(QPointF position);
 private:
 	double time;
-	double clockRate = 0.5;
+	double clockRate = 1;
 	void drawClock();
 	GameObject* hourHand;
 	GameObject* minuteHand;

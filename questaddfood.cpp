@@ -27,6 +27,6 @@ void AddFood::reset(const CallbackOptions &callback)
 
 void AddFood::showText(const CallbackOptions &callback)
 {
-	GameObject* instructionText = createTextImage("feedFishinstructions", "The fish needs to be fed, shake the fish flakes\n above the tankto give the Fish atleast 4 fish flaks", QPointF(4, 1), QPointF(15,3), 100);
+	GameObject* instructionText = createTextImage("feedFishinstructions", "The fish needs to be fed, shake the\nfish flakes above the tank upside down\nto give the Fish atleast 4 fish flaks", QPointF(-5, 0), QPointF(15,3), 100);
 	callback.addGameObject(instructionText);
 }
