@@ -1,14 +1,11 @@
 /**
  * Authors - Alex Richins, Kenzie Evans, Gavin Pease
- * Last Modified - 12/12/2021
+ * Last Modified - 12/15/2021
  */
 
 #include "questfilltank.h"
 #include "physicgameobjectsfile.h"
 
-FillTank::FillTank(){
-	callShowText = true;
-}
 void FillTank::listener(const CallbackOptions &callback)
 {
 	Tank* fishTank = (Tank*)callback.getGameObject("tank");

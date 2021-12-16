@@ -1,13 +1,10 @@
 /**
  * Authors - Gavin Pease, Alex Richins, William Erignac
- * Last Modified - 12/13/2021
+ * Last Modified - 12/15/2021
  */
-
 #include "questremovefishfrombag.h"
 
-RemoveFishFromBag::RemoveFishFromBag(){
-	callShowText = true;
-}
+
 void RemoveFishFromBag::listener(const CallbackOptions &callback)
 {
 	auto tank = (Tank*) callback.getGameObject("tank");

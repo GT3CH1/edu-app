@@ -579,9 +579,7 @@ void FishModel::setScene(SCENE_STATE scene)
 	if (!quests.empty())
 	{
 		Quest* qRef = quests.front();
-		if(qRef->callShowText){
-			qRef->showText(constructCallbackOptions());
-		}
+		qRef->showText(constructCallbackOptions());
 	}
 
 	//Now that all GameObjects have been instantiated, we can run their start methods.
@@ -713,9 +711,7 @@ void FishModel::nextQuest()
 	if (!quests.empty())
 	{
 		auto quest = quests.front();
-		if(quest->callShowText){
-			quest->showText(constructCallbackOptions());
-		}
+		quest->showText(constructCallbackOptions());
 	}
 	delete toDelete;
 	if(quests.empty())

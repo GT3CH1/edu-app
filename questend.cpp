@@ -1,3 +1,7 @@
+/**
+ * Authors -  Kenzie Evans, Alex Richins
+ * Last Modified - 12/15/2021
+ */
 #include "questend.h"
 #include "physicgameobjectsfile.h"
 

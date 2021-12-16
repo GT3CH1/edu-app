@@ -1,15 +1,11 @@
 /**
  * Authors - Alex Richins, Kenzie Evans, Gavin Pease, William Erignac
- * Last Modified - 12/13/2021
+ * Last Modified - 12/15/2021
  */
 
 #include "questchoosefish.h"
 #include <QDebug>
 #include <QPainter>
-
-ChooseFish::ChooseFish(){
-	callShowText = true;
-}
 
 void ChooseFish::listener(const CallbackOptions &callback)
 {

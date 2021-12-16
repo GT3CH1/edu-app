@@ -6,7 +6,6 @@
 class AddFood : public Quest
 {
 public:
-	AddFood();
 	void listener(const CallbackOptions &callback);
 	void reset(const CallbackOptions &callback);
 	void showText(const CallbackOptions &callback);

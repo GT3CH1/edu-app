@@ -6,7 +6,6 @@
 class Start : public Quest
 {
 public:
-	Start();
 	void listener(const CallbackOptions &callback);
 	void reset(const CallbackOptions &callback);
 	void showText(const CallbackOptions &callback);

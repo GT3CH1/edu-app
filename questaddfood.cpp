@@ -1,13 +1,9 @@
 /**
  * Authors -  Kenzie Evans, Gavin Pease, Alex Richins
- * Last Modified - 12/12/2021
+ * Last Modified - 12/15/2021
  */
 
 #include "questaddfood.h"
-
-AddFood::AddFood(){
-	callShowText = true;
-}
 
 void AddFood::listener(const CallbackOptions &callback)
 {

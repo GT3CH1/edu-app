@@ -5,7 +5,6 @@
 class FillTank : public Quest
 {
 public:
-	FillTank();
 	void listener(const CallbackOptions &callback);
 	void reset(const CallbackOptions &callback);
 	void showText(const CallbackOptions &callback);

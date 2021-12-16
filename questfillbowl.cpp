@@ -1,13 +1,11 @@
 /**
  * Authors - Kenzie Evans, Alex Richins, Gavin Pease
- * Last Modified - 12/12/2021
+ * Last Modified - 12/15/2021
  */
 #include "questfillbowl.h"
 #include "physicgameobjectsfile.h"
 
-FillBowl::FillBowl(){
-	callShowText = true;
-}
+
 void FillBowl::listener(const CallbackOptions &callback)
 {
 	Bowl* bowl = (Bowl*)callback.getGameObject("bowl");

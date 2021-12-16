@@ -1,13 +1,10 @@
 /**
  * Authors - Alex Richins, Kenzie Evans, Gavin Pease
- * Last Modified - 12/12/2021
+ * Last Modified - 12/15/2021
  */
 
 #include "questwait.h"
 
-Wait::Wait(){
-	callShowText = true;
-}
 void Wait::listener(const CallbackOptions &callback)
 {
 

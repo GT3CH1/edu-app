@@ -1,8 +1,10 @@
+/**
+ * Authors -  Kenzie Evans, Alex Richins
+ * Last Modified - 12/15/2021
+ */
 #include "queststart.h"
 #include "physicgameobjectsfile.h"
-Start::Start(){
-	callShowText = true;
-}
+
 void Start::listener(const CallbackOptions &callback)
 {
 	auto startButton = (StartButton*)callback.getGameObject("startbutton");

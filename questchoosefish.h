@@ -7,7 +7,6 @@
 class ChooseFish : public Quest
 {
 public:
-	ChooseFish();
 	void listener(const CallbackOptions &callback);
 	void reset(const CallbackOptions &callback);
 	void showText(const CallbackOptions &callback);

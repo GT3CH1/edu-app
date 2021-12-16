@@ -5,9 +5,6 @@
 
 #include "questsiphonwater.h"
 
-SiphonOldWater::SiphonOldWater(){
-	callShowText = true;
-}
 void SiphonOldWater::listener(const CallbackOptions &callback)
 {
 	Bowl* bowl = (Bowl*)callback.getGameObject("bowl");

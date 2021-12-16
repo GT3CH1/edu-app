@@ -1,15 +1,10 @@
 /**
  * Authors - Alex Richins, Kenzie Evans, Gavin Pease, William Erignac
- * Last Modified - 12/13/2021
+ * Last Modified - 12/15/2021
  */
 
 #include "questaddfish.h"
 #include <QPainter>
-
-AddFish::AddFish()
-{
-	callShowText = true;
-}
 
 void AddFish::listener(const CallbackOptions &callback)
 {

@@ -24,7 +24,6 @@ public:
 	Quest() : questSceneState(SCENE_STATE::PREPARE_TANK) {}
 	explicit Quest(SCENE_STATE scene) : questSceneState(scene){}
 
-	bool callShowText = false;
 	virtual void listener(const CallbackOptions &callback) = 0;
 	virtual void reset(const CallbackOptions &callback) = 0;
 	virtual void showText(const CallbackOptions &callback) = 0;
