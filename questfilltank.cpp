@@ -28,6 +28,6 @@ void FillTank::reset(const CallbackOptions &callback)
 
 void FillTank::showText(const CallbackOptions &callback)
 {
-	GameObject* instructionText = createTextImage("fillTankinstructions", "Click the bowl to put the decloronated water into the bowl", QPointF(4, 1), QPointF(15,3), 100);
+	GameObject* instructionText = createTextImage("fillTankinstructions", "Click the bowl to put the\ndecloronated water into the bowl", QPointF(-5, 0), QPointF(15,3), 100);
 	callback.addGameObject(instructionText);
 }
